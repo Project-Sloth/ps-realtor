@@ -1,0 +1,209 @@
+/** ARRAY DROPDOWN - start **/
+.dropdown {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.9vw;
+
+  z-index: 1;
+
+  position: absolute;
+}
+
+.dropdown > label {
+  margin: 0 0.2vw;
+  color: var(--light-text);
+}
+
+.dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+  
+    min-width: 6vw;
+    width: fit-content;
+    /* padding: 0 0.2vw; */
+  
+    background: linear-gradient(0deg, #242424, #242424), linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    color: var(--app-name);
+    border-radius: 0.2vw;
+  }
+  
+  .select-wrapper {
+    width: auto;
+    height: 1.7vw;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 0.2vw;
+    padding-right: 0.3vw;
+  
+    cursor: pointer;
+  }
+  
+  .select-wrapper-selected-value {
+    font-size: 0.7vw;
+    padding: 0.25vw;
+    margin-right: 0.2vw;
+
+    display: flex;
+    flex-direction: row;
+  }
+  .select-wrapper-selected-value > .inside-label {
+    color: var(--less-light-border-color);
+    margin-right: 0.3vw;
+  }
+  .select-wrapper-selected-value > .selected-value-text {
+    padding-top: 0.05vw;
+  }
+  
+  .dropdown-chevron {
+    text-align: center;
+    font-size: 0.5vw;
+    margin-top: 0.6vw;
+
+    color: var(--less-light-border-color);
+  }
+  
+  .options-wrapper {
+    width: 100%;
+  }
+  
+  .options-wrapper > .no-items-found {
+    font-size: 0.7vw;
+    padding: 0.17vw 0.6vw 0.17vw 0.6vw;
+  }
+
+  .option-child {
+    cursor: pointer;
+    
+    padding: 0.17vw 0.8vw 0.17vw 0.45vw;
+    min-height: 1.7vw;
+    border-radius: 0.2vw;
+    font-size: 0.7vw;
+  }
+  
+  .option-child > p {
+    display: flex;
+    flex-direction: row;
+  }
+  .option-child > p > .icon {
+    font-size: 0.65vw;
+    padding-top: 0.35vw;
+    margin-left: 0.5vw;
+  }
+  
+  .option-child:hover {
+    background-color: var(--black-two-opaque-color);
+  }
+
+  /** ARRAY DROPDOWN - end **/
+
+  /** LARGE MODAL WITH FOOTER - start **/
+  .large-footer-modal {
+    display: flex;
+    overflow: hidden !important;
+    border-radius: 0.2vw;
+    
+    position: absolute;
+    outline: none;
+    z-index: 999999;
+    opacity: 1;
+
+    left: 60%;  
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);  
+    transition: all 0.3s linear;
+  }
+  
+  .large-footer-modal-dialog {
+    /* min-height: 8vw; */
+    width: 33vw;
+    height: 35vw;
+    display: flex;
+    position: relative;
+  }
+  
+  .large-footer-modal-content {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+
+      width: 100%;
+      pointer-events: auto;
+      
+      background-color: var(--tile-color);
+      box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.15);
+      background-clip: padding-box;
+      border-radius: 0.2vw;
+      
+      outline: none;
+      border: 0.08px solid var(--light-border-color);
+  }
+  
+  .large-footer-modal-body {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    font-size: 0.8vw;
+    font-weight: 300;
+    /* border: 0.08px solid var(--light-border-color); */
+  }
+
+  /** HEADER - start **/
+  .large-footer-modal-body > .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    height: 2.1vw;
+    padding: 0.4vw;
+    border-bottom: 0.1px solid var(--light-border-color);
+  }
+
+  .large-footer-modal-body > .header > .heading-title-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: 0.2vw;
+  }
+  .large-footer-modal-body > .header > .heading-title-wrapper > .info-icon {
+    margin-right: 0.5vw;
+    color: var(--blue-color);
+    font-size: 0.75vw;
+  }
+  .large-footer-modal-body > .header > .heading-title-wrapper > p {
+    font-size: 0.7vw;
+    font-weight: 600;
+    margin-top: -0.15vw;
+  }
+  .large-footer-modal-body > .header > div > .close-icon {
+    color: var(--less-light-border-color);
+    padding-right: 0.2vw;
+    cursor: pointer;
+  }
+  /** HEADER - end **/
+
+  /** BODY - start **/
+  .large-footer-modal-body > .large-footer-modal-body-data {
+    display: flex;
+    flex-direction: column;
+
+    height: 30.5vw;
+    padding: 1.2vw 1.8vw;
+  }
+
+  
+  /** BODY - end **/
+
+  /** FOOTER - start **/
+  .large-footer-modal-body > .large-footer-modal-footer {
+    background-color: var(--footer-color);
+    height: 2.3vw;
+  }
+  /** FOOTER - end **/
+  /** LARGE MODAL WITH FOOTER - end **/

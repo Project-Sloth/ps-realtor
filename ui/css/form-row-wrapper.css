@@ -1,0 +1,92 @@
+.form-row-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+
+    margin-bottom: 0.7vw;
+}
+
+.form-row-wrapper > .label {
+    font-size: 0.6vw;
+    font-weight: 500;
+    margin-bottom: 0.2vw;
+}
+
+.form-row-wrapper > .action-row {
+    display: flex;
+    flex-direction: row;
+}
+.form-row-wrapper > .action-row > button:not(:first-child), .form-row-wrapper > .action-row > div:not(:first-child), .form-row-wrapper > .action-row > input:not(:first-child) {
+    margin-left: 0.4vw;
+}
+
+.form-row-wrapper > .image-tiles-wrapper {
+    margin-top: 1vw;
+    width: 15vw;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    row-gap: 0.3vw;
+}
+.form-row-wrapper > .image-tiles-wrapper > div > img, .form-row-wrapper > .image-tiles-wrapper > div {
+    width: 4vw;
+    height: 2vw;
+    border-radius: 0.3vw;
+    background-color: var(--light-border-color);
+}
+.form-row-wrapper > .image-tiles-wrapper > div:not(:first-child) {
+    margin-left: 0.4vw;
+}
+.form-row-wrapper > .image-tiles-wrapper > div:nth-child(4n) {
+    margin-left: 0;
+}
+
+.form-row-wrapper > .action-row > .regular-button {
+    padding: 0.2vw 0.6vw;
+    border-radius: 0.15vw;
+
+    background-color: var(--blue-color);
+    font-size: 0.6vw;
+    font-weight: 500;
+}
+
+.form-row-wrapper > .action-row > .disable-button {
+    padding: 0.2vw 0.6vw;
+    border-radius: 0.15vw;
+
+    background: linear-gradient(0deg, #313131, #313131), linear-gradient(0deg, var(--light-border-color-2), var(--light-border-color-2));
+    border: 1px solid var(--light-border-color-2);
+
+    font-size: 0.6vw;
+    font-weight: 500;
+}
+
+.form-row-wrapper > .action-row > input {
+    padding: 0.35vw 0.55vw;
+    border-radius: 0.15vw;
+
+    background: linear-gradient(0deg, #313131, #313131), linear-gradient(0deg, var(--light-border-color-2), var(--light-border-color-2));
+    border: 1px solid var(--light-border-color-2);
+
+    color: var(--light-border-color-6);
+    font-size: 0.5vw;
+    font-weight: 600;
+
+    width: 15vw;
+}
+
+.form-row-wrapper > .action-row > textarea {
+    padding: 0.35vw 0.55vw;
+    border-radius: 0.15vw;
+
+    background: linear-gradient(0deg, #313131, #313131), linear-gradient(0deg, var(--light-border-color-2), var(--light-border-color-2));
+    border: 1px solid var(--light-border-color-2);
+
+    color: var(--light-border-color-6);
+    font-size: 0.5vw;
+    font-weight: 600;
+
+    width: 15vw;
+}

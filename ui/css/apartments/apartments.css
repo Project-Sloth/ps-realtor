@@ -1,0 +1,24 @@
+.apartments-base {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0.2vw;
+    height: 100%;
+}
+
+.apartments-base > .heading {
+    font-size: 0.75vw;
+}
+
+.apartments-base > .apartment-listing-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    row-gap: 1vw;
+
+    margin-top: 0.8vw;
+    
+    overflow-y: auto;
+    overflow-x: hidden;
+}

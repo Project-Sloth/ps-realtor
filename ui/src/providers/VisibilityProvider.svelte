@@ -2,7 +2,7 @@
   import { ReceiveNUI } from '../utils/ReceiveNUI';
   import { SendNUI } from '../utils/SendNUI';
   import { onMount } from 'svelte';
-  import { visibility } from '../store/stores';
+  import { PROPERTIES, visibility } from '../store/stores';
   import BackdropFix from './BackdropFix.svelte';
 
 

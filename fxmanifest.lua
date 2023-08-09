@@ -8,18 +8,23 @@ version '0.0.1'
 lua54 'yes'
 
 
--- ui_page 'html/index.html'
-ui_page 'http://localhost:3001/' --for dev
+ui_page 'html/index.html'
+-- ui_page 'http://localhost:3000/' --for dev
+
+shared_script {
+  '@ox_lib/init.lua',
+  "shared/**",
+}
+
+server_script {
+  "server/**",
+}
 
 client_script {
   'client/**',
 }
-server_script {
-  "server/**",
-  }
-shared_script {
-  "shared/**",
-  }
+
+
 
 files {
   'html/**',
