@@ -1,7 +1,5 @@
 Config = Config or {}
 
--- Add this to qbcore/shared/jobs.lua
-
 -- Set your Real Estate here
 Config.RealtorJobName = "realestate"
 
