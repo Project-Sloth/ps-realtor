@@ -81,15 +81,14 @@
 }
 
 /** CARD HOVER BUTTON - start **/
-.property-card-wrapper > .card-hover-button {
+.card-hover-button {
     align-self: center;
     background-color: var(--blue-color);
     color: var(--white-color);
 
-    margin-top: 3vw;
-
-    width: 9vw;
-    padding: 0.15vw;
+    width: 100%;
+    padding-top: 0.05vw;
+    padding-bottom: 0.05vw;
     border-radius: 0.2vw;
 
     font-size: 0.6vw;
