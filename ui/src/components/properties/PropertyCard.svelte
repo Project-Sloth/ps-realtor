@@ -15,7 +15,7 @@
     {#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
 		<img src={property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url} />
 	{:else}
-        <img src="images/property-card-img.png" />
+        <img src="images/property-card-img.png" alt="Default Property Card Image" />
 	{/if}
     
 
