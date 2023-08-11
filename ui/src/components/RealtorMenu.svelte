@@ -82,7 +82,7 @@
 
 				<div class="discord-wrapper">
 					<div class="discord-emoji">
-						<img src="images/discord-emoji.png" />
+						<img src="images/discord-emoji.png" alt="Discord Emoji" />
 					</div>
 
 					<div class="discord-text">

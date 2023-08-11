@@ -293,7 +293,7 @@
 				<div
 					class="w-[100%] bg-[color:var(--color-tertiary)] flex flex-col gap-2 items-center justify-center p-2"
 				>
-					<img class="w-[100%] object-cover" src={img.url} alt="" />
+					<img class="w-[100%] object-cover" src={img.url} alt="Show Images" />
 					<p class="text-2xl">{img.label}</p>
 					<div class="flex flex-row gap-4">
 						<button

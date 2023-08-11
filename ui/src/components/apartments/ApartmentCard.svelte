@@ -12,7 +12,7 @@
     on:click={() => (selectedApartment = apartment)}
 	in:fly={{ y: 10, duration: 250 }} >
     
-    <img src={apartmentData.imgs[0].url} />
+    <img src={apartmentData.imgs[0].url} alt="Apartment Image" />
 
     <div class="details">
         <p class="heading">{apartmentData.label}</p>
@@ -20,7 +20,7 @@
         <p class="info">Legion Square</p>
 
         <div class="location-tenants-info">
-            <img src="images/user-location-pin.png" />
+            <img src="images/user-location-pin.png" alt="User Location Pin Icon" />
             <p>100 / 150 Global tenants</p>
         </div>
 
