@@ -1,28 +1,23 @@
 Config = Config or {}
 
-Config.Job = {
-    label = 'Realtor',
-    defaultDuty = true,
-    offDutyPay = false,
-    grades = {
-        ['0'] = {
-            name = 'Trainee',
-            payment = 200
-        },
-        ['1'] = {
-            name = 'Realtor',
-            payment = 350
-        },
-        ['2'] = {
-            name = 'Manager',
-            pay = 500
-        },
-        ['3'] = {
-            name = 'Owner',
-            pay = 750
-        }
-    }
-}
+-- Set your Real Estate here
+Config.RealtorJobName = "realestate"
+
+-- Set this value to true if you want to use the command to open the Housing Menu(Realtor Menu)
+Config.UseCommand = true
+
+-- Set this value to TRUE if you want to use the Config.ItemName as a usable Item to open the Housing Menu(Realtor Menu)
+Config.UseItem = true
+
+--Set this value to FALSE if u DON'T want to play the tablet animation when using /housing or the usable item
+Config.PlayAnimation = true
+
+--Change this to whatever prop u want to use for the animation
+Config.AnimationProp = 'prop_cs_tablet'
+
+Config.ItemName = "tablet"  -- Item name to make it usable. 
+-- Change the uniqueness and the usability inside qb-core -> items.lua to TRUE
+-- add this item to a shop or anything else!
 
 --Commisions is handled in ps-housing config.
 

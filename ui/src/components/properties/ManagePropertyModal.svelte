@@ -103,7 +103,7 @@
                                 Live Description
                             </p>
                             <p class="info">
-                                Some instructions lorem lpsum is simply dummy text of printing
+                                Change the settings after the creation!
                             </p>
                         </div>
 
@@ -138,7 +138,7 @@
                                 <p class="label">Manage Description</p>
                             
                                 <div class="action-row">
-                                    <textarea rows="3" placeholder="Write a short and sweet description about yourself..." style="width: 18vw;" bind:value={description} on:keyup={() => updatePropertyValues('UpdateDescription', {description: description}, 'description', description)} />
+                                    <textarea rows="3" placeholder="Write a short and sweet description about the property..." style="width: 18vw;" bind:value={description} on:keyup={() => updatePropertyValues('UpdateDescription', {description: description}, 'description', description)} />
                                 </div>
                             </div>
 
