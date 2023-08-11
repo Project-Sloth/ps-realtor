@@ -1,13 +1,10 @@
-# bl-realtor
+# ps-realtor
+
 `/housing` command
 
-Join Byte Labs Project [Discord](https://discord.gg/YS5KfZVtEp)
-
-There was no design for this, so a UI will be getting a redo soon.
-MLO support and Outside furniture will also be coming.
-
 # Preview
-![image](https://github.com/Byte-Labs-Project/bl-realtor/assets/82112471/0fd5aa8b-7305-4239-b6fd-f82b682b83c7)
-![image](https://github.com/Byte-Labs-Project/bl-realtor/assets/82112471/8e702104-92f2-4696-a59e-e3ea89b975b5)
-![image](https://github.com/Byte-Labs-Project/bl-realtor/assets/82112471/f1a4ddfd-b091-4062-a994-e8181974ee49)
-![image](https://github.com/Byte-Labs-Project/bl-realtor/assets/82112471/fadc1cab-ceea-462a-8b37-f7fec10f415b)
+![image](https://github.com/Project-Sloth/ps-realtor/assets/82112471/24e4018a-cb97-42b0-81df-3b0236c7e2dc)
+![image](https://github.com/Project-Sloth/ps-realtor/assets/82112471/4d8ece54-ace1-4ffc-b8fb-90274bc94e72)
+![image](https://github.com/Project-Sloth/ps-realtor/assets/82112471/188d259c-4c0f-4c91-905c-bf9b826cc518)
+![image](https://github.com/Project-Sloth/ps-realtor/assets/82112471/9e033984-45f2-449d-ba6c-bb8742ac08bd)
+![image](https://github.com/Project-Sloth/ps-realtor/assets/82112471/0dd078b8-a941-4316-b9e1-26c696023139)
