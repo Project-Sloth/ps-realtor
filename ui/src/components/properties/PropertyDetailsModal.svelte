@@ -30,12 +30,12 @@
                     </div>
 
                     <div class="large-footer-modal-body-data">
-                        <img src="/images/apts-bg.png" />
+                        <img src="images/apts-bg.png" />
 
                         <div class="data-details-property">
                             <div class="left-column">
                                 <p class="property-name">
-                                    {selectedProperty.label} {selectedProperty.property_id}
+                                    {selectedProperty.street ? selectedProperty.street + " - " : selectedProperty.apartment ? selectedProperty.apartment + " - " : ''} {selectedProperty.property_id}
                                 </p>
 
                                 <p class="property-info">

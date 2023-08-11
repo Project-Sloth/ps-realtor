@@ -62,7 +62,7 @@
 
                     <div class="large-footer-modal-body-data selected-apartment-large-footer-modal-body-data">
                         <div class="data-details-selected-apartment">
-                            <img src='/images/apts-bg.png' />
+                            <img src='images/apts-bg.png' />
 
                             <div class="search-wrapper">
                                 <div class="apt-details">

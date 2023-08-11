@@ -15,13 +15,13 @@
     {#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
 		<img src={property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url} />
 	{:else}
-        <img src="/images/property-card-img.png" />
+        <img src="images/property-card-img.png" />
 	{/if}
     
 
     <div class="property-card-details">
-        <p class="property-name">{property.label}</p>
-        <p class="property-address">{property.street ? property.street + " - " : property.apartment ? property.apartment + " - " : ''} {property.property_id}  {property.region ? " - " + property.region : ''}</p>
+        <p class="property-name">{property.street ? property.street + " - " : property.apartment ? property.apartment + " - " : ''} {property.property_id}</p>
+        <p class="property-address">{property.region ? property.region : ''}</p>
         <p class="property-cost">$ {property.price?.toLocaleString()} USD</p>
         <div class="property-details">
             {#if $REALTOR_GRADE >= 0 && property.for_sale}

@@ -39,6 +39,13 @@
     function createPropertyMethod() {
         SendNUI("create:confirmListing");
         addingNewProperty = false;
+
+        description = '';
+        for_sale = true;
+        price = 0;
+        shell = Object.keys($SHELLS)[0];
+        door_data = null;
+        garage_data = null;
     }
 
     $: {
@@ -54,7 +61,7 @@
 
 {#if existingProperties.length <= 0 && !addingNewProperty}
     <div class="no-new-properties-base">
-        <img src="/images/House.png" />
+        <img src="images/House.png" />
 
         <p>You haven't listed a property yet!</p>
 
@@ -126,7 +133,7 @@
         </div>
 
         <div class="list-new-property-form-footer">
-            {#if !valid}
+            {#if valid}
                 <button on:click={createPropertyMethod}>Create Property</button>
             {/if}
         </div>

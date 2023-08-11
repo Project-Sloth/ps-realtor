@@ -20,7 +20,7 @@
         <p class="info">Legion Square</p>
 
         <div class="location-tenants-info">
-            <img src="/images/user-location-pin.png" />
+            <img src="images/user-location-pin.png" />
             <p>100 / 150 Global tenants</p>
         </div>
 

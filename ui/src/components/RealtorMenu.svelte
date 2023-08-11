@@ -1,12 +1,10 @@
 <script lang="ts">
-	import Tabs from '@components/Tabs.svelte'
 	import type { ITab } from '@typings/type'
-	import Properties from '@components/Properties.svelte'
 	import { REALTOR_GRADE, TEMP_HIDE, CONFIG } from '@store/stores'
-	import Apartments from '@components/Apartments.svelte'
 	import PropertyBase from './properties/PropertyBase.svelte'
 	import ApartmentsBase from './apartments/ApartmentsBase.svelte'
 	import ListPropertiesBase from './list-properties/ListPropertiesBase.svelte'
+	import { SendNUI } from '@utils/SendNUI'
 
 	// basic available tabs
 	let availableNavTabs: ITab[] = [
@@ -40,6 +38,9 @@
 
 	function selectLeftTab(tab) {
 		selectedTab = tab;
+		if(tab.name.toLocaleLowerCase() === 'logout') {
+			SendNUI("hideUI", {})
+		}
 	}
 
 	let footerNavs: ITab[] = [
@@ -81,7 +82,7 @@
 
 				<div class="discord-wrapper">
 					<div class="discord-emoji">
-						<img src="/images/discord-emoji.png" />
+						<img src="images/discord-emoji.png" />
 					</div>
 
 					<div class="discord-text">

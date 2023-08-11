@@ -1,11 +1,11 @@
     .selected-apartment-modal-dialog {
         height: 40vw;
-        overflow-y: auto;
+        /* overflow-y: auto; */
     }
     .selected-apartment-large-footer-modal-body-data {
       padding: 1.5vw 2.2vw !important;
       height: 35.5vw !important;
-      overflow-y: auto;
+      /* overflow-y: auto; */
     }
   
     .large-footer-modal-body > .large-footer-modal-body-data > .data-details-selected-apartment {
