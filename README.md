@@ -3,7 +3,7 @@
 `/housing` command
 
 # Dependency
-1. [ps-housing](https://github.com/Project-Sloth/ps-housing)
+1. [ps-housing](https://github.com/Project-Sloth/ps-housing) - go over ps-housing and read the README.
 2. [ox_lib](https://github.com/overextended/ox_lib/releases) - Use the latest release. If you do not use the latest release, MAKE SURE TO BUILD THE UI. Find their docs [here](https://overextended.dev/ox_lib#building-the-ui)
 
 # Preview
