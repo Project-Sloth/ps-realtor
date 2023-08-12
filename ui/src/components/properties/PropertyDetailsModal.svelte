@@ -2,6 +2,7 @@
     import { fade } from 'svelte/transition';
     import type { IProperty } from '@typings/type';
     import { REALTOR_GRADE, SHELLS } from '@store/stores';
+    import { SendNUI } from '@utils/SendNUI';
 
     export let selectedProperty: IProperty | null = null, manageProperty: boolean=false;
 
@@ -30,7 +31,7 @@
                     </div>
 
                     <div class="large-footer-modal-body-data">
-                        <img src="images/apts-bg.png" />
+                        <img src="images/apts-bg.png" alt="Apartments Background" />
 
                         <div class="data-details-property">
                             <div class="left-column">
@@ -46,7 +47,7 @@
                                     {#key selectedProperty.shell}
                                         {#key selectedProperty.extra_imgs}
                                             {#each getImgArray() as img}
-                                                <img src={img.url} />
+                                                <img src={img.url} alt="Detail of the selected property" />
                                             {/each}
                                         {/key}
                                     {/key}
@@ -56,7 +57,7 @@
                             <div class="right-column">
                                 <p class="title">$ {selectedProperty.price?.toLocaleString()} USD</p>
 
-                                <button class="waypoint">
+                                <button class="waypoint" on:click={() => SendNUI('setWaypoint', selectedProperty.door_data)}>
                                     <i class="fas fa-location-dot"></i>
                                     <p>Set Waypoint</p>
                                 </button>

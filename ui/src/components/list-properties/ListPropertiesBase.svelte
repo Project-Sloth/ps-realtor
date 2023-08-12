@@ -61,7 +61,7 @@
 
 {#if existingProperties.length <= 0 && !addingNewProperty}
     <div class="no-new-properties-base">
-        <img src="images/House.png" />
+        <img src="images/House.png" alt="House Icon" />
 
         <p>You haven't listed a property yet!</p>
 
@@ -85,7 +85,7 @@
             <div class="left-column">
                 <p class="title">Property Information</p>
 
-                <p class="info">Some instructions lorem lpsum is simply dummy text of printing</p>
+                <p class="info">Make sure to fill everything out!</p>
             </div>
             <div class="right-column">
                 <div id="door-creation" class="form-row-wrapper">
@@ -110,7 +110,7 @@
                     <p class="label">Description</p>
                 
                     <div class="action-row">
-                        <textarea rows="5" placeholder="Write a short and sweet description about yourself..." bind:value={description} />
+                        <textarea rows="5" placeholder="Write a short and sweet description about the property..." bind:value={description} />
                     </div>
                 </div>
 
