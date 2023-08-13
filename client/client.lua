@@ -124,6 +124,7 @@ end)
 
 -- Callbacks
 RegisterNUICallback("setWaypoint", function (data, cb)
+	lib.notify({ description = 'Waypoint was set!' , type = 'success'})
 	SetNewWaypoint(data.x, data.y)
 	cb("ok")
 end)

@@ -49,6 +49,7 @@ CreateProperty = {
                 action = "createdDoor",
                 data = true
             })
+            lib.notify({ description = 'Door was set!', type = 'success'})
         elseif type == "garage" then
             self.garage_data = zoneData
 
@@ -59,6 +60,7 @@ CreateProperty = {
                 action = "createdGarage",
                 data = true
             })
+            lib.notify({ description = 'Garage was set!', type = 'success'})
         end
 
         
@@ -76,6 +78,7 @@ CreateProperty = {
             action = "createdGarage",
             data = nil
         })
+        lib.notify({ description = 'Garage was removed!', type = 'error'})
     end,
 
     CreateProperty = function(self)
@@ -91,6 +94,7 @@ CreateProperty = {
         }
         
         TriggerServerEvent("bl-realtor:server:registerProperty", data)
+        lib.notify({ description = 'Property was created!', type = 'success'})
         self:CancelCreating()
     end,
 }
