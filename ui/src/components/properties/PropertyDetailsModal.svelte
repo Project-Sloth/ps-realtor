@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
     import type { IProperty } from '@typings/type';
-    import { REALTOR_GRADE, SHELLS } from '@store/stores';
+    import { REALTOR_GRADE, SHELLS, CONFIG } from '@store/stores';
     import { SendNUI } from '@utils/SendNUI';
 
     export let selectedProperty: IProperty | null = null, manageProperty: boolean=false;
@@ -87,10 +87,11 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="large-footer-modal-footer">
-                        <button on:click={() => manageProperty = true}>Manage Property</button>
-                    </div>
+                    {#if $REALTOR_GRADE >= $CONFIG.manageProperty}
+                        <div class="large-footer-modal-footer">
+                            <button on:click={() => manageProperty = true}>Manage Property</button>
+                        </div>
+                    {/if}
                 </div>
             </div>
         </div>
