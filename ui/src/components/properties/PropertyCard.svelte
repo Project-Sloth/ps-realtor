@@ -9,7 +9,7 @@
 </script>
 
 <div {id} class="property-card-wrapper group">
-	<div class="w-full h-fit grid place-items-center">
+	<div class="w-full h-fit grid place-items-center relative">
 		{#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
 			<img
 				src={property.extra_imgs[0]
