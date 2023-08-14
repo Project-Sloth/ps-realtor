@@ -1,7 +1,7 @@
 .properties-base {
     display: flex;
     flex-direction: column;
-
+    height: 100%;
     padding: 0.5vw;
 }
 
@@ -95,7 +95,7 @@
 
     row-gap: 0.7vw;
 
-    height: 23vw;
+    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }

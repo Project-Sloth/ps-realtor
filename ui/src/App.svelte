@@ -5,7 +5,7 @@
 	import AlwaysListener from '@providers/AlwaysListener.svelte'
 	import RealtorMenu from '@components/RealtorMenu.svelte'
 
-	$resName = 'Svelte-Template' // Change this to your resource name (case sensitive)
+	$resName = 'ps-realtor' // Change this to your resource name (case sensitive)
 </script>
 
 <VisibilityProvider>
