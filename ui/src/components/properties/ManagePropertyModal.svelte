@@ -170,7 +170,7 @@
                                 <div class="image-tiles-wrapper">
                                     {#each propertyImages as image, index}
                                         <div>
-                                            <img src={image.url} />
+                                            <img src={image.url} alt="" />
                                         </div>
                                     {/each}
                                 </div>

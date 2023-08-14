@@ -137,7 +137,7 @@
 </script>
 <div class="properties-base">
     <div class="search-wrapper">
-        <img src="images/apts-bg.png" />
+        <img src="images/apts-bg.png" alt="Apartments Background" />
 
         <div class="search-data">
             <p>Find your next property purchase</p>
