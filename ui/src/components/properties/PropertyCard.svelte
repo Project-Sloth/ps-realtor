@@ -9,20 +9,30 @@
 </script>
 
 <div {id} class="property-card-wrapper group">
-	{#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
-		<img
-			src={property.extra_imgs[0]
-				? property.extra_imgs[0].url
-				: $SHELLS[property.shell].imgs[0].url}
-                alt=""
-		/>
-	{:else}
-		<!-- svelte-ignore a11y-img-redundant-alt -->
-		<img
-			src="images/property-card-img.png"
-			alt="Default Property Card Image"
-		/>
-	{/if}
+	<div class="w-full h-fit grid place-items-center">
+		{#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
+			<img
+				src={property.extra_imgs[0]
+					? property.extra_imgs[0].url
+					: $SHELLS[property.shell].imgs[0].url}
+				alt=""
+			/>
+		{:else}
+			<!-- svelte-ignore a11y-img-redundant-alt -->
+			<img
+				src="images/property-card-img.png"
+				alt="Default Property Card Image"
+			/>
+		{/if}
+
+		<button
+			class="invisible h-0 w-fit absolute px-[1vw] py-[0.5vw] group-hover:visible group-hover:h-fit card-hover-button"
+			on:click={() => (selectedProperty = property)}
+			in:fly={{ y: 10, duration: 250 }}
+		>
+			View Property
+		</button>
+	</div>
 
 	<div class="property-card-details">
 		<p class="property-name">
@@ -64,13 +74,5 @@
 					: 'No'}
 			</div>
 		</div>
-
-        <button
-        class="invisible h-0 relative group-hover:visible group-hover:h-fit card-hover-button"
-        on:click={() => (selectedProperty = property)}
-        in:fly={{ y: 10, duration: 250 }}
-    >
-        View Property
-    </button>
 	</div>
 </div>
