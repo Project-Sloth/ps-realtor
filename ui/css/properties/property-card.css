@@ -2,6 +2,8 @@
     width: 10.3vw;
     min-height: 12.5vw;
 
+    max-height: fit-content;
+
     margin-right: 1vw;
         
     border-radius: 0.2vw;

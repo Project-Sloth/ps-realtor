@@ -95,7 +95,8 @@
 
     row-gap: 0.7vw;
 
-    height: 100%;
+    height: fit-content;
+    max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }

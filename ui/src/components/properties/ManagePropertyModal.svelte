@@ -15,19 +15,18 @@
 		(property) => property.property_id === selectedProperty.property_id
 	);
 
-    let forSaleDropDownValues = ['For Sale', 'Not For Sale'], selectedForSaleDropdownValue = selectedProperty.for_sale === 1 ? forSaleDropDownValues[0] : forSaleDropDownValues[1];
+    let forSaleDropDownValues = ['For Sale', 'Not For Sale'], selectedForSaleDropdownValue = selectedProperty.for_sale ? forSaleDropDownValues[0] : forSaleDropDownValues[1];
 
     function updateForSaleDropdownValue(value) {
         const isForSale = value === forSaleDropDownValues[0] ? true : false;
         SendNUI('updatePropertyData', {
             type: 'UpdateForSale',
             property_id: selectedProperty.property_id,
-            data: {forsale: value === isForSale},
+            data: {forsale: isForSale},
         });
         $PROPERTIES[index].for_sale = isForSale ? 1 : 0
         selectedProperty.for_sale = isForSale ? 1 : 0
-
-        selectedForSaleDropdownValue = value;
+        // selectedForSaleDropdownValue = value;
     }
 
     let finalizedOwner = selectedProperty.owner ? selectedProperty.owner : '';
@@ -113,7 +112,7 @@
                                     <p class="label">Sell Property</p>
                                 
                                     <div class="action-row">
-                                        <SetNotSetIndicator leftValue={selectedProperty.for_sale === 1 ? "Set" : "Not Set"} rightValue={selectedForSaleDropdownValue} good={selectedProperty.for_sale === 1} />
+                                        <SetNotSetIndicator leftValue={selectedProperty.for_sale  ? "Set" : "Not Set"} rightValue={selectedForSaleDropdownValue} good={selectedProperty.for_sale} />
                                         
                                         <div style="margin-left: 0.5vw;">
                                             <FormWrapperDropdown dropdownValues={forSaleDropDownValues} label="" insideLabel="Change: " selectedValue={selectedForSaleDropdownValue} on:selected-dropdown={(event) => updateForSaleDropdownValue(event.detail)} />

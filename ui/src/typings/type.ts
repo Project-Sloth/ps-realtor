@@ -31,7 +31,7 @@ export interface IProperty {
     description: string;
     shell: string;
     extra_imgs: img[];
-    for_sale: number;
+    for_sale: number | boolean;
     price: number;
     door_data: door;
     garage_data: coords | null;
