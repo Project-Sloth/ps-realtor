@@ -17,6 +17,14 @@
 	let door_data: any = null;
 	let garage_data: any = null;
 
+    
+    let types = ['shell', 'ipl', 'mlo']
+
+	let type: string = types[0]
+
+
+    
+
     let valid: boolean = false;
 
     ReceiveNUI('createdDoor', (data) => {
@@ -46,15 +54,18 @@
         shell = Object.keys($SHELLS)[0];
         door_data = null;
         garage_data = null;
+        type = types[0];
+
     }
 
     $: {
-        valid = description.length > 0 && price > 0 && shell.length > 0 && door_data
+        valid = description.length > 0 && price > 0 && type && door_data
         SendNUI('create:setTextFields', {
             description: description,
             for_sale: for_sale,
             price: price,
             shell: shell,
+            type: type,
         })
     }
 </script>
@@ -87,7 +98,7 @@
 
                 <p class="info">Make sure to fill everything out!</p>
             </div>
-            <div class="right-column">
+            <div class="right-column flex flex-col">
                 <div id="door-creation" class="form-row-wrapper">
                     <p class="label">Door Creation</p>
                 
@@ -122,13 +133,33 @@
                     </div>
                 </div>
 
-                <div id="shell-type" class="form-row-wrapper">
-                    <p class="label">Shell Type</p>
+                <!-- IDK why height is being weird with this and the one below -->
+                <div class="form-row-wrapper h-[5vh]">
+                    <p class="label">Property Type</p>
                 
-                    <div class="action-row">
-                        <FormWrapperDropdown dropdownValues={Object.keys($SHELLS)} label="" id="new-listing-dd-shell-type" selectedValue={shell} insideLabel="Type: " on:selected-dropdown={(event) => shell = event.detail} />
+                    <!-- <select
+                        class="text-2xl bg-[color:var(--color-tertiary)] p-2"
+                        bind:value={type}
+                    >
+                        {#each types as _type}
+                            <option value={_type}>{_type.toUpperCase()}</option>
+                        {/each}
+                    </select> -->
+                    <div class="action-row h-fit z-[999]">
+                        <FormWrapperDropdown dropdownValues={types} label="" id="new-listing-dd-type" selectedValue={type} insideLabel="Type: " on:selected-dropdown={(event) => type = event.detail} />
                     </div>
+
                 </div>
+
+                {#if type === 'shell'}
+                    <div id="shell-type" class="form-row-wrapper">
+                        <p class="label">Shell Type</p>
+                    
+                        <div class="action-row">
+                            <FormWrapperDropdown dropdownValues={Object.keys($SHELLS)} label="" id="new-listing-dd-shell-type" selectedValue={shell} insideLabel="Type: " on:selected-dropdown={(event) => shell = event.detail} />
+                        </div>
+                    </div>
+                {/if}
             </div>
         </div>
 

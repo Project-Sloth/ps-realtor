@@ -21,7 +21,6 @@ type img = {
     url: string;
     label: string;
 }
-
 export interface IProperty {
     property_id: number;
     label?: string;
@@ -30,12 +29,14 @@ export interface IProperty {
     region?: string;
     description: string;
     shell: string;
+    mlo_points: coords[];
     extra_imgs: img[];
     for_sale: number | boolean;
     price: number;
     door_data: door;
     garage_data: coords | null;
     apartment: string;
+    type: "mlo" | "shell" | "ipl";
 }
 
 export interface IApartment {
