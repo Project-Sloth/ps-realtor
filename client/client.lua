@@ -88,6 +88,10 @@ end
 RegisterNetEvent("QBCore:Client:OnJobUpdate", setRealtor)
 
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+	SendNUIMessage({
+		action = "setConfig",
+		data = Config.RealtorPerms
+	})
     local PlayerData = QBCore.Functions.GetPlayerData()
 	setRealtor(PlayerData.job)
 end)
