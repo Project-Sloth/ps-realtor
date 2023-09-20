@@ -20,10 +20,7 @@
         const arrCitizenids = $PROPERTIES.filter((property) => property.apartment === apartmentName).map((property) => property.owner);
 
         if (arrCitizenids.length !== 0 && arrCitizenids[0] !== undefined) {
-            SendNUI('getNames', arrCitizenids).then((names: string[]) => {
-                tenants = names;
-                apartmentData.currentTenants = tenants.length;
-            })
+            apartmentData.currentTenants = arrCitizenids.length;
         } else {
             apartmentData.currentTenants = 0;
         }
@@ -42,7 +39,7 @@
 
         <div class="location-tenants-info">
             <img src="images/user-location-pin.png" alt="User Location Icon" />
-            <p>{tenants.length || 0} Global Tenants</p>
+            <p>{apartmentData.currentTenants || 0} Global Tenants</p>
         </div>
 
         <button class="select-apt-button">
