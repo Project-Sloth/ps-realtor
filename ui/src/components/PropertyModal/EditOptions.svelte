@@ -303,7 +303,7 @@
 									(i) => i.url !== img.url
 								)
 								SendNUI('updatePropertyData', {
-									type: 'UpdateImages',
+									type: 'UpdateImgs',
 									property_id: selectedProperty.property_id,
 									data: {imgs: tempNewImages},
 								})
@@ -328,7 +328,7 @@
 										tempNewImages[index]
 									tempNewImages[index] = temp
 									SendNUI('updatePropertyData', {
-										type: 'UpdateImages',
+										type: 'UpdateImgs',
 										property_id:
 											selectedProperty.property_id,
 										data: {img: tempNewImages},
@@ -357,7 +357,7 @@
 										tempNewImages[index]
 									tempNewImages[index] = temp
 									SendNUI('updatePropertyData', {
-										type: 'UpdateImages',
+										type: 'UpdateImgs',
 										property_id:
 											selectedProperty.property_id,
 										data: {imgs: tempNewImages},
@@ -401,7 +401,7 @@
 							tempNewImageLabel = ''
 							tempNewImageUrl = ''
 							SendNUI('updatePropertyData', {
-								type: 'UpdateImages',
+								type: 'UpdateImgs',
 								property_id: selectedProperty.property_id,
 								data: {imgs: tempNewImages},
 							})
