@@ -187,7 +187,10 @@
 											placeholder="ID: 34343434343"
 											style="width: 10vw;"
 											bind:value={finalizedOwner}
-											on:keyup={() =>
+										/>
+										<button
+											class="regular-button"
+											on:click={() =>
 												updatePropertyValues(
 													'UpdateOwner',
 													{
@@ -196,8 +199,8 @@
 													},
 													'owner',
 													finalizedOwner
-												)}
-										/>
+												)}>Request</button
+										>
 									</div>
 								</div>
 							{/if}
