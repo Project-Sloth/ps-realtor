@@ -89,7 +89,7 @@
 		newImageUrl = ''
 
 		updatePropertyValues(
-			'UpdateImages',
+			'UpdateImgs',
 			{ imgs: propertyImages },
 			'extra_imgs',
 			propertyImages
