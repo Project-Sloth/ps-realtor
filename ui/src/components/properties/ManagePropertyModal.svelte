@@ -40,6 +40,7 @@
 	}
 
 	let finalizedOwner = selectedProperty.owner ? selectedProperty.owner : ''
+	let initialFinalizedOwner = finalizedOwner
 
 	let description = selectedProperty.description ?? ''
 
@@ -172,13 +173,9 @@
 									class="form-row-wrapper"
 								>
 									<p class="label">Finalize Sell Property</p>
-
 									<div class="action-row">
 										<SetNotSetIndicator
-											leftValue={finalizedOwner?.trim() !==
-											''
-												? 'Set'
-												: 'Not Set'}
+											leftValue={finalizedOwner?.trim() !== '' ? 'Set' : 'Not Set'}
 											rightValue=""
 											good={finalizedOwner?.trim() !== ''}
 										/>
@@ -188,19 +185,11 @@
 											style="width: 10vw;"
 											bind:value={finalizedOwner}
 										/>
-										<button
-											class="regular-button"
-											on:click={() =>
-												updatePropertyValues(
-													'UpdateOwner',
-													{
-														targetSrc:
-															finalizedOwner,
-													},
-													'owner',
-													finalizedOwner
-												)}>Request</button
-										>
+										{#if finalizedOwner.trim() !== '' && finalizedOwner !== initialFinalizedOwner}
+										<button class="regular-button" on:click={() => {
+											updatePropertyValues('UpdateOwner', { targetSrc: finalizedOwner }, 'owner', finalizedOwner);
+										}}>Confirm</button>
+									{/if}
 									</div>
 								</div>
 							{/if}
