@@ -233,7 +233,7 @@
 
 								<div class="action-row">
 									<input
-										type="text"
+										type="number"
 										placeholder="$1000000000"
 										style="width: 10vw;"
 										bind:value={propertyPrice}
