@@ -1,7 +1,11 @@
 Config = Config or {}
 
--- Set your Real Estate here
-Config.RealtorJobName = "realestate"
+-- Set your Real Estate jobs here
+Config.RealtorJobNames = { -- add multiple realestate jobs that are allowed to sell properties!
+    "realestate",
+    -- "realestate2",
+    -- "realestate3",
+}
 
 -- Set this value to true if you want to use the command to open the Housing Menu(Realtor Menu)
 Config.UseCommand = true
@@ -29,3 +33,10 @@ Config.RealtorPerms = {
     deleteProperty = 2, --minimum grade to delete property | default 2
     setApartments = 2, --minimum grade to set apartments for players | default 2
 }
+
+RealtorJobs = {}
+
+-- Convert config table to usable keys
+for i = 1, #Config.RealtorJobNames do
+    RealtorJobs[Config.RealtorJobNames[i]] = true
+end
