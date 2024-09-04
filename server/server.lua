@@ -1,4 +1,5 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+--local QBCore = exports['qb-core']:GetCoreObject()
+local ESX = exports['es_extended']:getSharedObject()
 
 RegisterNetEvent('QBCore:Server:UpdateObject', function()
 	if source ~= '' then return false end
@@ -8,9 +9,11 @@ end)
 RegisterNetEvent("bl-realtor:server:updateProperty", function(type, property_id, data)
     -- Job check
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local PlayerData = Player.PlayerData
-    if not RealtorJobs[PlayerData.job.name] then return false end
+    --[[local Player = QBCore.Functions.GetPlayer(src)
+    local PlayerData = Player.PlayerData]]--
+    local Player = ESX.GetPlayerFromId(src)
+    
+    if not RealtorJobs[Player.getJob().name] then return false end
 
     data.realtorSrc = src
     -- Update property
@@ -20,9 +23,11 @@ end)
 RegisterNetEvent("bl-realtor:server:registerProperty", function(data)
     -- Job check
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local PlayerData = Player.PlayerData
-    if not RealtorJobs[PlayerData.job.name] then return false end
+    --[[local Player = QBCore.Functions.GetPlayer(src)
+    local PlayerData = Player.PlayerData]]--
+    local Player = ESX.GetPlayerFromId(src)
+    
+    if not RealtorJobs[Player.getJob().name] then return false end
 
     data.realtorSrc = src
     -- Register property
@@ -32,26 +37,34 @@ end)
 RegisterNetEvent("bl-realtor:server:addTenantToApartment", function(data)
     -- Job check
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local PlayerData = Player.PlayerData
-    if not RealtorJobs[PlayerData.job.name] then return false end
+    --[[local Player = QBCore.Functions.GetPlayer(src)
+    local PlayerData = Player.PlayerData]]--
+    local Player = ESX.GetPlayerFromId(src)
+    
+    if not RealtorJobs[Player.getJob().name] then return false end
 
     data.realtorSrc = src
     -- Add tenant
     TriggerEvent("ps-housing:server:addTenantToApartment", data)
 end)
 
+function getESXOfflinePlayer(citizenid)
+    return MySQL.single.await("SELECT 'firstname' AS 'firstName', 'lastname' AS 'lastName' FROM `users` WHERE `identifier` = @citizenid", {['@citizenid'] = citizenid})
+end
+
 lib.callback.register("bl-realtor:server:getNames", function (source, data)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local PlayerData = Player.PlayerData
-    if not RealtorJobs[PlayerData.job.name] then return false end
+    --[[local Player = QBCore.Functions.GetPlayer(src)
+    local PlayerData = Player.PlayerData]]--
+    local Player = ESX.GetPlayerFromId(src)
+    
+    if not RealtorJobs[Player.getJob().name] then return false end
     
     local names = {}
     for i = 1, #data do
-        local target = QBCore.Functions.GetPlayerByCitizenId(data[i]) or QBCore.Functions.GetOfflinePlayerByCitizenId(data[i])
+        local target = ESX.GetPlayerFromId(data[i]) or getESXOfflinePlayer(data[i])
         if target then
-            names[#names+1] = target.PlayerData.charinfo.firstname .. " " .. target.PlayerData.charinfo.lastname
+            names[#names+1] = target.firstName .. " " .. target.lastName
         else
             names[#names+1] = "Unknown"
         end

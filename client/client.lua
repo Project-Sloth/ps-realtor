@@ -1,4 +1,5 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+--local QBCore = exports['qb-core']:GetCoreObject()
+local ESX = exports['es_extended']:getSharedObject()
 
 PropertiesTable = {}
 
@@ -50,10 +51,10 @@ local function doAnimation()
     end)
 end
 
-RegisterNetEvent('QBCore:Server:UpdateObject', function()
+--[[RegisterNetEvent('QBCore:Server:UpdateObject', function()
 	if source ~= '' then return false end
 	QBCore = exports['qb-core']:GetCoreObject()
-end)
+end)]]--
 
 local function toggleUI(bool)
 	UIOpen = bool
@@ -76,7 +77,7 @@ local function setRealtor(jobInfo)
 	if RealtorJobs[jobInfo.name] then
 		SendNUIMessage({
 			action = "setRealtorGrade",
-			data = jobInfo.grade.level
+			data = jobInfo.grade
 		})
 	else 
 		SendNUIMessage({
@@ -85,14 +86,24 @@ local function setRealtor(jobInfo)
 		})
 	end
 end
-RegisterNetEvent("QBCore:Client:OnJobUpdate", setRealtor)
+--RegisterNetEvent("QBCore:Client:OnJobUpdate", setRealtor)
+RegisterNetEvent("esx:setJob", setRealtor)
 
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+--[[AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
 	SendNUIMessage({
 		action = "setConfig",
 		data = Config.RealtorPerms
 	})
     local PlayerData = QBCore.Functions.GetPlayerData()
+	setRealtor(PlayerData.job)
+end)]]--
+
+AddEventHandler('esx:playerLoaded', function()
+	SendNUIMessage({
+		action = "setConfig",
+		data = Config.RealtorPerms
+	})
+	local PlayerData = ESX.GetPlayerData()
 	setRealtor(PlayerData.job)
 end)
 
@@ -105,25 +116,29 @@ AddEventHandler("onResourceStart", function(resName)
 			data = Config.RealtorPerms
 		})
 
-		local PlayerData = QBCore.Functions.GetPlayerData()
+		--[[local PlayerData = QBCore.Functions.GetPlayerData()
+		setRealtor(PlayerData.job)]]--
+
+		local PlayerData = ESX.GetPlayerData()
 		setRealtor(PlayerData.job)
 	end
 end)
 
+--TODO: Change it to our server events (more likely statebags)
 if Config.UseCommand then
 	RegisterCommand("housing", function()
-		local PlayerData = QBCore.Functions.GetPlayerData()
-		if not PlayerData.metadata["isdead"] and not PlayerData.metadata["inlaststand"] and not PlayerData.metadata["ishandcuffed"] and not IsPauseMenuActive() then
+		--local PlayerData = QBCore.Functions.GetPlayerData()
+		--if not PlayerData.metadata["isdead"] and not PlayerData.metadata["inlaststand"] and not PlayerData.metadata["ishandcuffed"] and not IsPauseMenuActive() then
 			toggleUI(not UIOpen)
-		end
+		--end
 	end, false)
 end
 
 RegisterNetEvent('bl-realtor:client:toggleUI', function()
-	local PlayerData = QBCore.Functions.GetPlayerData()
-    if not PlayerData.metadata["isdead"] and not PlayerData.metadata["inlaststand"] and not PlayerData.metadata["ishandcuffed"] and not IsPauseMenuActive() then
+	--local PlayerData = QBCore.Functions.GetPlayerData()
+    --if not PlayerData.metadata["isdead"] and not PlayerData.metadata["inlaststand"] and not PlayerData.metadata["ishandcuffed"] and not IsPauseMenuActive() then
 		toggleUI(not UIOpen)
-	end
+	--end
 end)
 
 -- Callbacks

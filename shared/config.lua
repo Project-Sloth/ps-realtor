@@ -2,7 +2,7 @@ Config = Config or {}
 
 -- Set your Real Estate jobs here
 Config.RealtorJobNames = { -- add multiple realestate jobs that are allowed to sell properties!
-    "realestate",
+    "rea",
     -- "realestate2",
     -- "realestate3",
 }
@@ -11,7 +11,7 @@ Config.RealtorJobNames = { -- add multiple realestate jobs that are allowed to s
 Config.UseCommand = true
 
 -- Set this value to TRUE if you want to use the Config.ItemName as a usable Item to open the Housing Menu(Realtor Menu)
-Config.UseItem = true
+Config.UseItem = false
 
 --Set this value to FALSE if u DON'T want to play the tablet animation when using /housing or the usable item
 Config.PlayAnimation = true
