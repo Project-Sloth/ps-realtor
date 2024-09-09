@@ -298,8 +298,15 @@ local function mloDoor()
 			end
 
             if IsDisabledControlJustPressed(0, 38) and entity > 0 and GetEntityType(entity) == 3 then
-                if GetResourceState('ox_doorlock') == 'started' and exports.ox_doorlock:getDoorIdFromEntity(entity) then
-                    lib.notify({ description = 'This door already registered in ox_doorlock', type = 'error' })
+                if GetResourceState('ox_doorlock') == 'started' then
+                    if not lib.checkDependency('ox_doorlock', '1.16.0') then
+                        lib.notify({ description = 'Need ox_doorlock v1.16.0>', type = 'error' })
+                        return
+                    end
+
+                    if exports.ox_doorlock:getDoorIdFromEntity(entity) then
+                        lib.notify({ description = 'This door already registered in ox_doorlock', type = 'error' })
+                    end
                 end
 
                 if lastEntity then
