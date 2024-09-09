@@ -40,7 +40,7 @@
 .list-new-property-form {
     margin: 1vw;
 
-    height: 33vw;
+    min-height: 33vw;
     border-radius: 0.1vw;
 
     background: linear-gradient(0deg, #242424, #242424), linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));

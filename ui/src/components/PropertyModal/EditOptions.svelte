@@ -229,6 +229,8 @@
 			</div>
 		{/if}
 
+		{#if editingPrice}
+
 		<div class="flex flex-row gap-2 items-center">
 			<p class="text-2xl font-bold">Manage Shell</p>
 			<div class="flex flex-row w-fit gap-4 items-center justify-center">
@@ -242,7 +244,9 @@
 				</button>
 			</div>
 		</div>
-		{#if editingShell}
+		{/if}
+
+		{#if selectedProperty.shell !== 'mlo'}
 			<div class="flex flex-row gap-2 items-center">
 				<select
 					class="text-2xl bg-[color:var(--color-tertiary)] p-2"

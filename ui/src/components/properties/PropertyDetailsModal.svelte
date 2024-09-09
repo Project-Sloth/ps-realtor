@@ -87,11 +87,11 @@
                             </div>
                         </div>
                     </div>
-                    {#if $REALTOR_GRADE >= $CONFIG.manageProperty}
+                    <!-- {#if $REALTOR_GRADE >= $CONFIG.manageProperty} -->
                         <div class="large-footer-modal-footer">
                             <button on:click={() => manageProperty = true}>Manage Property</button>
                         </div>
-                    {/if}
+                    <!-- {/if} -->
                 </div>
             </div>
         </div>

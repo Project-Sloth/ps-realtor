@@ -1,6 +1,6 @@
 local PSHousing = exports['ps-housing']
 
-function InitialiseData()
+local function initialiseData()
 	-- Get properties
 	local properties = PSHousing:GetProperties()
 
@@ -16,6 +16,10 @@ function InitialiseData()
 	for _, apartment in pairs(apartments) do
 		ApartmentsTable[#ApartmentsTable+1] = apartment
 	end
+
+	lib.waitFor(function()
+		if UiLoaded then return true end
+	end, 'ui loading timeout', 5000)
 
 	SendNUIMessage({
 		action = "setShells",
@@ -33,9 +37,12 @@ function InitialiseData()
 	})
 end
 
-AddEventHandler('ps-housing:client:initialisedProperties', function()
-	InitialiseData()
+CreateThread(function()
+	if GetResourceState('ps-housing') ~= 'started' then return end
+	initialiseData()
 end)
+
+AddEventHandler('ps-housing:client:initialisedProperties', initialiseData)
 
 AddEventHandler('ps-housing:client:updatedProperty', function(property_id)
 	local property = exports['ps-housing']:GetProperty(property_id)
