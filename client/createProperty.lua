@@ -103,8 +103,8 @@ local createProperty = {
 
         ::skip::
         local coords = GetEntityCoords(ped)
-        self.street = GetStreetNameFromHashKey(GetStreetNameAtCoord(coords.x, coords.y, coords.z))
-        self.region = GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z))
+        self.street = GetStreetNameFromHashKey(GetStreetNameAtCoord(coords.x, coords.y, coords.z)) or 'Unknown'
+        self.region = GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z)) or 'Unknown'
         self.propertyType = propertyType
         return true
     end,
