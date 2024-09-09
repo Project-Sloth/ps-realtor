@@ -29,6 +29,7 @@
 	})
 
 	ReceiveNUI('setRealtorGrade', (grade: number) => {
+		console.log(grade)
 		$REALTOR_GRADE = grade
 	})
 

@@ -52,6 +52,15 @@
     font-weight: 500;
 }
 
+#door-creation .regular-button {
+    padding: 0.1vw 0.6vw;
+    border-radius: 0.15vw;
+
+    background-color: var(--blue-color);
+    font-size: 0.6vw;
+    font-weight: 500;
+}
+
 .form-row-wrapper > .action-row > .disable-button {
     padding: 0.2vw 0.6vw;
     border-radius: 0.15vw;

@@ -14,6 +14,7 @@ interface door extends coords {
     h: number;
     length: number;
     width: number;
+    count?: number;
     locked?: boolean;
 }
 

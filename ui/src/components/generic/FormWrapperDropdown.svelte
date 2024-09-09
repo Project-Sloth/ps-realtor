@@ -1,8 +1,11 @@
 <script>
 	import { createEventDispatcher } from 'svelte'
+	import { slide } from 'svelte/transition'
 
 	const dispatch = createEventDispatcher()
 
+    // I apologise for this lazyness, cant be bothered making it proper with a class prop
+    export let uppercase = false
 	export let dropdownValues,
 		label,
 		selectedValue,
@@ -42,7 +45,7 @@
 					{#if insideLabel?.trim() !== ''}
 						<p class="form-inside-label">{insideLabel}</p>
 					{/if}
-					<p class="form-selected-value-text">{selectedValue}</p>
+					<p class="form-selected-value-text" class:uppercase>{selectedValue}</p>
 				</div>
 			{:else}
 				<div />
@@ -50,7 +53,9 @@
 			<i class="fas fa-chevron-down form-dropdown-chevron" />
 		</div>
 		{#if isOpen}
-			<div class="form-options-wrapper">
+			<div 
+            id="select"
+            class="form-options-wrapper">
 				{#if dropdownValues.length < 1}
 					<div class="form-no-items-found">No items found</div>
 				{:else}
@@ -61,7 +66,7 @@
 								selectDropdownValue(ddValue)
 							}}
 						>
-							<p>
+							<p class:uppercase>
 								{ddValue}
 								{#if selectedValue === ddValue}
 									<i class="fas fa-check form-icon" />
@@ -76,6 +81,7 @@
 </div>
 
 <style>
+
 	.form-dropdown {
 		display: flex;
 		flex-direction: row;
@@ -83,7 +89,7 @@
 
 		z-index: 1;
 
-		position: absolute;
+		/* position: absolute; */
 	}
 
 	.form-dropdown > label {

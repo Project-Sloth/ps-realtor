@@ -18,15 +18,13 @@ RegisterNetEvent("bl-realtor:server:updateProperty", function(type, property_id,
 end)
 
 RegisterNetEvent("bl-realtor:server:registerProperty", function(data)
-    -- Job check
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local PlayerData = Player.PlayerData
     if not RealtorJobs[PlayerData.job.name] then return false end
 
     data.realtorSrc = src
-    -- Register property
-    TriggerEvent("ps-housing:server:registerProperty", data)
+    return exports['ps-housing']:registerProperty(data, nil, src)
 end)
 
 RegisterNetEvent("bl-realtor:server:addTenantToApartment", function(data)

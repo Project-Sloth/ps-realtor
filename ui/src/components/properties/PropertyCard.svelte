@@ -6,6 +6,8 @@
 	export let id = 'property-card-1',
 		property: IProperty = null,
 		selectedProperty: IProperty = null
+
+		console.log(property.extra_imgs[0] && property.extra_imgs[0].url,  $SHELLS[property.shell].imgs[0].url)
 </script>
 
 <div {id} class="property-card-wrapper group">

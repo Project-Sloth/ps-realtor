@@ -1,6 +1,6 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
+QBCore = exports['qb-core']:GetCoreObject()
 PropertiesTable = {}
+UiLoaded = false
 
 local showBlipsForSale = false
 local showBlipsOwned = false
@@ -22,10 +22,10 @@ local function doAnimation()
     if not UIOpen then return end
     -- Animation
     RequestAnimDict(tabletDict)
-    while not HasAnimDictLoaded(tabletDict) do Citizen.Wait(100) end
+    while not HasAnimDictLoaded(tabletDict) do Wait(100) end
     -- Model
     RequestModel(tabletProp)
-    while not HasModelLoaded(tabletProp) do Citizen.Wait(100) end
+    while not HasModelLoaded(tabletProp) do Wait(100) end
 
     local plyPed = PlayerPedId()
     tabletObj = CreateObject(tabletProp, 0.0, 0.0, 0.0, true, true, false)
@@ -44,7 +44,7 @@ local function doAnimation()
 
 
         ClearPedSecondaryTask(plyPed)
-        Citizen.Wait(250)
+        Wait(250)
         DetachEntity(tabletObj, true, false)
         DeleteEntity(tabletObj)
     end)
@@ -56,6 +56,11 @@ RegisterNetEvent('QBCore:Server:UpdateObject', function()
 end)
 
 local function toggleUI(bool)
+	if bool and not UiLoaded then
+		lib.notify({ description = 'UI not loaded!' , type = 'error'})
+		return
+	end
+
 	UIOpen = bool
 	SetNuiFocus(bool, bool)
 	SendNUIMessage({
@@ -68,8 +73,15 @@ local function toggleUI(bool)
 	end
 end
 
-RegisterNUICallback("hideUI", function()
+RegisterNUICallback("uiLoaded", function (_, cb)
+	UiLoaded = true
+	cb(1)
+end)
+
+RegisterNUICallback("hideUI", function(_, cb)
 	toggleUI(false)
+	cb(1)
+
 end)
 
 local function setRealtor(jobInfo)
@@ -172,20 +184,23 @@ RegisterNUICallback("startZonePlacement", function (data, cb)
 
 	local newDataPromise = promise.new()
 	ZoneThread(type, newDataPromise)
-	local newData = Citizen.Await(newDataPromise)
-	if not newData then return end
+	local success = Citizen.Await(newDataPromise)
+	if not success then return end
+	local ped = cache.ped
+	local newData = GetEntityCoords(ped)
 
 	if type == "door" then
 		type = "UpdateDoor"
 	elseif type == "garage" then
 		type = "UpdateGarage"
+
 		SendNUIMessage({
 			action = "garageMade",
 			data = {
-				x = newData.x,
-				y = newData.y,
-				z = newData.z,
-				h = newData.heading,
+				x = MathFloor(newData.x),
+				y = MathFloor(newData.y),
+				z = MathFloor(newData.z),
+				h = MathFloor(GetEntityHeading(ped)),
 				length = 3.0,
 				width = 5.0,
 			}
@@ -197,26 +212,26 @@ RegisterNUICallback("startZonePlacement", function (data, cb)
 
 	local regionHash = GetNameOfZone(newData.x, newData.y, newData.z)
 	local region = GetLabelText(regionHash)
-
+	local data
 	if type == "UpdateGarage" then
-    local data = {
-        garage = newData,
-        street = street,
-        region = region,
-    }
-    TriggerServerEvent("bl-realtor:server:updateProperty", type, property_id, data)
+        data = {
+            garage = newData,
+            street = street,
+            region = region,
+        }
+        TriggerServerEvent("bl-realtor:server:updateProperty", type, property_id, data)
 	else
-    local data = {
-        door = newData,
-        street = street,
-        region = region,
-    }
-    TriggerServerEvent("bl-realtor:server:updateProperty", type, property_id, data)
+        data = {
+            door = newData,
+            street = street,
+            region = region,
+        }
+        TriggerServerEvent("bl-realtor:server:updateProperty", type, property_id, data)
 	end
 end)
 
 
-local function setHide(bool)
+function SetHide(bool)
 	SendNUIMessage({
 		action = "setTempHide",
 		data = bool
@@ -243,7 +258,6 @@ function ZoneThread(type, promise)
 
 	CreateThread(function()
 		while findingZone do
-			cache.ped = PlayerPedId()
 			local coords = GetEntityCoords(cache.ped)
 			local x = coords.x
 			local y = coords.y
@@ -252,18 +266,12 @@ function ZoneThread(type, promise)
 			DrawMarker(43, x, y, z + zoff, 0.0, 0.0, 0.0, 0.0, 180.0, -heading, length, width, height, 255, 0, 0, 50, false, false, 2, nil, nil, false)	
 			if IsDisabledControlJustPressed(0, 38) then -- E
 				findingZone = false
-				setHide(false)
-				local newData = {
-					x = x,
-					y = y,
-					z = z,
-					h = heading,
-				}
-				promise:resolve(newData)
+				SetHide(false)
+				promise:resolve(true)
 			end
 			if IsDisabledControlJustPressed(0, 104) then -- H
 				findingZone = false
-				setHide(false)
+				SetHide(false)
 				promise:resolve(false)
 			end
 			Wait(0)

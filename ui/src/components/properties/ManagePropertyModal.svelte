@@ -8,6 +8,7 @@
 		REALTOR_GRADE,
 		CONFIG,
 	} from '@store/stores'
+	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import type { IProperty } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
@@ -99,6 +100,10 @@
 	function deleteProperty() {
 		dispatch('delete-property', selectedProperty)
 	}
+
+	ReceiveNUI('garageMade', () => {
+		garageValueSet = true
+	})
 </script>
 
 <div
@@ -205,164 +210,171 @@
 								</div>
 							{/if}
 
-							<div
-								id="manage-description"
-								class="form-row-wrapper"
-							>
-								<p class="label">Manage Description</p>
+		                    {#if $REALTOR_GRADE >= $CONFIG.manageProperty}
+							    <div
+							    	id="manage-description"
+							    	class="form-row-wrapper"
+							    >
+							    	<p class="label">Manage Description</p>
+    
+							    	<div class="action-row">
+							    		<textarea
+							    			rows="3"
+							    			placeholder="Write a short and sweet description about the property..."
+							    			style="width: 18vw;"
+							    			bind:value={description}
+							    			on:keyup={() =>
+							    				updatePropertyValues(
+							    					'UpdateDescription',
+							    					{ description: description },
+							    					'description',
+							    					description
+							    				)}
+							    		/>
+							    	</div>
+							    </div>
 
-								<div class="action-row">
-									<textarea
-										rows="3"
-										placeholder="Write a short and sweet description about the property..."
-										style="width: 18vw;"
-										bind:value={description}
-										on:keyup={() =>
-											updatePropertyValues(
-												'UpdateDescription',
-												{ description: description },
-												'description',
-												description
-											)}
-									/>
-								</div>
-							</div>
+							    <div id="manage-price" class="form-row-wrapper">
+							    	<p class="label">Manage Price</p>
+    
+							    	<div class="action-row">
+							    		<input
+							    			type="number"
+							    			placeholder="$1000000000"
+							    			style="width: 10vw;"
+							    			bind:value={propertyPrice}
+							    			on:keyup={() =>
+							    				updatePropertyValues(
+							    					'UpdatePrice',
+							    					{ price: propertyPrice },
+							    					'price',
+							    					propertyPrice
+							    				)}
+							    		/>
+							    	</div>
+							    </div>
 
-							<div id="manage-price" class="form-row-wrapper">
-								<p class="label">Manage Price</p>
+		                        {#if selectedProperty.shell !== 'mlo'}
+							    <div
+							    	id="manage-shell-type"
+							    	class="form-row-wrapper"
+							    >
+							    	<p class="label">Manage Shell</p>
+    
+							    	<div class="action-row">
+							    		<FormWrapperDropdown
+							    			dropdownValues={Object.keys($SHELLS)}
+							    			label=""
+							    			id="manage-dd-shell"
+							    			selectedValue={newShell}
+							    			insideLabel="Type: "
+							    			on:selected-dropdown={(event) => {
+							    				newShell = event.detail
+							    				updatePropertyValues(
+							    					'UpdateShell',
+							    					{ shell: newShell },
+							    					'shell',
+							    					newShell
+							    				)
+							    			}}
+							    		/>
+							    	</div>
+							    </div>
+							    {/if}
+    
+							    <div
+							    	id="add-images"
+							    	class="form-row-wrapper"
+							    	style="margin-top: 2vw"
+							    >
+							    	<p class="label">Add Images</p>
+    
+							    	<div class="action-row">
+							    		<input
+							    			id="img-name"
+							    			type="text"
+							    			placeholder="Name"
+							    			style="width: 7vw;"
+							    			bind:value={newImageName}
+							    		/>
+							    		<input
+							    			id="img-url"
+							    			type="text"
+							    			placeholder="URL"
+							    			style="width: 7vw;"
+							    			bind:value={newImageUrl}
+							    		/>
+							    		<button
+							    			class="regular-button"
+							    			on:click={addNewImage}>Add</button
+							    		>
+							    	</div>
+    
+							    	<div class="image-tiles-wrapper">
+							    		{#each propertyImages as image, index}
+							    			<div>
+							    				<img src={image.url} alt="" />
+							    			</div>
+							    		{/each}
+							    	</div>
+							    </div>
+    
+    
+		                        {#if selectedProperty.shell !== 'mlo'}
+							        <div id="manage-door" class="form-row-wrapper">
+							        	<p class="label">Manage Door</p>
+    
+							        	<div class="action-row">
+							        		<SetNotSetIndicator
+							        			leftValue="Door"
+							        			rightValue={doorValueSet
+							        				? 'Set'
+							        				: 'Not Set'}
+							        			good={doorValueSet}
+							        		/>
+							        		<button
+							        			class="regular-button"
+							        			on:click={() =>
+							        				handleZonePlacement('door')}
+							        			>New Location</button
+							        		>
+							        		<button class="disable-button"
+							        			>Remove</button
+							        		>
+							        	</div>
+							        </div>
+							    {/if}
+    
+							    <div id="manage-garage" class="form-row-wrapper">
+							    	<p class="label">Manage Garage</p>
 
-								<div class="action-row">
-									<input
-										type="number"
-										placeholder="$1000000000"
-										style="width: 10vw;"
-										bind:value={propertyPrice}
-										on:keyup={() =>
-											updatePropertyValues(
-												'UpdatePrice',
-												{ price: propertyPrice },
-												'price',
-												propertyPrice
-											)}
-									/>
-								</div>
-							</div>
-
-							<div
-								id="manage-shell-type"
-								class="form-row-wrapper"
-							>
-								<p class="label">Manage Shell</p>
-
-								<div class="action-row">
-									<FormWrapperDropdown
-										dropdownValues={Object.keys($SHELLS)}
-										label=""
-										id="manage-dd-shell"
-										selectedValue={newShell}
-										insideLabel="Type: "
-										on:selected-dropdown={(event) => {
-											newShell = event.detail
-											updatePropertyValues(
-												'UpdateShell',
-												{ shell: newShell },
-												'shell',
-												newShell
-											)
-										}}
-									/>
-								</div>
-							</div>
-
-							<div
-								id="add-images"
-								class="form-row-wrapper"
-								style="margin-top: 2vw"
-							>
-								<p class="label">Add Images</p>
-
-								<div class="action-row">
-									<input
-										id="img-name"
-										type="text"
-										placeholder="Name"
-										style="width: 7vw;"
-										bind:value={newImageName}
-									/>
-									<input
-										id="img-url"
-										type="text"
-										placeholder="URL"
-										style="width: 7vw;"
-										bind:value={newImageUrl}
-									/>
-									<button
-										class="regular-button"
-										on:click={addNewImage}>Add</button
-									>
-								</div>
-
-								<div class="image-tiles-wrapper">
-									{#each propertyImages as image, index}
-										<div>
-											<img src={image.url} alt="" />
-										</div>
-									{/each}
-								</div>
-							</div>
-
-							<div id="manage-door" class="form-row-wrapper">
-								<p class="label">Manage Door</p>
-
-								<div class="action-row">
-									<SetNotSetIndicator
-										leftValue="Door"
-										rightValue={doorValueSet
-											? 'Set'
-											: 'Not Set'}
-										good={doorValueSet}
-									/>
-									<button
-										class="regular-button"
-										on:click={() =>
-											handleZonePlacement('door')}
-										>New Location</button
-									>
-									<button class="disable-button"
-										>Remove</button
-									>
-								</div>
-							</div>
-
-							<div id="manage-garage" class="form-row-wrapper">
-								<p class="label">Manage Garage</p>
-
-								<div class="action-row">
-									<SetNotSetIndicator
-										leftValue="Garage"
-										rightValue={garageValueSet
-											? 'Set'
-											: 'Not Set'}
-										good={garageValueSet}
-									/>
-									<button
-										class="regular-button"
-										on:click={() =>
-											handleZonePlacement('garage')}
-										>New Location</button
-									>
-									<button
-										class="disable-button"
-										on:click={() =>
-											updatePropertyValues(
-												'UpdateGarage',
-												{},
-												'garage_data',
-												null
-											)}>Remove</button
-									>
-								</div>
-							</div>
+							    	<div class="action-row">
+							    		<SetNotSetIndicator
+							    			leftValue="Garage"
+							    			rightValue={garageValueSet
+							    				? 'Set'
+							    				: 'Not Set'}
+							    			good={garageValueSet}
+							    		/>
+							    		<button
+							    			class="regular-button"
+							    			on:click={() =>
+							    				handleZonePlacement('garage')}
+							    			>New Location</button
+							    		>
+							    		<button
+							    			class="disable-button"
+							    			on:click={() =>
+							    				updatePropertyValues(
+							    					'UpdateGarage',
+							    					{},
+							    					'garage_data',
+							    					null
+							    				)}>Remove</button
+							    		>
+							    	</div>
+							    </div>
+							{/if}
 						</div>
 					</div>
 				</div>
