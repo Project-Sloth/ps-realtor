@@ -8,10 +8,10 @@ Config.RealtorJobNames = { -- add multiple realestate jobs that are allowed to s
 }
 
 -- Set this value to true if you want to use the command to open the Housing Menu(Realtor Menu)
-Config.UseCommand = true
+Config.UseCommand = true --niedziała
 
 -- Set this value to TRUE if you want to use the Config.ItemName as a usable Item to open the Housing Menu(Realtor Menu)
-Config.UseItem = false
+Config.UseItem = false --niedziała (hardcodowane na tablet w ox_inventory)
 
 --Set this value to FALSE if u DON'T want to play the tablet animation when using /housing or the usable item
 Config.PlayAnimation = true
@@ -26,12 +26,12 @@ Config.ItemName = "tablet"  -- Item name to make it usable.
 --Commisions is handled in ps-housing config.
 
 Config.RealtorPerms = {
-    manageProperty = 1, --minimum grade to manage property | default 1
-    changePropertyForSale = 0, --minimum grade to list property | default 0
-    sellProperty = 0, --minimum grade to sell property | default 0
-    listNewProperty = 2, --minimum grade to list property | default 2
-    deleteProperty = 2, --minimum grade to delete property | default 2
-    setApartments = 2, --minimum grade to set apartments for players | default 2
+    manageProperty = 6, --minimum grade to manage property | default 1
+    changePropertyForSale = 6, --minimum grade to list property | default 0
+    sellProperty = 1, --minimum grade to sell property | default 0
+    listNewProperty = 7, --minimum grade to list property | default 2
+    deleteProperty = 7, --minimum grade to delete property | default 2
+    setApartments = 7, --minimum grade to set apartments for players | default 2
 }
 
 RealtorJobs = {}

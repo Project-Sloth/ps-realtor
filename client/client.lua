@@ -98,13 +98,12 @@ RegisterNetEvent("esx:setJob", setRealtor)
 	setRealtor(PlayerData.job)
 end)]]--
 
-AddEventHandler('esx:playerLoaded', function()
+RegisterNetEvent('esx:playerLoaded', function(xPlayer)
 	SendNUIMessage({
 		action = "setConfig",
 		data = Config.RealtorPerms
 	})
-	local PlayerData = ESX.GetPlayerData()
-	setRealtor(PlayerData.job)
+	setRealtor(xPlayer.job)
 end)
 
 --this was mainly used for dev

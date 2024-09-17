@@ -48,9 +48,9 @@ RegisterNetEvent("bl-realtor:server:addTenantToApartment", function(data)
     TriggerEvent("ps-housing:server:addTenantToApartment", data)
 end)
 
-function getESXOfflinePlayer(citizenid)
+--[[function getESXOfflinePlayer(citizenid)
     return MySQL.single.await("SELECT 'firstname' AS 'firstName', 'lastname' AS 'lastName' FROM `users` WHERE `identifier` = @citizenid", {['@citizenid'] = citizenid})
-end
+end]]--
 
 lib.callback.register("bl-realtor:server:getNames", function (source, data)
     local src = source
@@ -62,9 +62,18 @@ lib.callback.register("bl-realtor:server:getNames", function (source, data)
     
     local names = {}
     for i = 1, #data do
-        local target = ESX.GetPlayerFromId(data[i]) or getESXOfflinePlayer(data[i])
+        local target = ESX.GetPlayerFromIdentifier(data[i])
+        local name = ""
+
+        if not target then
+            target = exports['ps-housing']:getESXOfflinePlayer(data[i])
+            name = target.firstName .. " " .. target.lastName
+        else
+            name = target.getName()
+        end
+
         if target then
-            names[#names+1] = target.firstName .. " " .. target.lastName
+            names[#names+1] = name
         else
             names[#names+1] = "Unknown"
         end
@@ -74,11 +83,11 @@ lib.callback.register("bl-realtor:server:getNames", function (source, data)
 end)
 
 if Config.UseItem then
-    QBCore.Functions.CreateUseableItem(Config.ItemName, function(source, item)
+    --[[QBCore.Functions.CreateUseableItem(Config.ItemName, function(source, item)
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
         if Player.Functions.GetItemByName(item.name) ~= nil then
             TriggerClientEvent("bl-realtor:client:toggleUI", src)
         end
-    end)
+    end)]]--
 end
