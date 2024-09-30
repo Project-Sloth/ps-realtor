@@ -1,0 +1,16 @@
+version: 2
+updates:
+    - package-ecosystem: 'npm'
+      directory: '/ui/'
+      schedule:
+          interval: 'weekly'
+      groups:
+        all-dependencies:
+          patterns:
+            - "*"
+      versioning-strategy: 'increase-if-necessary'
+      open-pull-requests-limit: 3
+      ignore:
+          - dependency-name: '*'
+            update-types:
+                ['version-update:semver-major', 'version-update:semver-patch']
