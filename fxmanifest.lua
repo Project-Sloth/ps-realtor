@@ -4,7 +4,7 @@ use_experimental_fxv2_oal 'yes'
 game "gta5"
 
 author "Xirvin & Project Sloth"
-version '2.0.0'
+version '2.0.1'
 
 lua54 'yes'
 
