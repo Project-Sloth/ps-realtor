@@ -188,7 +188,7 @@ RegisterNUICallback("startZonePlacement", function (data, cb)
 	if not success then return end
 	local ped = cache.ped
 	local newData = GetEntityCoords(ped)
-
+	local newData = {x = newData.x, y = newData.y, z = newData.z, h = MathFloor(GetEntityHeading(ped))}
 	if type == "door" then
 		type = "UpdateDoor"
 	elseif type == "garage" then
@@ -200,7 +200,7 @@ RegisterNUICallback("startZonePlacement", function (data, cb)
 				x = MathFloor(newData.x),
 				y = MathFloor(newData.y),
 				z = MathFloor(newData.z),
-				h = MathFloor(GetEntityHeading(ped)),
+				h = MathFloor(newData.h),
 				length = 3.0,
 				width = 5.0,
 			}
