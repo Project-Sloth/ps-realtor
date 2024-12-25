@@ -44,11 +44,12 @@
 	}
 
 	let footerNavs: ITab[] = [
-		{
-			name: 'Help Center',
-			icon: 'fas fa-life-ring',
-			component: '',
-		},
+		// todo: make it do something?
+		// {
+		// 	name: 'Help Center',
+		// 	icon: 'fas fa-life-ring',
+		// 	component: '',
+		// },
 		{
 			name: 'Logout',
 			icon: 'fas fa-arrow-right-from-bracket',
