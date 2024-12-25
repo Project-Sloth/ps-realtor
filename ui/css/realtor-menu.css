@@ -26,37 +26,42 @@
 
 /** TAB WRAPPER - start **/
 .tab-wrapper {
+    display: flex;
+    flex-direction: column;
     margin: 0.35vw 0.2vw;
- }
- .tab-wrapper > .each-tab {
-     display: flex;
-     flex-direction: row;
- 
-     padding: 0.5vw;
-     border-radius: 0.2vw;
-     cursor: pointer;
- 
-     line-height: 1vw;
-     vertical-align: middle;
- }
- 
- .tab-wrapper > .each-tab > i {
-     width: 2vw;
-     padding-top: 0.05vw;
+}
 
-     text-align: center;
- }
- 
- .tab-wrapper > .each-tab > p {
-     font-size: 0.75vw;
- }
+.tab-wrapper > .each-tab {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
 
- .tab-wrapper > .each-tab-selected {
+    padding: 0.5vw;
+    border-radius: 0.2vw;
+    cursor: pointer;
+
+    line-height: 1vw;
+}
+
+.tab-wrapper > .each-tab > i {
+    font-size: 2rem;
+    width: 2rem;
+    padding-top: 0.05vw;
+
+    text-align: center;
+}
+
+.tab-wrapper > .each-tab > p {
+    font-size: 0.75vw;
+}
+
+.tab-wrapper > .each-tab-selected {
     background-color: var(--blue-color);
- }
+}
 
 
- .tab-wrapper > .discord-wrapper {
+.tab-wrapper > .discord-wrapper {
     padding: 0.25vw;
     border-radius: 0.2vw;
 
@@ -71,27 +76,29 @@
     justify-content: space-evenly;
 
     align-items: center;
- }
+}
 
- .tab-wrapper > .discord-wrapper > .discord-emoji {
+.tab-wrapper > .discord-wrapper > .discord-emoji {
     width: 1.3vw;
- }
+}
 
- .tab-wrapper > .discord-wrapper > .discord-text {
+.tab-wrapper > .discord-wrapper > .discord-text {
     margin: 0.75vw 0;
     text-align: center;
     width: 70%;
- }
- .tab-wrapper > .discord-wrapper > .discord-text > .bold-text {
+}
+
+.tab-wrapper > .discord-wrapper > .discord-text > .bold-text {
     font-weight: 600;
- }
- .tab-wrapper > .discord-wrapper > .discord-text > .small-text {
+}
+
+.tab-wrapper > .discord-wrapper > .discord-text > .small-text {
     font-size: 0.6vw;
     opacity: 0.8;
     margin-top: 0.2vw;
- }
+}
 
- .tab-wrapper > .discord-wrapper > .visit-discord-btn {
+.tab-wrapper > .discord-wrapper > .visit-discord-btn {
     border-radius: 6vw;
     color: var(--black-color);
     background-color: var(--white-color);
@@ -100,5 +107,6 @@
     padding: 0.2vw 0.8vw;
     font-size: 0.7vw;
     font-weight: 600;
- }
- /** TAB WRAPPER - end **/
+}
+
+/** TAB WRAPPER - end **/
