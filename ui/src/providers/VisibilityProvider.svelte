@@ -39,16 +39,9 @@ onMount(() => {
 
 <style>
   main {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    user-select: none;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+    display: grid;
+    place-items: center;
     height: 100vh;
-width: 100vw;
   }
-  </style>
+</style>
 
