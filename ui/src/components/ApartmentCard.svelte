@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { IApartment, IProperty } from '@typings/type'
+	import type { Apartment, Property } from '@typings/type'
 	import { fly } from 'svelte/transition'
 
-	export let selectedApartment: IApartment = null
-	export let apartment: IApartment = null
+	export let selectedApartment: Apartment = null
+	export let apartment: Apartment = null
 
 	// cbf with typescript rn
 	let apartmentData: any = apartment.apartmentData

@@ -6,11 +6,11 @@
 		REALTOR_GRADE,
 		CONFIG,
 	} from '@store/stores'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { SendNUI } from '@utils/SendNUI'
 
-	export let selectedProperty: IProperty = null
+	export let selectedProperty: Property = null
 
 	const propertyId = selectedProperty.property_id
 	const index = $PROPERTIES.findIndex(

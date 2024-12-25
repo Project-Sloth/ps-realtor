@@ -9,7 +9,7 @@
 		CONFIG,
 	} from '@store/stores'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
 	import { fade } from 'svelte/transition'
@@ -17,7 +17,7 @@
 	const dispatch = createEventDispatcher()
 
 	export let manageProperty: boolean = false,
-		selectedProperty: IProperty | null = null
+		selectedProperty: Property | null = null
 
 	const index = $PROPERTIES.findIndex(
 		(property) => property.property_id === selectedProperty.property_id

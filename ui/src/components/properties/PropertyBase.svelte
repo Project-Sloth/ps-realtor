@@ -1,7 +1,7 @@
 <script lang="ts">
 	import PropertyCard from '@components/properties/PropertyCard.svelte'
 	import DropdownComponent from '@components/generic/DropdownComponent.svelte'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { PROPERTIES } from '@store/stores'
 	import PropertyDetailsModal from './PropertyDetailsModal.svelte'
 	import ManagePropertyModal from './ManagePropertyModal.svelte'
@@ -16,11 +16,11 @@
 	const typeDropdown = ['House', 'Apartments']
 	let selectedTypeValue = typeDropdown[0]
 
-	let selectedProperty: IProperty | null = null,
+	let selectedProperty: Property | null = null,
 		manageProperty: boolean = false
 
 	let searchTerm = '',
-		filteredProperties: IProperty[] = []
+		filteredProperties: Property[] = []
 
 	PROPERTIES.subscribe((value) => {
 		if (value) {
@@ -32,7 +32,7 @@
 		filteredProperties = []
 
 		setTimeout(() => {
-			let properties: IProperty[] = $PROPERTIES
+			let properties: Property[] = $PROPERTIES
 			properties = filterForSale(properties)
 			properties = filterPriceSort(properties)
 			properties = filterSearch(properties)
@@ -40,7 +40,7 @@
 		}, 1)
 	}
 
-	function filterApartment(properties: IProperty[]) {
+	function filterApartment(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
 		if (selectedTypeValue === typeDropdown[1]) return properties // include apartments (all properties)
 
@@ -49,7 +49,7 @@
 		return properties
 	}
 
-	function filterForSale(properties: IProperty[]) {
+	function filterForSale(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
 		if (selectedForSaleValue === forSaleDropdown[1]) return properties
 
@@ -58,7 +58,7 @@
 		return properties
 	}
 
-	function filterSearch(properties: IProperty[]) {
+	function filterSearch(properties: Property[]) {
 		if (searchTerm.length < 1) return properties
 
 		properties = properties.filter((property) => {
@@ -106,7 +106,7 @@
 		return properties
 	}
 
-	function filterPriceSort(properties: IProperty[]) {
+	function filterPriceSort(properties: Property[]) {
 		if (selectedHighLowValue === highLowDropdown[1]) {
 			// low to high
 			properties = properties.sort((a, b) => a.price - b.price)

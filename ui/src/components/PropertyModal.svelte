@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { CONFIG, REALTOR_GRADE, SHELLS } from '@store/stores'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { fade } from 'svelte/transition'
 	import Information from './PropertyModal/Information.svelte'
 	import EditOptions from './PropertyModal/EditOptions.svelte'
 
-	export let selectedProperty: IProperty = null
+	export let selectedProperty: Property = null
 
 	function getImgArray() {
 		let shellImgs = selectedProperty.extra_imgs

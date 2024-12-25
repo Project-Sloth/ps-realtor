@@ -1,4 +1,4 @@
-export interface ITab {
+export interface Tab {
     name: string;
     icon: string;
     component: any;
@@ -23,7 +23,7 @@ type img = {
     label: string;
 }
 
-export interface IProperty {
+export interface Property {
     property_id: number;
     label?: string;
     owner?: string;
@@ -39,7 +39,7 @@ export interface IProperty {
     apartment: string;
 }
 
-export interface IApartment {
+export interface Apartment {
     apartmentData: {
         label: string;
         door: door;

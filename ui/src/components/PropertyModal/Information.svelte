@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { REALTOR_GRADE } from '@store/stores'
 
-	export let selectedProperty: IProperty = null
+	export let selectedProperty: Property = null
 </script>
 
 {#if selectedProperty}

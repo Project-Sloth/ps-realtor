@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { IApartment } from '@typings/type'
+	import type { Apartment } from '@typings/type'
 	import { onMount } from 'svelte/internal'
     import { PROPERTIES } from '@store/stores'
 	import { SendNUI } from '@utils/SendNUI'
 
-	export let selectedApartment: IApartment = null
+	export let selectedApartment: Apartment = null
 
 
 	let tenants: string[] = []

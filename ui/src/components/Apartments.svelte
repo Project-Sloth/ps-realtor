@@ -1,10 +1,10 @@
 <script lang="ts">
 	import ApartmentCard from './ApartmentCard.svelte'
 	import ApartmentModal from './ApartmentModal.svelte'
-	import type { IApartment } from '@typings/type'
+	import type { Apartment } from '@typings/type'
 	import { APARTMENTS } from '@store/stores'
 
-	let selectedApartment: IApartment  = null
+	let selectedApartment: Apartment  = null
 
 </script>
 

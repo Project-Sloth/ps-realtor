@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { PROPERTIES } from '@store/stores'
-    import type { IApartment } from '@typings/type'
+    import type { Apartment } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { onMount } from 'svelte'
     import { fade } from 'svelte/transition';
 
-    export let selectedApartment: IApartment | null = null;
+    export let selectedApartment: Apartment | null = null;
 
     let tenants: string[] = [], tenantsResult: string[] = [];
     let searchTerm: string = "";

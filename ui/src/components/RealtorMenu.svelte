@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ITab } from '@typings/type'
+	import type { Tab } from '@typings/type'
 	import { REALTOR_GRADE, TEMP_HIDE, CONFIG } from '@store/stores'
 	import PropertyBase from './properties/PropertyBase.svelte'
 	import ApartmentsBase from './apartments/ApartmentsBase.svelte'
@@ -7,7 +7,7 @@
 	import { SendNUI } from '@utils/SendNUI'
 
 	// basic available tabs
-	let availableNavTabs: ITab[] = [
+	let availableNavTabs: Tab[] = [
 		{
 			name: 'Properties',
 			icon: 'fas fa-home',
@@ -34,18 +34,16 @@
 		}
 	});
 
-	let selectedTab: ITab = availableNavTabs[0]
+	let selectedTab: Tab = availableNavTabs[0]
 
-	function selectLeftTab(tab) {
+	function selectLeftTab(tab: Tab) {
 		selectedTab = tab;
 		if(tab.name.toLocaleLowerCase() === 'logout') {
 			SendNUI("hideUI", {})
 		}
 	}
 
-	let footerNavs: ITab[] = [
-		// todo: make it do something?
-		// {
+	let footerNavs: Tab[] = [		// {
 		// 	name: 'Help Center',
 		// 	icon: 'fas fa-life-ring',
 		// 	component: '',

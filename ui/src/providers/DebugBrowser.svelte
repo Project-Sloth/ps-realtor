@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { debugData } from '../utils/debugData'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 
 	let show = false
 	//EXAMPLE
@@ -11,8 +11,8 @@
 	// 		data: true,
 	// 	},
 	// ])
-	let properties: IProperty[] = []
-	let debugProperty: IProperty = {
+	let properties: Property[] = []
+	let debugProperty: Property = {
 		property_id: 1,
 		label: 'Test Property',
 		description: 'This is a test property',

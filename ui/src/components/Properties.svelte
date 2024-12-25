@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { afterUpdate, onDestroy, onMount } from 'svelte'
 	import Sorter from './Sorter.svelte'
 	import { fly } from 'svelte/transition'
@@ -8,8 +8,8 @@
 	import PropertyCard from './PropertyCard.svelte'
 	import { CONFIG, REALTOR_GRADE } from '@store/stores'
 
-	let Properties: IProperty[] = []
-	let selectedProperty: IProperty | null = null
+	let Properties: Property[] = []
+	let selectedProperty: Property | null = null
 
 	let El: HTMLElement // The element that will be scrolled
 	let initial: boolean = true // If the scroll position has been set

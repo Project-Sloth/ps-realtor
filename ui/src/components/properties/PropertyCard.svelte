@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { REALTOR_GRADE, SHELLS } from '@store/stores'
 	import { fly } from 'svelte/transition'
 
 	export let id = 'property-card-1',
-		property: IProperty = null,
-		selectedProperty: IProperty = null
+		property: Property = null,
+		selectedProperty: Property = null
 
 		console.log(property.extra_imgs[0] && property.extra_imgs[0].url,  $SHELLS[property.shell].imgs[0].url)
 </script>

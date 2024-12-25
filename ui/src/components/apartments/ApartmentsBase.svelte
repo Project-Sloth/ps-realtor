@@ -1,10 +1,10 @@
 <script lang="ts">
 	import ApartmentCard from "@components/apartments/ApartmentCard.svelte"
     import { APARTMENTS } from '@store/stores'
-    import type { IApartment } from '@typings/type'
+    import type { Apartment } from '@typings/type'
 	import SelectedApartment from "./SelectedApartment.svelte"
 
-    let selectedApartment: IApartment  = null;
+    let selectedApartment: Apartment  = null;
 
     $: {
         if(selectedApartment) {

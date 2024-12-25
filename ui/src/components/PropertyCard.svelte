@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { REALTOR_GRADE, SHELLS } from '@store/stores'
 	import { fly } from 'svelte/transition'
 
-	export let selectedProperty: IProperty = null
-	export let property: IProperty = null
+	export let selectedProperty: Property = null
+	export let property: Property = null
 </script>
 
 <button

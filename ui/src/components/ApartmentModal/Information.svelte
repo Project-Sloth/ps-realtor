@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { IApartment, IProperty } from '@typings/type'
+	import type { Apartment, Property } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 
-	export let selectedApartment: IApartment = null
+	export let selectedApartment: Apartment = null
     let apartmentData = selectedApartment.apartmentData
 </script>
 

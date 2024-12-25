@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { ITab } from '@typings/type'
+	import type { Tab } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { onMount } from 'svelte';
 
-	export let AvailableTabs: ITab[] = []
+	export let AvailableTabs: Tab[] = []
 	/* The current Selected Tab */
-	export let selectedTab: ITab = AvailableTabs[0]
+	export let selectedTab: Tab = AvailableTabs[0]
 
 	let showBlipMenu = false
 

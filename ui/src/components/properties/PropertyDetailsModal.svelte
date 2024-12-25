@@ -1,10 +1,10 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
-    import type { IProperty } from '@typings/type';
+    import type { Property } from '@typings/type';
     import { REALTOR_GRADE, SHELLS, CONFIG } from '@store/stores';
     import { SendNUI } from '@utils/SendNUI';
 
-    export let selectedProperty: IProperty | null = null, manageProperty: boolean=false;
+    export let selectedProperty: Property | null = null, manageProperty: boolean=false;
 
     function getImgArray() {
 		let shellImgs = selectedProperty.extra_imgs

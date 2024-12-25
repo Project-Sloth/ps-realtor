@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { IApartment } from '@typings/type'
+    import type { Apartment } from '@typings/type'
     import { fly } from 'svelte/transition'
     import { PROPERTIES } from '@store/stores'
     import { SendNUI } from '@utils/SendNUI'
     import { onMount } from 'svelte'
 
-    export let selectedApartment: IApartment = null;
-    export let apartment: IApartment = null;
+    export let selectedApartment: Apartment = null;
+    export let apartment: Apartment = null;
     export let id="apt-card-0";
 
     let apartmentData: any;
