@@ -1,4 +1,6 @@
 .realtor-menu-base {
+    width: 60%;
+    height: 80%;
     display: flex;
     flex-direction: row;
 
@@ -110,3 +112,14 @@
 }
 
 /** TAB WRAPPER - end **/
+
+@media only screen and (max-width: 1024px) {
+    .realtor-menu-base {
+        height: 60%;
+    }
+
+    .tab-wrapper > .each-tab > i {
+        font-size: 1.5rem;
+        width: 1.5rem;
+    } 
+}

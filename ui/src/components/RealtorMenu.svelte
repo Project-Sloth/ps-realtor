@@ -59,7 +59,7 @@
 </script>
 
 <div
-	class="w-[60%] h-[90%] bg-[color:var(--color-primary)] relative realtor-menu-base"
+	class="bg-[color:var(--color-primary)] relative realtor-menu-base"
 	style="opacity: {$TEMP_HIDE ? "0" : "1"};"
 >
 	<aside class="left-column">
