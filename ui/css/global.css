@@ -1,7 +1,16 @@
-* {
+@layer reset {
+  *, *::before, *::after {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
+
+  * {
+    color: #fff;
+    -webkit-user-drag: none;
+    font-family: 'Satoshi', sans-serif;
+  }
+}
 
 ::-webkit-scrollbar {
     width: 0.2vw;

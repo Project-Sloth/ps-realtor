@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Satoshi', sans-serif;
-    color: #fff;
-    -webkit-user-drag: none;
-}
-
 *:focus {
     outline: none;
 }
@@ -27,10 +19,10 @@ button:hover {
 }
 
 html, body {
-height: 100vh;
-width: 100vw;
-font-size: 1.6rem;
-overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    font-size: 1.6rem;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
