@@ -58,29 +58,32 @@
 </script>
 
 <div
-	class="w-[60%] h-[90%] bg-[color:var(--color-primary)] absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 realtor-menu-base"
+	class="w-[60%] h-[90%] bg-[color:var(--color-primary)] relative realtor-menu-base"
 	style="opacity: {$TEMP_HIDE ? "0" : "1"};"
 >
-	<div class="left-column">
-		<div class="tab-wrapper">
-			{#each availableNavTabs as tab}
-				<div class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
-					<i class={tab.icon} />
-					<p>{tab.name}</p>
-				</div>
-			{/each}
-		</div>
-
-		<div class="footer">
-			<div class="tab-wrapper">
-				{#each footerNavs as tab}
-					<div class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
+	<aside class="left-column">
+		<header>
+			<nav class="tab-wrapper">
+				{#each availableNavTabs as tab}
+					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
 						<i class={tab.icon} />
 						<p>{tab.name}</p>
-					</div>
+					</button>
+				{/each}
+			</nav>
+		</header>
+
+
+		<footer class="footer">
+			<nav class="tab-wrapper">
+				{#each footerNavs as tab}
+					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
+						<i class={tab.icon} />
+						<p>{tab.name}</p>
+					</button>
 				{/each}
 
-				<div class="discord-wrapper">
+				<section class="discord-wrapper">
 					<div class="discord-emoji">
 						<img src="images/discord-emoji.png" alt="Discord Emoji" />
 					</div>
@@ -88,21 +91,21 @@
 					<div class="discord-text">
 						<p class="bold-text">More PS Stuff?</p>
 						<p class="small-text">
-							Visit Project Sloth’s official Discord community for all our other releases.
+							Visit Project Sloth's official Discord community for all our other releases.
 						</p>
 					</div>
 
 					<button class="visit-discord-btn">
 						Visit Discord
 					</button>
-				</div>
-			</div>
-		</div>
-	</div>
+				</section>
+			</nav>
+		</footer>
+	</aside>
 
-	<div class="right-column">
+	<section class="right-column">
 		<svelte:component this={selectedTab.component} />
-	</div>
+	</section>
 
 		<!-- <div class="w-full h-full overflow-hidden">
 		<svelte:component this={selectedTab.component} />
