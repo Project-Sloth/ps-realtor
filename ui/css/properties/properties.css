@@ -61,10 +61,10 @@
 
 .properties-base > .search-wrapper > .search-data > .search-bar > input {
     width: 25vw;
-    height: 3.2rem;
+    height: 2rem;
 
     font-weight: 500;
-    font-size: 0.6vw;
+    font-size: 0.8rem;
     color: rgba(0, 0, 0, 1);
     background: none;
     border: none;
@@ -72,16 +72,12 @@
 
 .properties-base > .search-wrapper > .search-data > .search-bar > i {
     color: rgba(0, 0, 0, 0.6);
-    
-    font-size: 0.8vw;
 }
 /** SEARCH - end **/
 
 /** properties list heading -start **/
 .properties-base > .properties-heading-wrapper {
     margin: 0.3vw 0;
-
-    font-size: 0.75vw;
 }
 
 .properties-base > .properties-heading-wrapper > .heading {

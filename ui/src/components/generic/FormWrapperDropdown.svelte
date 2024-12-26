@@ -85,7 +85,6 @@
 	.form-dropdown {
 		display: flex;
 		flex-direction: row;
-		/* font-size: 0.9vw; */
 
 		z-index: 1;
 
@@ -131,7 +130,6 @@
 	}
 
 	.form-select-wrapper-selected-value {
-		font-size: 0.6vw;
 		padding: 0.15vw 0.2vw 0.25vw 0.2vw;
 		margin-right: 0.2vw;
 
@@ -149,7 +147,6 @@
 
 	.form-dropdown-chevron {
 		text-align: center;
-		font-size: 0.5vw;
 		margin-top: 0.5vw;
 
 		color: var(--less-light-border-color);
@@ -163,7 +160,6 @@
 	}
 
 	.form-options-wrapper > .form-no-items-found {
-		font-size: 0.5vw;
 		padding: 0.1vw 0.6vw 0.4vw 0.7vw;
 	}
 
@@ -173,7 +169,6 @@
 		padding: 0.17vw 0.8vw 0.17vw 0.7vw;
 		min-height: 1.7vw;
 		border-radius: 0.2vw;
-		font-size: 0.6vw;
 	}
 
 	.form-option-child > p {
@@ -182,7 +177,6 @@
 		padding-top: 0.2vw;
 	}
 	.form-option-child > p > .form-icon {
-		font-size: 0.6vw;
 		padding-top: 0.2vw;
 		margin-left: 0.5vw;
 	}

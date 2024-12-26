@@ -21,12 +21,10 @@
 
 .no-new-properties-base > p {
     color: var(--white-color);
-    font-size: 0.7vw;
 }
 
 .no-new-properties-base > button {
     background-color: var(--blue-color);
-    font-size: 0.6vw;
     font-weight: 500;
 
     border-radius: 0.2vw;
@@ -64,22 +62,16 @@
     display: flex;
     flex-direction: row;
     padding: 0.6vw;
+    align-items: center;
   }
   .list-new-property-form > .header > .heading-title-wrapper > .add-icon {
     margin-right: 0.5vw;
     color: var(--blue-color);
-    font-size: 0.75vw;
     padding: 0.05vw 0.1vw;
   }
   .list-new-property-form > .header > .heading-title-wrapper > p {
-    font-size: 0.7vw;
     font-weight: 600;
     margin-top: -0.15vw;
-  }
-  .list-new-property-form > .header > div > .chevron-icon {
-    color: var(--less-light-border-color);
-    padding: 0.6vw 0.6vw 0.2vw 0.2vw;
-    font-size: 0.75vw;
   }
 
   .list-new-property-form > .body-wrapper {

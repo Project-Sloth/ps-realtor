@@ -2,8 +2,6 @@
 .dropdown {
   display: flex;
   flex-direction: row;
-  font-size: 0.9vw;
-
   z-index: 1;
 
   position: absolute;
@@ -43,7 +41,6 @@
   }
   
   .select-wrapper-selected-value {
-    font-size: 0.7vw;
     padding: 0.25vw;
     margin-right: 0.2vw;
 
@@ -60,7 +57,6 @@
   
   .dropdown-chevron {
     text-align: center;
-    font-size: 0.5vw;
     margin-top: 0.6vw;
 
     color: var(--less-light-border-color);
@@ -71,7 +67,6 @@
   }
   
   .options-wrapper > .no-items-found {
-    font-size: 0.7vw;
     padding: 0.17vw 0.6vw 0.17vw 0.6vw;
   }
 
@@ -81,7 +76,6 @@
     padding: 0.17vw 0.8vw 0.17vw 0.45vw;
     min-height: 1.7vw;
     border-radius: 0.2vw;
-    font-size: 0.7vw;
   }
   
   .option-child > p {
@@ -89,7 +83,6 @@
     flex-direction: row;
   }
   .option-child > p > .icon {
-    font-size: 0.65vw;
     padding-top: 0.35vw;
     margin-left: 0.5vw;
   }
@@ -150,7 +143,6 @@
     flex-direction: column;
     justify-content: space-between;
 
-    font-size: 0.8vw;
     font-weight: 300;
     /* border: 0.08px solid var(--light-border-color); */
   }
@@ -174,10 +166,8 @@
   .large-footer-modal-body > .header > .heading-title-wrapper > .info-icon {
     margin-right: 0.5vw;
     color: var(--blue-color);
-    font-size: 0.75vw;
   }
   .large-footer-modal-body > .header > .heading-title-wrapper > p {
-    font-size: 0.7vw;
     font-weight: 600;
     margin-top: -0.15vw;
   }

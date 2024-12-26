@@ -11,7 +11,6 @@ button:hover {
 }
 
 :root {
-    font-size: 62.5%;
     --color-primary: #131313;
     --color-secondary: #1f2528;
     --color-tertiary: #26343a;
@@ -21,7 +20,6 @@ button:hover {
 html, body {
     height: 100vh;
     width: 100vw;
-    font-size: 1.6rem;
     overflow: hidden;
 }
 

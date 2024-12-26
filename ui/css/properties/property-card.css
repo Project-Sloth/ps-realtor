@@ -32,21 +32,18 @@
 }
 
 .property-card-wrapper > .property-card-details > .property-name, .property-card-wrapper > .property-card-details > .property-cost {
-    font-size: 0.55vw;
     font-weight: 600;
     color: var(--white-color);
     padding: 0.08vw 0;
 }
 
 .property-card-wrapper > .property-card-details > .property-address {
-    font-size: 0.5vw;
     font-weight: 500;
     color: var(--light-border-color-8);
 }
 
 .property-card-wrapper > .property-card-details > .property-details {
     margin-top: 0.3vw;
-    font-size: 0.38vw;
     letter-spacing: 0.4px;
     font-weight: 400;
     color: var(--white-color);
@@ -93,7 +90,6 @@
     padding-bottom: 0.05vw;
     border-radius: 0.2vw;
 
-    font-size: 0.6vw;
     font-weight: 500;
 }
 /** CARD HOVER - end **/

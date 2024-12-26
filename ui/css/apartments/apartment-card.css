@@ -29,12 +29,10 @@
 }
 
 .apartment-card-wrapper > .details > .heading {
-    font-size: 0.7vw;
     font-weight: 600;
 }
 
 .apartment-card-wrapper > .details > .info {
-    font-size: 0.6vw;
     font-weight: 500;
     color: var(--light-border-color-8);
 }
@@ -46,7 +44,6 @@
 }
 
 .apartment-card-wrapper > .details > .location-tenants-info > p {
-    font-size: 0.45vw;
     font-weight: 400;
     color: var(--light-border-color-8);
     
@@ -63,7 +60,6 @@
     border-radius: 0.2vw;
     width: 99%;
 
-    font-size: 0.7vw;
     font-weight: 500;
 
     margin-top: 0.4vw;

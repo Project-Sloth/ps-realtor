@@ -6,10 +6,6 @@
     height: 100%;
 }
 
-.apartments-base > .heading {
-    font-size: 0.75vw;
-}
-
 .apartments-base > .apartment-listing-wrapper {
     display: flex;
     flex-direction: row;

@@ -19,8 +19,7 @@
 
 <div class="set-not-set-wrapper" {id}>
 	<i class="fas fa-circle {good ? 'green' : 'red'} indicator" />
-	<p class="left-value">{displayLeftValue}</p>
-	<p class="right-value">{rightValue}</p>
+	<span class="left-value">{displayLeftValue} <span class="right-value">{rightValue}</span></span>
 </div>
 
 <style>
@@ -39,12 +38,11 @@
 
 		padding: 0.3vw 0.5vw;
 
-		font-size: 0.5vw;
-
 		display: flex;
 		flex-direction: row;
 
-		text-align: center;
+		align-items: center;
+		gap: .5rem;
 	}
 
 	.set-not-set-wrapper > .left-value {
@@ -52,15 +50,13 @@
 		color: var(--less-light-border-color);
 	}
 
-	.set-not-set-wrapper > .right-value {
+	.set-not-set-wrapper > .left-value > .right-value {
 		font-weight: 500;
 		color: var(--white-color);
-		margin-left: 0.3vw;
 	}
 
 	.set-not-set-wrapper > .indicator {
-		font-size: 0.3vw;
-		padding-top: 0.3vw;
-		margin-right: 0.3vw;
+		width: 0.5rem;
+		font-size: 0.5rem;
 	}
 </style>

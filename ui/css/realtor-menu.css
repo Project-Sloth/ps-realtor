@@ -20,6 +20,7 @@
 }
 
 .realtor-menu-base > .right-column {
+    position: relative;
     width: 80%;
     height: 100%;
     padding: 1.3vw;
@@ -42,20 +43,6 @@
     padding: 0.5vw;
     border-radius: 0.2vw;
     cursor: pointer;
-
-    line-height: 1vw;
-}
-
-.tab-wrapper > .each-tab > i {
-    font-size: 2rem;
-    width: 2rem;
-    padding-top: 0.05vw;
-
-    text-align: center;
-}
-
-.tab-wrapper > .each-tab > p {
-    font-size: 0.75vw;
 }
 
 .tab-wrapper > .each-tab-selected {
@@ -95,9 +82,9 @@
 }
 
 .tab-wrapper > .discord-wrapper > .discord-text > .small-text {
-    font-size: 0.6vw;
     opacity: 0.8;
     margin-top: 0.2vw;
+    font-size: var(--small-font-size);
 }
 
 .tab-wrapper > .discord-wrapper > .visit-discord-btn {
@@ -107,7 +94,6 @@
 
     width: fit-content;
     padding: 0.2vw 0.8vw;
-    font-size: 0.7vw;
     font-weight: 600;
 }
 
@@ -119,7 +105,7 @@
     }
 
     .tab-wrapper > .each-tab > i {
-        font-size: 1.5rem;
-        width: 1.5rem;
-    } 
+        font-size: .5rem;
+        width: .5rem;
+    }
 }
