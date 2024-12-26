@@ -1,16 +1,10 @@
 /** NO NEW PROPERTIES - start **/
 
 .no-new-properties-base {
-    display: flex;
-    flex-direction: column;
-    
-    align-items: center;
-
-    position: absolute;
-    left: 60%;  
-    top: 47%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);  
+    display: grid;
+    place-items: center;
+    place-content: center;
+    height: 100%;
 }
 
 .no-new-properties-base > img {
