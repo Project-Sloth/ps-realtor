@@ -168,8 +168,8 @@
 		<img src="images/apts-bg.png" alt="Apartments Background" />
 
 		<div class="search-data">
-			<p>Find your next property purchase</p>
-			<p class="light-text">
+			<h1>Find your next property purchase</h1>
+			<p class="text-lg">
 				From houses, to garages, to the best sales.
 			</p>
 

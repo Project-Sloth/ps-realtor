@@ -33,17 +33,14 @@
     text-align: center;
 
     font-weight: 600;
-    font-size: 2.5rem;
 
-    top: 0%
+    top: 0%;
+    
 }
 
+.properties-base > .search-wrapper > .search-data > h1,
 .properties-base > .search-wrapper > .search-data > p {
     text-shadow: 2px 2px 2px #000;
-}
-
-.properties-base > .search-wrapper > .search-data > .light-text {
-    font-size: 1.6rem;
 }
 
 .properties-base > .search-wrapper > .search-data > .search-bar {
@@ -61,13 +58,13 @@
 
 .properties-base > .search-wrapper > .search-data > .search-bar > input {
     width: 25vw;
-    height: 2rem;
+    height: 2.5rem;
 
     font-weight: 500;
-    font-size: 0.8rem;
     color: rgba(0, 0, 0, 1);
     background: none;
     border: none;
+    @apply text-lg;
 }
 
 .properties-base > .search-wrapper > .search-data > .search-bar > i {
