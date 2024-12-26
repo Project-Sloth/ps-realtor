@@ -21,33 +21,32 @@
 	REALTOR_GRADE.subscribe((value) => {
 		availableNavTabs = getInitialTabs();
 
-		if (value >= $CONFIG.setApartments) {
+		if (value >= $CONFIG.setApartments)
 			availableNavTabs.push({
 				name: 'Apartments',
 				icon: 'fas fa-building',
 				component: ApartmentsBase,
 			});
-		}
 
-		if (value >= $CONFIG.listNewProperty) {
+		if (value >= $CONFIG.listNewProperty)
 			availableNavTabs.push({
 				name: 'List New Property',
 				icon: 'fas fa-plus-circle',
 				component: ListPropertiesBase,
 			});
-		}
 	});
 
 	let selectedTab: Tab = availableNavTabs[0]
 
-	function selectLeftTab(tab: Tab) {
-		selectedTab = tab;
-		if(tab.name.toLocaleLowerCase() === 'logout') {
-			SendNUI("hideUI", {})
-		}
+	function selectTab(tab: Tab) {
+		if (tab.component)
+			selectedTab = tab;
+		else if (tab.action)
+			tab.action();		
 	}
 
-	let footerNavs: Tab[] = [		// {
+	let footerNavs: Tab[] = [		
+		// {
 		// 	name: 'Help Center',
 		// 	icon: 'fas fa-life-ring',
 		// 	component: '',
@@ -55,7 +54,7 @@
 		{
 			name: 'Logout',
 			icon: 'fas fa-arrow-right-from-bracket',
-			component: '',
+			action: () => SendNUI("hideUI", {})
 		}
 	];
 </script>
@@ -68,7 +67,7 @@
 		<header>
 			<nav class="tab-wrapper">
 				{#each availableNavTabs as tab}
-					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
+					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectTab(tab)}>
 						<i class={tab.icon} />
 						<p>{tab.name}</p>
 					</button>
@@ -80,7 +79,7 @@
 		<footer class="footer">
 			<nav class="tab-wrapper">
 				{#each footerNavs as tab}
-					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
+					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectTab(tab)}>
 						<i class={tab.icon} />
 						<p>{tab.name}</p>
 					</button>

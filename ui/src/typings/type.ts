@@ -1,7 +1,10 @@
+import type { ComponentType } from "svelte";
+
 export interface Tab {
     name: string;
     icon: string;
-    component: any;
+    component?: ComponentType;
+    action?: () => void;
 }
 
 type coords = {
