@@ -44,6 +44,7 @@
 			z: 0,
 		},
 	}
+
 	let options = [
 		{
 			component: 'Show',
@@ -89,19 +90,12 @@
 			],
 		},
 		{
-			component: 'Is Realtor',
-			actions: [
-				{
-					name: 'true',
-					action: 'setRealtor',
-					data: true,
-				},
-				{
-					name: 'false',
-					action: 'setRealtor',
-					data: false,
-				},
-			],
+			component: 'Realtor Grade',
+			actions: Array.from({ length: 5 }, (_, idx) => ({
+				name: idx - 1,
+				action: 'setRealtorGrade',
+				data: idx - 1
+			}))
 		}
 		// {
 		// 	component: 'Example',

@@ -6,17 +6,21 @@
 	import ListPropertiesBase from './list-properties/ListPropertiesBase.svelte'
 	import { SendNUI } from '@utils/SendNUI'
 
-	// basic available tabs
-	let availableNavTabs: Tab[] = [
+	const getInitialTabs: () => Tab[] = () => ([
 		{
 			name: 'Properties',
 			icon: 'fas fa-home',
 			component: PropertyBase,
 		},
-	];
+	]);
+
+	// basic available tabs
+	let availableNavTabs: Tab[] = [];
 
 	// available tabs based on properties/config values of user
 	REALTOR_GRADE.subscribe((value) => {
+		availableNavTabs = getInitialTabs();
+
 		if (value >= $CONFIG.setApartments) {
 			availableNavTabs.push({
 				name: 'Apartments',
@@ -105,9 +109,4 @@
 	<section class="right-column">
 		<svelte:component this={selectedTab.component} />
 	</section>
-
-		<!-- <div class="w-full h-full overflow-hidden">
-		<svelte:component this={selectedTab.component} />
-	</div>
-	<Tabs bind:selectedTab {availableNavTabs} /> -->
 </div>
