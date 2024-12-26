@@ -2,6 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer reset {
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    * {
+        color: #fff;
+        -webkit-user-drag: none;
+        font-family: 'Satoshi', sans-serif;
+    }
+
+
+}
+
+@layer base {
+    h1 {
+        @apply text-4xl;
+    }
+    h2 {
+        @apply text-3xl;
+    }
+
+    i {
+        font-size: 1rem;
+        width: 1rem;
+    }
+
+}
+
+@media only screen and (max-width: 1024px) {
+    @layer base {
+        h1 {
+            @apply text-3xl;
+        }
+        h2 {
+            @apply text-2xl;
+        }
+    }
+
+    * {
+        font-size: 70%;
+    }
+}
+
 *:focus {
     outline: none;
 }

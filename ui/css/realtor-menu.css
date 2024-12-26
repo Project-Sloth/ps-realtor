@@ -84,7 +84,7 @@
 .tab-wrapper > .discord-wrapper > .discord-text > .small-text {
     opacity: 0.8;
     margin-top: 0.2vw;
-    font-size: var(--small-font-size);
+    @apply text-xs;
 }
 
 .tab-wrapper > .discord-wrapper > .visit-discord-btn {
