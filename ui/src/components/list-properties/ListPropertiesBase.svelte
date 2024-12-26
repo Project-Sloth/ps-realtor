@@ -8,7 +8,7 @@
 	const propertyTypes = ['mlo', 'shell']
 	let currentType = 'mlo'
 	let existingProperties = $PROPERTIES
-	let addingNewProperty = false
+	let addingNewProperty = false;
     let elements: {door_data: boolean}[] = [{door_data: false}];
 	let description: string = ''
 	let for_sale: boolean = true
@@ -98,9 +98,6 @@
 				<i class="fas fa-circle-plus add-icon"></i>
 				<p>List New Property</p>
 			</div>
-			<div>
-				<i class="fas fa-chevron-down chevron-icon"></i>
-			</div>
 		</div>
 
 		<div class="body-wrapper overflow-y-auto">
@@ -146,31 +143,48 @@
 				{/if}
 
 
-				<div id="door-creation" class="form-row-wrapper">
-					<p class="label">Door Creation <button class="regular-button" on:click={addNewElement}>+</button></p>
+				<div id="door-creation" class="form-row-wrapper door-creation-container">					
+					{#if currentType === 'mlo'}
+						<div class="label flex door-creation-title">
+							<span>Door Creation</span>
+							<div class="spacer"></div>
+							<button class="regular-button" on:click={addNewElement}><i class="fas fa-plus"></i></button>
+						</div>
 
-					{#each elements as element, index}
-                        {#if currentType === 'mlo' || (currentType === 'shell' && index === 0)}
-                        <div class="action-row" style="margin-bottom: 10px;">
+						{#each elements as element, index}
+							<div class="action-row" style="margin-bottom: 10px;">
+								<SetNotSetIndicator
+									leftValue="Door"
+									rightValue={element.door_data ? 'Set' : 'Not Set'}
+									good={element.door_data}
+								/>
+								<button
+									class="regular-button"
+									on:click={() => createZone('door', index)}
+									>{element.door_data ? 'Unset' : 'Set'}</button
+								>							
+
+								<button class="door-remove-btn" on:click={() => removeElement(index)}><i class="fas fa-close"></i></button>
+							</div>
+						{/each}
+					
+					{:else if currentType === 'shell'}
+						<p class="label">Door Creation</p>
+
+						<div class="action-row" style="margin-bottom: 10px;">
 							<SetNotSetIndicator
 								leftValue="Door"
-								rightValue={element.door_data ? 'Set' : 'Not Set'}
-								good={element.door_data}
+								rightValue={elements[0].door_data ? 'Set' : 'Not Set'}
+								good={elements[0].door_data}
 							/>
 							<button
 								class="regular-button"
-								on:click={() => createZone('door', index)}
-								>{element.door_data ? 'Unset' : 'Set'}</button
+								on:click={() => createZone('door', 0)}
+								>{elements[0].door_data ? 'Unset' : 'Set'}</button
 							>
-							
-                            {#if currentType === 'mlo'}
-                                {#if elements.length > 1}
-							        <button on:click={() => removeElement(index)}>x</button>
-						        {/if}
-						    {/if}
 						</div>
-						{/if}
-                    {/each}
+					{/if}
+
 				</div>
 
 				<div id="garage-creation" class="form-row-wrapper">
@@ -269,9 +283,7 @@
 		</div>
 
 		<div class="list-new-property-form-footer">
-			{#if valid}
-				<button on:click={createPropertyMethod}>Create Property</button>
-			{/if}
+			<button on:click={createPropertyMethod} disabled={!valid}>Create Property</button>
 		</div>
 	</div>
 {/if}
