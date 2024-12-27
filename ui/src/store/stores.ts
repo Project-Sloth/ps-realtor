@@ -5,7 +5,7 @@ export const browserMode = writable<boolean>(false);
 export const resName = writable<string>("");
 
 export const PROPERTIES = writable<any[]>([]);
-export const SHELLS = writable<any[]>([]);
+export const SHELLS = writable<{ [ shell: string ]: any }>({});
 export const APARTMENTS = writable<any[]>([]);
 
 export const REALTOR_GRADE = writable<number>(3);
