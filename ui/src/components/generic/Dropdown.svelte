@@ -3,16 +3,16 @@
 	
 	export type LabelValue<TValue = string> = { label: string, value: TValue };
 	window.addEventListener('pointerdown', () => hideCurrent && hideCurrent());
+
 </script>
 
-<script lang="ts">
-	import { createEventDispatcher } from 'svelte'
-
-	const dispatch = createEventDispatcher();
-	
-	export let items: LabelValue[];
-	export let selected: LabelValue;
+<script lang="ts">	
+	export let items: LabelValue<string>[];
+	export let value: string;
 	export let prefix: string = '';
+	export let changed: (value: string, label: string) => void = () => null;
+
+	$: selected = items.find(i => i.value === value);
 
 	let open = false;
 
@@ -29,9 +29,9 @@
         }
 	}
 
-	function select(value: LabelValue) {
-		selected = value
-		dispatch('changed', value);
+	function select(item: LabelValue) {
+		value = item.value;
+		changed(item.value, item.label);
 		open = false;
 	}
 </script>
@@ -40,7 +40,7 @@
 	<button class="select-option" id="select" on:click={() => toggle()}>
 		<span>
 			<span class="select-prefix">{prefix}</span>
-			{selected.label}
+			{selected?.label}
 		</span>
 		<i class="fas fa-chevron-down select-chevron visible" />
 	</button>
@@ -52,7 +52,7 @@
 			{#each items as item}
 				<button class="select-option" on:click={() => select(item)}>
 					<span>{item.label}</span>
-					<i class="fas fa-check icon" class:visible={selected === item} />
+					<i class="fas fa-check icon" class:visible={value === item.value} />
 				</button>
 			{/each}
 		{/if}
@@ -63,7 +63,7 @@
 	:root {
 		--dropdown-background: linear-gradient(0deg, #242424, #242424), linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 		--dropdown-border-size: 1px;	
-		--dropdown-border: var(--dropdown-border-size) solid rgba(255, 255, 255, 0.1);
+		--dropdown-border: var(--dropdown-border-size) solid rgba(255, 255, 255, 0.3);
 	}
 
 	.dropdown-container {
@@ -79,7 +79,6 @@
 	}
 
 	.dropdown-container.open {
-		border-bottom: none;
 		border-bottom-right-radius: 0;
 		border-bottom-left-radius: 0;
 	}

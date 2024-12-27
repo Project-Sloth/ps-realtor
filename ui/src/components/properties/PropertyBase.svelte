@@ -12,21 +12,21 @@
 		{ label: 'Low to High', value: 'l2h' }
 	];
 
-	let selectedHighLowValue = highLowDropdown[0];
+	let selectedHighLowValue = highLowDropdown[0].value;
 
 	const forSaleDropdown = [
 		{ label: 'For Sale', value: 'sale' }, 
 		{ label: 'All Properties', value: 'all' },
 	];
 
-	let selectedForSaleValue = forSaleDropdown[0];
+	let selectedForSaleValue = forSaleDropdown[0].value;
 
 	const typeDropdown = [
 		{ label: 'House', value: 'house' },
 		{ label: 'Apartments', value: 'apartment' },
 	];
 
-	let selectedTypeValue = typeDropdown[0];
+	let selectedTypeValue = typeDropdown[0].value;
 
 	let selectedProperty: Property | null = null,
 		manageProperty: boolean = false
@@ -54,7 +54,7 @@
 
 	function filterApartment(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
-		if (selectedTypeValue.value === typeDropdown[1].value) return properties // include apartments (all properties)
+		if (selectedTypeValue === typeDropdown[1].value) return properties // include apartments (all properties)
 
 		properties = properties.filter((property) => !property.apartment)
 
@@ -63,7 +63,7 @@
 
 	function filterForSale(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
-		if (selectedForSaleValue.value === forSaleDropdown[1].value) return properties
+		if (selectedForSaleValue === forSaleDropdown[1].value) return properties
 
 		properties = properties.filter((property) => property.for_sale)
 
@@ -119,7 +119,7 @@
 	}
 
 	function filterPriceSort(properties: Property[]) {
-		if (selectedHighLowValue.value === highLowDropdown[1].value) {
+		if (selectedHighLowValue === highLowDropdown[1].value) {
 			// low to high
 			properties = properties.sort((a, b) => a.price - b.price)
 		} else {
@@ -187,21 +187,21 @@
 
 			<Dropdown
 				items={highLowDropdown}
-				bind:selected={selectedHighLowValue}
-				on:changed={() => filter()}
+				bind:value={selectedHighLowValue}
+				changed={() => filter()}
 			/>
 
 			<Dropdown
 				items={forSaleDropdown}
-				bind:selected={selectedForSaleValue}
-				on:changed={() => filter()}
+				bind:value={selectedForSaleValue}
+				changed={() => filter()}
 			/>
 
 			<Dropdown
 				items={typeDropdown}
-				bind:selected={selectedTypeValue}
+				bind:value={selectedTypeValue}
 				prefix="Type: "
-				on:changed={() => filter()}
+				changed={() => filter()}
 			/>
 		</div>
 	</div>
