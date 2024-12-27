@@ -10,6 +10,8 @@
 	export let items: LabelValue<string>[];
 	export let value: string;
 	export let prefix: string = '';
+	export let overflowX = false;
+	export let overflowY = false;
 	export let changed: (value: string, label: string) => void = () => null;
 
 	$: selected = items.find(i => i.value === value);
@@ -45,7 +47,11 @@
 		<i class="fas fa-chevron-down select-chevron visible" />
 	</button>
 
-	<article class="select-options" class:open={open}>
+	<article 
+		class="select-options" 
+		class:open={open} 
+		class:dropdown-overflow-x={overflowX} 
+		class:dropdown-overflow-y={overflowY}>
 		{#if !items.length}
 			<div class="select-option">No items found</div>
 		{:else}
@@ -110,10 +116,26 @@
 		overflow: hidden;
 	}
 
+	.select-options.dropdown-overflow-x {
+		width: unset;
+		max-width: unset;
+		min-width: calc(100% + var(--dropdown-border-size) * 2);
+	}
+
 	.select-options.open {
-		max-height: max-content;
+		max-height: 10rem;
+		overflow-y: auto;
 		border: var(--dropdown-border);
 		border-top-right-radius: 0;	
+	}
+
+	.select-options.open.dropdown-overflow-x {
+		border-top-right-radius: 0.2vw;
+	}
+
+	.select-options.open.dropdown-overflow-y {
+		max-height: max-content;
+		overflow-y: visible;
 	}
 
 	.select-option {
