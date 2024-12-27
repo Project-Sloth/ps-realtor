@@ -18,17 +18,21 @@
 
 	let open = false;
 
-	function hide() {
-		open = false;
-	}
-
-	function toggle() {
-		open = !open;
+	function show() {
+		open = true;
 
 		if (hideCurrent !== hide) {
             hideCurrent && hideCurrent();
             hideCurrent = hide;
         }
+	}
+
+	function hide() {
+		open = false;
+	}
+
+	function toggle() {
+		open ? hide() : show();
 	}
 
 	function select(item: LabelValue) {
@@ -39,24 +43,24 @@
 </script>
 
 <div class="dropdown-container" class:open={open} on:pointerdown|stopPropagation>
-	<button class="select-option" id="select" on:click={() => toggle()}>
+	<button class="dropdown-option" on:click={toggle}>
 		<span>
-			<span class="select-prefix">{prefix}</span>
+			<span class="dropdown-prefix">{prefix}</span>
 			{selected?.label}
 		</span>
-		<i class="fas fa-chevron-down select-chevron visible" />
+		<i class="fas fa-chevron-down dropdown-chevron visible" />
 	</button>
 
-	<article 
-		class="select-options" 
+	<article
+		class="dropdown-options" 
 		class:open={open} 
 		class:dropdown-overflow-x={overflowX} 
 		class:dropdown-overflow-y={overflowY}>
 		{#if !items.length}
-			<div class="select-option">No items found</div>
+			<div class="dropdown-option">No items found</div>
 		{:else}
 			{#each items as item}
-				<button class="select-option" on:click={() => select(item)}>
+				<button class="dropdown-option" on:click={() => select(item)}>
 					<span>{item.label}</span>
 					<i class="fas fa-check icon" class:visible={value === item.value} />
 				</button>
@@ -89,15 +93,15 @@
 		border-bottom-left-radius: 0;
 	}
 
-	.select-chevron {
+	.dropdown-chevron {
 		color: var(--less-light-border-color);
 	}
 
-	.select-prefix {
+	.dropdown-prefix {
 		color: var(--less-light-border-color);
 	}
 
-	.select-options {
+	.dropdown-options {
 		position: absolute;
 
 		top: calc(100% - var(--dropdown-border-size));
@@ -116,29 +120,29 @@
 		overflow: hidden;
 	}
 
-	.select-options.dropdown-overflow-x {
+	.dropdown-options.dropdown-overflow-x {
 		width: unset;
 		max-width: unset;
 		min-width: calc(100% + var(--dropdown-border-size) * 2);
 	}
 
-	.select-options.open {
+	.dropdown-options.open {
 		max-height: 10rem;
 		overflow-y: auto;
 		border: var(--dropdown-border);
 		border-top-right-radius: 0;	
 	}
 
-	.select-options.open.dropdown-overflow-x {
+	.dropdown-options.open.dropdown-overflow-x {
 		border-top-right-radius: 0.2vw;
 	}
 
-	.select-options.open.dropdown-overflow-y {
+	.dropdown-options.open.dropdown-overflow-y {
 		max-height: max-content;
 		overflow-y: visible;
 	}
 
-	.select-option {
+	.dropdown-option {
 		display: flex;
 		flex-direction: row;
 
@@ -150,23 +154,23 @@
 		gap: 0.5rem;
 	}
 
-	.select-option > span {
+	.dropdown-option > span {
 		white-space: nowrap;
 		overflow-x: hidden;
 		text-overflow: ellipsis;
 		flex: 1;
 	}
 
-	.select-option > i {
+	.dropdown-option > i {
 		visibility: hidden;
 		flex-shrink: 0;
 	}
 
-	.select-option > i.visible {
+	.dropdown-option > i.visible {
 		visibility: visible;
 	}
 
-	.select-option:hover {
+	.dropdown-option:hover {
 		background-color: var(--black-two-opaque-color);
 	}
 </style>
