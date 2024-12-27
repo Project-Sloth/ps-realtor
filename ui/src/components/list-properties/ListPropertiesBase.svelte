@@ -1,23 +1,29 @@
 <script lang="ts">
-	import FormWrapperDropdown from '@components/generic/FormWrapperDropdown.svelte'
 	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
 	import { PROPERTIES } from '@store/stores'
 	import { SendNUI } from '@utils/SendNUI'
 	import { SHELLS, TEMP_HIDE } from '@store/stores'
+	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
 
-	const propertyTypes = ['mlo', 'shell']
-	let currentType = 'mlo'
+	const propertyTypes = [
+		{ label: 'MLO', value: 'mlo' }, 
+		{ label: 'Shell', value: 'shell' }
+	];
+	let currentType = propertyTypes[0].value;
+	let shellTypes: LabelValue<string>[] = Object.keys($SHELLS).map(id => ({ label: $SHELLS[id].label, value: id }));
+
 	let existingProperties = $PROPERTIES
-	let addingNewProperty = false;
+	let addingNewProperty = true;
     let elements: {door_data: boolean}[] = [{door_data: false}];
 	let description: string = ''
 	let for_sale: boolean = true
 	let price: number = 0
-	let shell: string = Object.keys($SHELLS)[0]
+	let shell: string = shellTypes[0]?.value;
 	let garage_data: boolean = false
 	let garden_data: boolean = false
 	let zone_data: boolean = false
 	let valid: boolean = false
+	
 
 	function createZone (type: 'door' | 'garage' | 'zone' | 'garden', index?: number) {
         const data = { type: type, propertyType: currentType }
@@ -64,7 +70,7 @@
 		for_sale = true
 		price = 0
 		zone_data = false
-		shell = Object.keys($SHELLS)[0]
+		shell = shellTypes[0].value
 		garage_data = false
         elements = [{door_data: false}];
 	}
@@ -111,15 +117,10 @@
 					<p class="label">Property Type</p>
 
 					<div class="action-row">
-						<FormWrapperDropdown
-							dropdownValues={propertyTypes}
-							label=""
-							id="new-listing-dd-shell-type"
-                            uppercase={true}
-							selectedValue={currentType}
-							insideLabel="Type: "
-							on:selected-dropdown={(event) =>
-								(currentType = event.detail)}
+						<Dropdown 
+							items={propertyTypes}
+							bind:value={currentType}
+							prefix="Type:"
 						/>
 					</div>
 				</div>
@@ -265,14 +266,10 @@
 						<p class="label">Shell Type</p>
 
 						<div class="action-row">
-							<FormWrapperDropdown
-								dropdownValues={Object.keys($SHELLS)}
-								label=""
-								id="new-listing-dd-shell-type"
-								selectedValue={shell}
-								insideLabel="Type: "
-								on:selected-dropdown={(event) =>
-									(shell = event.detail)}
+							<Dropdown
+								items={shellTypes}
+								bind:value={shell}
+								prefix="Type: "
 							/>
 						</div>
 					</div>

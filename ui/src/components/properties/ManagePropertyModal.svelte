@@ -1,43 +1,42 @@
 <script lang="ts">
-	import FormWrapperDropdown from '@components/generic/FormWrapperDropdown.svelte'
+	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
 	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
+	import ToggleDropdown from '@components/generic/ToggleDropdown.svelte'
 	import {
-		TEMP_HIDE,
-		PROPERTIES,
-		SHELLS,
-		REALTOR_GRADE,
 		CONFIG,
+		PROPERTIES,
+		REALTOR_GRADE,
+		SHELLS,
+		TEMP_HIDE,
 	} from '@store/stores'
-	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import type { Property } from '@typings/type'
+	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
 	import { fade } from 'svelte/transition'
 
 	const dispatch = createEventDispatcher()
 
-	export let manageProperty: boolean = false,
-		selectedProperty: Property | null = null
+	export let manageProperty: boolean = false;
+	export let selectedProperty: Property;
 
 	const index = $PROPERTIES.findIndex(
 		(property) => property.property_id === selectedProperty.property_id
 	)
 
-	let forSaleDropDownValues = ['For Sale', 'Not For Sale'],
-		selectedForSaleDropdownValue = selectedProperty.for_sale
-			? forSaleDropDownValues[0]
-			: forSaleDropDownValues[1]
+	let forSale: boolean = !!selectedProperty.for_sale;
 
-	function updateForSaleDropdownValue(value) {
-		const isForSale = value === forSaleDropDownValues[0] ? true : false
+	let shellTypes: LabelValue<string>[] = Object.keys($SHELLS).map(id => ({ label: $SHELLS[id].label, value: id }));
+
+	function updateForSaleDropdownValue(value: boolean) {
 		SendNUI('updatePropertyData', {
 			type: 'UpdateForSale',
 			property_id: selectedProperty.property_id,
-			data: { forsale: isForSale },
+			data: { forsale: value },
 		})
-		$PROPERTIES[index].for_sale = isForSale ? 1 : 0
-		selectedProperty.for_sale = isForSale ? 1 : 0
-		// selectedForSaleDropdownValue = value;
+
+		$PROPERTIES[index].for_sale = value ? 1 : 0;
+		selectedProperty.for_sale = value ? 1 : 0;
 	}
 
 	let finalizedOwner = selectedProperty.owner ? selectedProperty.owner : ''
@@ -151,20 +150,17 @@
 											leftValue={selectedProperty.for_sale
 												? 'Set'
 												: 'Not Set'}
-											rightValue={selectedForSaleDropdownValue}
+											rightValue={`${forSale}`}
 											good={selectedProperty.for_sale}
 										/>
 
 										<div style="margin-left: 0.5vw;">
-											<FormWrapperDropdown
-												dropdownValues={forSaleDropDownValues}
-												label=""
-												insideLabel="Change: "
-												selectedValue={selectedForSaleDropdownValue}
-												on:selected-dropdown={(event) =>
-													updateForSaleDropdownValue(
-														event.detail
-													)}
+											<ToggleDropdown
+												onLabel="For Sale"
+												offLabel="Not For Sale"
+												prefix="Change: "
+												value={forSale}
+												changed={value => updateForSaleDropdownValue(value)}
 											/>
 										</div>
 									</div>
@@ -262,21 +258,11 @@
 							    	<p class="label">Manage Shell</p>
     
 							    	<div class="action-row">
-							    		<FormWrapperDropdown
-							    			dropdownValues={Object.keys($SHELLS)}
-							    			label=""
-							    			id="manage-dd-shell"
-							    			selectedValue={newShell}
-							    			insideLabel="Type: "
-							    			on:selected-dropdown={(event) => {
-							    				newShell = event.detail
-							    				updatePropertyValues(
-							    					'UpdateShell',
-							    					{ shell: newShell },
-							    					'shell',
-							    					newShell
-							    				)
-							    			}}
+							    		<Dropdown
+							    			items={shellTypes}
+							    			bind:value={newShell}
+							    			prefix="Type: "
+							    			changed={shell => updatePropertyValues('UpdateShell', { shell }, 'shell', shell)}
 							    		/>
 							    	</div>
 							    </div>
