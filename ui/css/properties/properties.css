@@ -13,7 +13,7 @@
 
 .properties-base > .search-wrapper > img {
     border-radius: 0.6vw;
-    max-height: 12vw;
+    max-height: 9vw;
     width: 100%;
     object-fit: cover;
 }
@@ -86,11 +86,8 @@
 
     display: flex;
     flex-direction: row;
+    gap: 1rem;
 }
-
-/* .properties-base > .properties-heading-wrapper > .filters-wrapper > div {
-    margin-right: 0.5vw;
-} */
 /** properties list heading - end **/
 
 /** PROPERTY - LISTING WRAPPER - start **/
