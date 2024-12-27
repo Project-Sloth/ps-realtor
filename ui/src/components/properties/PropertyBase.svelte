@@ -1,20 +1,32 @@
 <script lang="ts">
 	import PropertyCard from '@components/properties/PropertyCard.svelte'
-	import DropdownComponent from '@components/generic/DropdownComponent.svelte'
+	import Dropdown from '@components/generic/Dropdown.svelte'
 	import type { Property } from '@typings/type'
 	import { PROPERTIES } from '@store/stores'
 	import PropertyDetailsModal from './PropertyDetailsModal.svelte'
 	import ManagePropertyModal from './ManagePropertyModal.svelte'
 	import { SendNUI } from '@utils/SendNUI'
 
-	const highLowDropdown = ['High to Low', 'Low to High']
-	let selectedHighLowValue = highLowDropdown[0]
+	const highLowDropdown = [
+		{ label: 'High to Low', value: 'h2l' }, 
+		{ label: 'Low to High', value: 'l2h' }
+	];
 
-	const forSaleDropdown = ['For Sale', 'All Properties']
-	let selectedForSaleValue = forSaleDropdown[0]
+	let selectedHighLowValue = highLowDropdown[0];
 
-	const typeDropdown = ['House', 'Apartments']
-	let selectedTypeValue = typeDropdown[0]
+	const forSaleDropdown = [
+		{ label: 'For Sale', value: 'sale' }, 
+		{ label: 'All Properties', value: 'all' },
+	];
+
+	let selectedForSaleValue = forSaleDropdown[0];
+
+	const typeDropdown = [
+		{ label: 'House', value: 'house' },
+		{ label: 'Apartments', value: 'apartment' },
+	];
+
+	let selectedTypeValue = typeDropdown[0];
 
 	let selectedProperty: Property | null = null,
 		manageProperty: boolean = false
@@ -42,7 +54,7 @@
 
 	function filterApartment(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
-		if (selectedTypeValue === typeDropdown[1]) return properties // include apartments (all properties)
+		if (selectedTypeValue.value === typeDropdown[1].value) return properties // include apartments (all properties)
 
 		properties = properties.filter((property) => !property.apartment)
 
@@ -51,7 +63,7 @@
 
 	function filterForSale(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
-		if (selectedForSaleValue === forSaleDropdown[1]) return properties
+		if (selectedForSaleValue.value === forSaleDropdown[1].value) return properties
 
 		properties = properties.filter((property) => property.for_sale)
 
@@ -107,7 +119,7 @@
 	}
 
 	function filterPriceSort(properties: Property[]) {
-		if (selectedHighLowValue === highLowDropdown[1]) {
+		if (selectedHighLowValue.value === highLowDropdown[1].value) {
 			// low to high
 			properties = properties.sort((a, b) => a.price - b.price)
 		} else {
@@ -115,22 +127,6 @@
 		}
 
 		return properties
-	}
-
-	function handleDropDownSelections(key, value) {
-		if (key === 'high-low') {
-			selectedHighLowValue = value
-		}
-
-		if (key === 'for-sale') {
-			selectedForSaleValue = value
-		}
-
-		if (key === 'type') {
-			selectedTypeValue = value
-		}
-
-		filter()
 	}
 
 	function deleteProperty(event) {
@@ -188,39 +184,25 @@
 		<p class="heading">All Properties Listed</p>
 
 		<div class="filters-wrapper">
-			<div>
-				<DropdownComponent
-					dropdownValues={highLowDropdown}
-					label=""
-					selectedValue={selectedHighLowValue}
-					id="high-low-dd"
-					on:selected-dropdown={(event) =>
-						handleDropDownSelections('high-low', event.detail)}
-				/>
-			</div>
 
-			<div style="margin-left: 7vw;">
-				<DropdownComponent
-					dropdownValues={forSaleDropdown}
-					label=""
-					selectedValue={selectedForSaleValue}
-					id="for-sale-dd"
-					on:selected-dropdown={(event) =>
-						handleDropDownSelections('for-sale', event.detail)}
-				/>
-			</div>
+			<Dropdown
+				items={highLowDropdown}
+				bind:selected={selectedHighLowValue}
+				on:changed={() => filter()}
+			/>
 
-			<div style="margin-left: 7vw;">
-				<DropdownComponent
-					dropdownValues={typeDropdown}
-					label=""
-					selectedValue={selectedTypeValue}
-					insideLabel="Type: "
-					id="type-dd"
-					on:selected-dropdown={(event) =>
-						handleDropDownSelections('type', event.detail)}
-				/>
-			</div>
+			<Dropdown
+				items={forSaleDropdown}
+				bind:selected={selectedForSaleValue}
+				on:changed={() => filter()}
+			/>
+
+			<Dropdown
+				items={typeDropdown}
+				bind:selected={selectedTypeValue}
+				prefix="Type: "
+				on:changed={() => filter()}
+			/>
 		</div>
 	</div>
 
