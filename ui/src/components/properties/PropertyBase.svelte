@@ -309,7 +309,7 @@
 
 	.property-listings {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 		grid-auto-rows: 1fr;
 
 		gap: 1rem;
