@@ -79,7 +79,7 @@
 	}
 
 	.property-card:hover {
-		display: initial;
+		display: flex;
 		transform: scale(0.97) translateZ(0);
 
 		transition: transform .2s ease-in;
