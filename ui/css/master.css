@@ -4,8 +4,6 @@
 @import './global.css';
 @import './form-row-wrapper.css';
 
-@import './properties/properties.css';
-@import './properties/property-card.css';
 @import './properties/property-details-modal.css';
 @import './properties/manage-property-modal.css';
 
