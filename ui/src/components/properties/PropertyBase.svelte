@@ -159,17 +159,17 @@
 	}
 </script>
 
-<div class="properties-base">
-	<div class="search-wrapper">
+<div class="property-container">
+	<section class="property-search">
 		<img src="images/apts-bg.png" alt="Apartments Background" />
 
-		<div class="search-data">
+		<div class="property-search-content">
 			<h1>Find your next property purchase</h1>
 			<p class="text-lg">
 				From houses, to garages, to the best sales.
 			</p>
 
-			<div class="search-bar">
+			<div class="property-search-bar">
 				<input
 					type="text"
 					placeholder="Explore all real estate"
@@ -178,36 +178,36 @@
 				<i class="fas fa-magnifying-glass" />
 			</div>
 		</div>
-	</div>
+	</section>
 
-	<div class="properties-heading-wrapper">
-		<p class="heading">All Properties Listed</p>
+	<section class="property-filter">
+		<h2>All Properties Listed</h2>
 
-		<div class="filters-wrapper">
+		<div class="spacer"></div>
 
-			<Dropdown
-				items={highLowDropdown}
-				bind:value={selectedHighLowValue}
-				changed={() => filter()}
-			/>
+		<Dropdown
+			items={highLowDropdown}
+			bind:value={selectedHighLowValue}
+			changed={() => filter()}
+		/>
 
-			<Dropdown
-				items={forSaleDropdown}
-				bind:value={selectedForSaleValue}
-				changed={() => filter()}
-			/>
+		<Dropdown
+			items={forSaleDropdown}
+			bind:value={selectedForSaleValue}
+			changed={() => filter()}
+			overflowX
+		/>
 
-			<Dropdown
-				items={typeDropdown}
-				bind:value={selectedTypeValue}
-				prefix="Type: "
-				changed={() => filter()}
-			/>
-		</div>
-	</div>
+		<Dropdown
+			items={typeDropdown}
+			bind:value={selectedTypeValue}
+			prefix="Type: "
+			changed={() => filter()}
+		/>
+	</section>
 
 	{#key $PROPERTIES}
-		<div class="property-listing-wrapper" style="margin-top: 2.5vw;">
+		<section class="property-listings">
 			{#each filteredProperties as property, i}
 				<PropertyCard
 					id={'property-card-' + i}
@@ -215,7 +215,7 @@
 					bind:selectedProperty
 				/>
 			{/each}
-		</div>
+		</section>
 	{/key}
 
 	{#if selectedProperty && !manageProperty}
@@ -228,3 +228,94 @@
 		/>
 	{/if}
 </div>
+
+<style>
+	.property-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;	
+		max-height: 100%;
+	}
+
+	.property-search {
+		position: relative;
+		border-radius: 4px;
+	}
+
+	.property-search > img {
+		border-radius: 0.6vw;
+		max-height: 10rem;
+		width: 100%;
+		object-fit: cover;
+	}
+
+	.property-search-content {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		place-content: center;
+
+
+		width: 100%;
+		height: 100%;
+
+		z-index: 1;
+		text-align: center;
+
+		font-weight: 600;
+
+		top: 0%;
+	}
+
+	.property-search-content > h1,
+	.property-search-content > p {
+		text-shadow: 2px 2px 2px #000;
+	}
+
+	.property-search-bar {
+		display: flex;
+		position: relative;
+		margin-top: 1rem;
+		align-items: center;
+
+		background-color: #fff;
+		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+		border-radius: 0.15vw;
+		padding: 0 1rem;
+		gap: 0.5rem;
+	}
+
+	.property-search-bar > input {
+		width: 25vw;
+		height: 2.5rem;
+
+		font-weight: 500;
+		color: rgba(0, 0, 0, 1);
+		background: none;
+		border: none;
+		@apply text-lg;
+	}
+
+	.property-search-bar > i {
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	.property-filter {
+		display: flex;
+		place-items: center;
+		gap: 1rem;
+	}
+
+	.property-listings {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-auto-rows: 1fr;
+
+		gap: 1rem;
+		overflow-y: auto;
+
+		flex: 1;
+		padding: 0 1rem .5rem 1rem;
+	}
+</style>
