@@ -5,3 +5,7 @@
 .red {
     color: var(--red-color);
 }
+
+.spacer {
+    flex: 1;
+}
