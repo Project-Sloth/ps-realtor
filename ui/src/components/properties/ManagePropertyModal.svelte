@@ -1,5 +1,9 @@
 <script lang="ts">
+	import Button from '@components/generic/Button.svelte'
+	import Card from '@components/generic/Card.svelte'
 	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
+	import FormControl from '@components/generic/FormControl.svelte'
+	import Modal from '@components/generic/Modal.svelte'
 	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
 	import ToggleDropdown from '@components/generic/ToggleDropdown.svelte'
 	import {
@@ -13,7 +17,6 @@
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
-	import { fade } from 'svelte/transition'
 
 	const dispatch = createEventDispatcher()
 
@@ -47,12 +50,8 @@
 
 	let newShell = selectedProperty.shell
 
-	function updatePropertyValues(typeUpdate, dataObject, key, value) {
-		SendNUI('updatePropertyData', {
-			type: typeUpdate,
-			property_id: selectedProperty.property_id,
-			data: dataObject,
-		})
+	function updatePropertyValues<K extends keyof Property>(type: string, data: object, key: K, value: Property[K]) {
+		SendNUI('updatePropertyData', { type, data, property_id: selectedProperty.property_id })
 		$PROPERTIES[index][key] = value
 		selectedProperty[key] = value
 	}
@@ -105,274 +104,203 @@
 	})
 </script>
 
-<div
-	class="modal large-footer-modal"
-	tabindex="-1"
-	aria-hidden="true"
-	transition:fade={{ duration: 100 }}
->
-	<div
-		class="modal-dialog large-footer-modal-dialog manage-property-modal-dialog"
-	>
-		<div class="modal-content large-footer-modal-content">
-			<div class="modal-body large-footer-modal-body">
-				<div class="header">
-					<div class="heading-title-wrapper">
-						<i class="fas fa-pen info-icon" />
-						<p>Manage Property</p>
-					</div>
-					<div on:click={() => (manageProperty = false)}>
-						<i class="fas fa-xmark close-icon" />
-					</div>
-				</div>
+<Modal>
+	<Card title="Manage Property">
+		<i class="fas fa-pen info-icon" slot="icon" style="color: var(--blue-color);" />
 
-				<div
-					class="large-footer-modal-body-data manage-property-large-footer-modal-body-data"
-				>
-					<div class="data-details-manage-property">
-						<div class="left-column">
-							<p class="heading">Live Description</p>
-							<p class="info">
-								Change the settings after the creation!
-							</p>
-						</div>
+		<button slot="header-action" on:click={() => manageProperty = false}>
+			<i class="fas fa-xmark close-icon"></i>
+		</button>
 
-						<div class="right-column">
-							{#if $REALTOR_GRADE >= $CONFIG.changePropertyForSale}
-								<div
-									id="sell-property"
-									class="form-row-wrapper"
-								>
-									<p class="label">Sell Property</p>
+		<section class="property-management-subtitle">
+			<h2>Change Property Settings</h2>
+			<small>Changes are applied in real-time!</small>
+		</section>
 
-									<div class="action-row">
-										<SetNotSetIndicator
-											leftValue={selectedProperty.for_sale
-												? 'Set'
-												: 'Not Set'}
-											rightValue={`${forSale}`}
-											good={selectedProperty.for_sale}
-										/>
+		<section class="property-management-controls">
+			{#if $REALTOR_GRADE >= $CONFIG.changePropertyForSale}
+				<FormControl label="Sell Property" controlId="dropdown_for_sale">
+					<SetNotSetIndicator
+						leftValue={selectedProperty.for_sale
+							? 'Set'
+							: 'Not Set'}
+						rightValue={`${forSale}`}
+						good={selectedProperty.for_sale}
+					/>
 
-										<div style="margin-left: 0.5vw;">
-											<ToggleDropdown
-												onLabel="For Sale"
-												offLabel="Not For Sale"
-												prefix="Change: "
-												value={forSale}
-												changed={value => updateForSaleDropdownValue(value)}
-											/>
-										</div>
-									</div>
-								</div>
-							{/if}
+					<ToggleDropdown
+						id="dropdown_for_sale"
+						onLabel="For Sale"
+						offLabel="Not For Sale"
+						prefix="Change: "
+						value={forSale}
+						flex
+						changed={value => updateForSaleDropdownValue(value)}
+					/>
+				</FormControl>
+			{/if}
 
-							{#if $REALTOR_GRADE >= $CONFIG.sellProperty && selectedProperty.for_sale == 1}
-								<div
-									id="finalize-sell-property"
-									class="form-row-wrapper"
-								>
-									<p class="label">Finalize Sell Property</p>
+			{#if $REALTOR_GRADE >= $CONFIG.sellProperty && selectedProperty.for_sale == 1}
+				<FormControl label="Finalize Property Sale" controlId="input_finalize_sale">
+					<SetNotSetIndicator
+						leftValue={finalizedOwner?.trim() !==
+						''
+							? 'Set'
+							: 'Not Set'}
+						rightValue=""
+						good={finalizedOwner?.trim() !== ''}
+					/>
 
-									<div class="action-row">
-										<SetNotSetIndicator
-											leftValue={finalizedOwner?.trim() !==
-											''
-												? 'Set'
-												: 'Not Set'}
-											rightValue=""
-											good={finalizedOwner?.trim() !== ''}
-										/>
-										<input
-											type="text"
-											placeholder="ID: 34343434343"
-											style="width: 10vw;"
-											bind:value={finalizedOwner}
-										/>
-										<button
-											class="regular-button"
-											on:click={() =>
-												updatePropertyValues(
-													'UpdateOwner',
-													{
-														targetSrc:
-															finalizedOwner,
-													},
-													'owner',
-													finalizedOwner
-												)}>Request</button
-										>
-									</div>
-								</div>
-							{/if}
+					<input
+						id="input_finalize_sale"
+						type="text"
+						class="flex-auto"
+						placeholder="ID: 34343434343"
+						bind:value={finalizedOwner}
+					/>
 
-		                    {#if $REALTOR_GRADE >= $CONFIG.manageProperty}
-							    <div
-							    	id="manage-description"
-							    	class="form-row-wrapper"
-							    >
-							    	<p class="label">Manage Description</p>
-    
-							    	<div class="action-row">
-							    		<textarea
-							    			rows="3"
-							    			placeholder="Write a short and sweet description about the property..."
-							    			style="width: 18vw;"
-							    			bind:value={description}
-							    			on:keyup={() =>
-							    				updatePropertyValues(
-							    					'UpdateDescription',
-							    					{ description: description },
-							    					'description',
-							    					description
-							    				)}
-							    		/>
-							    	</div>
-							    </div>
+					<Button status="primary" click={() => updatePropertyValues('UpdateOwner', { targetSrc: finalizedOwner }, 'owner', finalizedOwner )}>
+						Request
+					</Button>
 
-							    <div id="manage-price" class="form-row-wrapper">
-							    	<p class="label">Manage Price</p>
-    
-							    	<div class="action-row">
-							    		<input
-							    			type="number"
-							    			placeholder="$1000000000"
-							    			style="width: 10vw;"
-							    			bind:value={propertyPrice}
-							    			on:keyup={() =>
-							    				updatePropertyValues(
-							    					'UpdatePrice',
-							    					{ price: propertyPrice },
-							    					'price',
-							    					propertyPrice
-							    				)}
-							    		/>
-							    	</div>
-							    </div>
+				</FormControl>
+			{/if}
 
-		                        {#if selectedProperty.shell !== 'mlo'}
-							    <div
-							    	id="manage-shell-type"
-							    	class="form-row-wrapper"
-							    >
-							    	<p class="label">Manage Shell</p>
-    
-							    	<div class="action-row">
-							    		<Dropdown
-							    			items={shellTypes}
-							    			bind:value={newShell}
-							    			prefix="Type: "
-							    			changed={shell => updatePropertyValues('UpdateShell', { shell }, 'shell', shell)}
-							    		/>
-							    	</div>
-							    </div>
-							    {/if}
-    
-							    <div
-							    	id="add-images"
-							    	class="form-row-wrapper"
-							    	style="margin-top: 2vw"
-							    >
-							    	<p class="label">Add Images</p>
-    
-							    	<div class="action-row">
-							    		<input
-							    			id="img-name"
-							    			type="text"
-							    			placeholder="Name"
-							    			style="width: 7vw;"
-							    			bind:value={newImageName}
-							    		/>
-							    		<input
-							    			id="img-url"
-							    			type="text"
-							    			placeholder="URL"
-							    			style="width: 7vw;"
-							    			bind:value={newImageUrl}
-							    		/>
-							    		<button
-							    			class="regular-button"
-							    			on:click={addNewImage}>Add</button
-							    		>
-							    	</div>
-    
-							    	<div class="image-tiles-wrapper">
-							    		{#each propertyImages as image, index}
-							    			<div>
-							    				<img src={image.url} alt="" />
-							    			</div>
-							    		{/each}
-							    	</div>
-							    </div>
-    
-    
-		                        {#if selectedProperty.shell !== 'mlo'}
-							        <div id="manage-door" class="form-row-wrapper">
-							        	<p class="label">Manage Door</p>
-    
-							        	<div class="action-row">
-							        		<SetNotSetIndicator
-							        			leftValue="Door"
-							        			rightValue={doorValueSet
-							        				? 'Set'
-							        				: 'Not Set'}
-							        			good={doorValueSet}
-							        		/>
-							        		<button
-							        			class="regular-button"
-							        			on:click={() =>
-							        				handleZonePlacement('door')}
-							        			>New Location</button
-							        		>
-							        		<button class="disable-button"
-							        			>Remove</button
-							        		>
-							        	</div>
-							        </div>
-							    {/if}
-    
-							    <div id="manage-garage" class="form-row-wrapper">
-							    	<p class="label">Manage Garage</p>
+			{#if $REALTOR_GRADE >= $CONFIG.manageProperty}
+				<FormControl label="Manage Description" controlId="textarea_description">
+					<textarea
+						id="textarea_description"
+						class="flex-auto"
+						rows="5"
+						placeholder="Write a short and sweet description about the property..."
+						bind:value={description}
+						on:change={() => updatePropertyValues('UpdateDescription', { description: description }, 'description', description)}
+					/>
+				</FormControl>
 
-							    	<div class="action-row">
-							    		<SetNotSetIndicator
-							    			leftValue="Garage"
-							    			rightValue={garageValueSet
-							    				? 'Set'
-							    				: 'Not Set'}
-							    			good={garageValueSet}
-							    		/>
-							    		<button
-							    			class="regular-button"
-							    			on:click={() =>
-							    				handleZonePlacement('garage')}
-							    			>New Location</button
-							    		>
-							    		<button
-							    			class="disable-button"
-							    			on:click={() =>
-							    				updatePropertyValues(
-							    					'UpdateGarage',
-							    					{},
-							    					'garage_data',
-							    					null
-							    				)}>Remove</button
-							    		>
-							    	</div>
-							    </div>
-							{/if}
-						</div>
+				<FormControl label="Manage Price" controlId="input_price">
+					<input						
+						id="input_price"
+						type="number"
+						class="flex-auto"
+						placeholder="$1000000000"
+						bind:value={propertyPrice}
+						on:change={() => updatePropertyValues('UpdatePrice', { price: propertyPrice }, 'price', propertyPrice)}
+					/>
+				</FormControl>
+
+				{#if selectedProperty.shell !== 'mlo'}
+					<FormControl label="Manage Shell" controlId="dropdown_shell">
+						<Dropdown
+							id="dropdown_shell"
+							items={shellTypes}
+							bind:value={newShell}
+							prefix="Type: "
+							flex
+							changed={shell => updatePropertyValues('UpdateShell', { shell }, 'shell', shell)}
+						/>
+					</FormControl>
+				{/if}
+				
+				<div class="image-control-container">				
+					<FormControl label="Add Images" controlId="img-name">
+						<input
+							id="img-name"
+							type="text"
+							class="flex-auto"
+							placeholder="Name"
+							bind:value={newImageName}
+						/>
+						<input
+							id="img-url"
+							type="text"
+							class="flex-auto"
+							placeholder="URL"
+							bind:value={newImageUrl}
+						/>
+						<Button status="primary" click={addNewImage}>Add</Button>
+					</FormControl>
+
+					<div class="image-control-gallery">
+						{#each propertyImages as image}
+							<img src={image.url} alt="" />
+						{/each}
 					</div>
 				</div>
 
-				<div class="large-footer-modal-footer-manage-property">
-					{#if $REALTOR_GRADE >= $CONFIG.deleteProperty}
-						<button class="delete-button" on:click={deleteProperty}>
-							Delete Property
-						</button>
-					{/if}
-				</div>
-			</div>
+				{#if selectedProperty.shell !== 'mlo'}
+					<FormControl label="Manage Door" controlId="button_door">
+						<SetNotSetIndicator
+							leftValue="Door"
+							rightValue={doorValueSet
+								? 'Set'
+								: 'Not Set'}
+							good={doorValueSet}
+						/>
+						<div class="spacer"></div>
+						<Button id="button_door" status="primary" click={() => handleZonePlacement('door')}>New Location</Button>
+						<Button>Remove</Button>
+					</FormControl>
+				{/if}
+
+				<FormControl label="Manage Garage" controlId="button_garage">
+					<SetNotSetIndicator
+						leftValue="Garage"
+						rightValue={garageValueSet
+							? 'Set'
+							: 'Not Set'}
+						good={garageValueSet}
+					/>
+					<div class="spacer"></div>
+					<Button id="button_garage" status="primary" click={() => handleZonePlacement('garage')}>New Location</Button>
+					<Button click={() => updatePropertyValues('UpdateGarage', {}, 'garage_data', null)}>Remove</Button>
+				</FormControl>
+			{/if}
+		</section>
+
+		<div slot="footer">
+			{#if $REALTOR_GRADE >= $CONFIG.deleteProperty}
+				<Button status="danger" click={deleteProperty}>Delete Property</Button>
+			{/if}
 		</div>
-	</div>
-</div>
+
+	</Card>
+</Modal>
+
+<style>
+	.property-management-subtitle {
+		padding-bottom: 0.25rem;
+		border-bottom: 0.1px solid var(--light-border-color);
+	}
+
+	.property-management-subtitle > small {
+		color: var(--light-border-color-6);
+	}
+
+	.property-management-controls {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+		max-width: 30rem;
+	}
+
+	.image-control-container {
+		display: flex;
+		flex-direction: column; 
+		gap: 1rem;
+	}
+
+	.image-control-gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+		gap: .5rem;
+	}
+
+	.image-control-gallery > img {
+		border-radius: 6px;
+	}
+</style>
