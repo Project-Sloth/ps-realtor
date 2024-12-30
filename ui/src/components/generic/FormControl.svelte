@@ -29,9 +29,12 @@
         @apply text-sm;
         font-weight: 500;
     }
+    
+    .form-control-content > :global(input),
+    .form-control-content > :global(textarea) {
+        min-width: 0;
+        width: 12rem;
 
-    .form-control-content > :global(input) {
-        width: 10rem;
         padding: .25rem .5rem;
 
         border: 1px solid var(--light-border-color-2);
@@ -47,16 +50,4 @@
         margin: 0;
         -moz-appearance: textfield !important;
     }
-
-    .form-control-content > :global(textarea) {
-        width: 10rem;
-        padding: .25rem .5rem;
-
-        border: 1px solid var(--light-border-color-2);
-        border-radius: 3px;
-
-        background: var(--control-background-gradient);
-    }
-
-
 </style>
