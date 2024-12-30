@@ -13,6 +13,7 @@
 	export let prefix: string = '';
 	export let overflowX = false;
 	export let overflowY = false;
+	export let flex = false;
 	export let changed: (value: string, label: string) => void = () => null;
 
 	$: selected = items.find(i => i.value === value);
@@ -43,7 +44,7 @@
 	}
 </script>
 
-<div class="dropdown-container" class:open={open} on:pointerdown|stopPropagation>
+<div class="dropdown-container" class:open class:flex on:pointerdown|stopPropagation>
 	<button id={id} class="dropdown-option" on:click={toggle}>
 		<span>
 			<span class="dropdown-prefix">{prefix}</span>
@@ -54,7 +55,7 @@
 
 	<article
 		class="dropdown-options" 
-		class:open={open} 
+		class:open
 		class:dropdown-overflow-x={overflowX} 
 		class:dropdown-overflow-y={overflowY}>
 		{#if !items.length}
@@ -85,13 +86,17 @@
 		border: var(--dropdown-border);
 		border-radius: 0.2vw;
 
-		max-width: min-content;
+		width: min-content;
 		background: var(--dropdown-background);
 	}
 
 	.dropdown-container.open {
 		border-bottom-right-radius: 0;
 		border-bottom-left-radius: 0;
+	}
+
+	.dropdown-container.flex {
+		flex: 1;
 	}
 
 	.dropdown-chevron {
