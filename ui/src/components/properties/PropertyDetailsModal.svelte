@@ -18,85 +18,6 @@
 	}
 </script>
 
-<style>
-    .property-container {
-        --card-body-direction: column;
-    }
-
-    .property-container > :global(.card) {
-        position: absolute;
-
-        z-index: 1;
-
-        width: 60%;
-        max-height: 90%;
-
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    :global(.card-body) > img {
-        max-height: 10rem;
-        object-fit: cover;
-        border-radius: 12px;
-    }
-
-    .property-features {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-
-        --tile-color: #313131;
-        --tile-icon-color: var(--light-border-color-6);
-        flex: 1;
-    }
-
-    .property-actions {
-        flex: 30% 0 0;  
-        display: flex;
-        flex-direction: column;    
-        gap: 0.5rem;  
-    }
-
-    .property-actions > :global(.tile) {
-        --tile-color: #313131;
-        --tile-icon-color: var(--light-border-color-6);
-        width: 100%;
-        justify-content: center;
-    }
-
-    .property-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .property-info > p {
-        text-align: justify;
-        color: var(--light-border-color-8);
-    }
-
-
-
-    /* .property-description {
-        width: 75%;
-        font-weight: 500;
-        color: var(--light-border-color-8);
-    } */
-
-    .property-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-        gap: .5rem;
-    }
-
-    .property-gallery > img {
-        text-align: center;
-        border-radius: 12px;
-    }
-</style>
-
 {#if selectedProperty}
     <Modal>
         <Card title="Property details">
@@ -106,7 +27,7 @@
                 <i class="fas fa-xmark close-icon"></i>
             </button>
 
-            <img src="images/apts-bg.png" alt="Apartments Background" />
+            <img class="property-banner" src="images/apts-bg.png" alt="Apartments Background" />
 
             <section class="property-info">
                 <h2>
@@ -134,8 +55,6 @@
                     {#if selectedProperty.garage_data && Object.keys(selectedProperty.garage_data).length > 0}
                         <Tile icon="fa-truck-front" border>Garage</Tile>
                     {/if}
-    
-    
                 </section>
     
                 <section class="property-actions">
@@ -164,3 +83,63 @@
         </Card>
     </Modal>
 {/if}
+
+<style>
+    .property-banner {
+        max-height: 10rem;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .property-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .property-info > h2 {
+		padding-bottom: 0.25rem;
+		border-bottom: 0.1px solid var(--light-border-color);
+    }
+
+    .property-info > p {
+        text-align: justify;
+        color: var(--light-border-color-8);
+    }
+
+    .property-features {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        --tile-color: #313131;
+        --tile-icon-color: var(--light-border-color-6);
+        flex: 1;
+    }
+
+    .property-actions {
+        flex: 30% 0 0;  
+        display: flex;
+        flex-direction: column;    
+        gap: 0.5rem;  
+    }
+
+    .property-actions > :global(.tile) {
+        --tile-color: #313131;
+        --tile-icon-color: var(--light-border-color-6);
+        width: 100%;
+        justify-content: center;
+    }
+
+    .property-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+        gap: .5rem;
+    }
+
+    .property-gallery > img {
+        text-align: center;
+        border-radius: 12px;
+    }
+</style>
