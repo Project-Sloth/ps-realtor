@@ -1,14 +1,21 @@
 <script lang="ts">
     export let icon: string = 'fa-truck-front';
     export let text: string = '';
+    export let border: boolean = false;
 </script>
 
-<article class="tile">
+<article class="tile" class:border={border}>
     <i class="fas {icon}"/>
     <slot>{text}</slot>
 </article>
 
 <style>
+    :root {
+        --tile-color: #242424;
+        --tile-icon-color: #ffffff4d;
+        --tile-border-color: #ffffff4d;
+    }
+
     .tile {
         display: flex;
         flex-direction: row;
@@ -23,7 +30,11 @@
         background-color: var(--tile-color);   
     }
 
+    .tile.border {
+        border: 1px solid var(--tile-border-color);
+    }
+
     .tile > i {
-        color: var(--less-light-border-color);
+        color: var(--tile-icon-color);
     }
 </style>
