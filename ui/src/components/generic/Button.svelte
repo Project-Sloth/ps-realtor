@@ -5,10 +5,11 @@
     export let status: 'basic' | 'primary' | 'success' | 'danger' = 'basic';
     export let type: "button" | "submit" | "reset" = 'button';
     export let disabled: boolean = false;
+    export let block: boolean = false;
     export let click: (event: MouseEvent) => void = () => null;
 </script>
 
-<button {id} class="{status}" {type} {disabled} on:click={click}>
+<button {id} class="btn {status}" class:block {type} {disabled} on:click={click}>
     {#if icon}
     <i class="fas {icon}"/>
     {/if}
@@ -16,7 +17,7 @@
 </button>
 
 <style>
-    button {
+    .btn {
         display: flex;
         flex-direction: row;
         gap: .5rem;        
@@ -32,36 +33,41 @@
         font-weight: 500;
     }
 
-    button.basic {
+    .btn.basic {
         background: var(--light-border-color);
         border: 1px solid var(--light-border-color-2);
     }
 
-    button.basic:hover:not(:disabled) {
+    .btn.basic:hover:not(:disabled) {
         color: rgba(255, 255, 255, 0.95);
 		border: 1px solid var(--light-border-color-6);
     }
 
-    button.primary {
+    .btn.primary {
         background: var(--blue-color);
         border: 1px solid var(--blue-color);
     }
 
-    button.success {
+    .btn.success {
         background: var(--green-color);
         border: 1px solid var(--green-color);
     }
 
-    button.danger {
+    .btn.danger {
         background-color: var(--red-color);
         border: 1px solid var(--red-color);
     }
 
-    button:hover:not(:disabled) {
+    .btn:hover:not(:disabled) {
         filter: brightness(1.1);
     }
 
-    button:disabled {
+    .btn:disabled {
         filter: brightness(0.8);
+    }
+
+    .btn.block {
+        width: 100%;
+        justify-content: center;
     }
 </style>
