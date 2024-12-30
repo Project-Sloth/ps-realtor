@@ -4,6 +4,7 @@
 	const onValue = 'on';
 	const offValue = 'off';
 	
+	export let id: string | null = null;
     export let onLabel = 'on';
     export let offLabel = 'off';
 	export let value: boolean;
@@ -22,8 +23,9 @@
 </script>
 
 <Dropdown
+	id={id}
 	items={items}
-	value={value ? onLabel : offLabel}
+	value={value ? onValue : offValue}
 	prefix={prefix}
 	changed={value => select(value)}
 />
