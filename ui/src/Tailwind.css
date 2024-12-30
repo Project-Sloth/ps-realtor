@@ -18,10 +18,13 @@
 
 @layer base {
     h1 {
-        @apply text-3xl;
+        @apply text-2xl;
     }
     h2 {
-        @apply text-2xl;
+        @apply text-xl;
+    }
+    h3 {
+        @apply text-xl;
     }
 
     i {
@@ -32,15 +35,6 @@
 }
 
 @media only screen and (max-width: 1024px) {
-    @layer base {
-        h1 {
-            @apply text-2xl;
-        }
-        h2 {
-            @apply text-xl;
-        }
-    }
-
     * {
         font-size: 70%;
     }
