@@ -6,6 +6,8 @@
     <header class="card-header">
         <slot name="icon"></slot>
         <h1>{title}</h1>
+        <div class="spacer"></div>
+        <slot name="header-action"></slot>
     </header>
 
     <section class="card-body">
@@ -30,7 +32,7 @@
         border-color: var(--light-border-color);
     }
 
-    :global(.card-header) {
+    .card-header {
         display: flex;
         flex-direction: row;
         place-items: center;
@@ -40,19 +42,19 @@
         border-bottom: 0.1px solid var(--light-border-color);
     }
 
-    :global(.card-body) {
+    .card-body {
         position: relative;
 
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
+        flex-direction: var(--card-body-direction, column);
+        gap: var(--card-body-gap, 1rem);
 
         flex: 1;
         overflow-y: auto;
         padding: 0.5rem 1rem;
     }
 
-    :global(.card-footer) {
+    .card-footer {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
