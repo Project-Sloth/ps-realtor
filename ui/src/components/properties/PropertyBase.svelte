@@ -28,8 +28,8 @@
 
 	let selectedTypeValue = typeDropdown[0].value;
 
-	let selectedProperty: Property | null = null,
-		manageProperty: boolean = false
+	let selectedProperty: Property | undefined = undefined;
+	let manageProperty: boolean = false;
 
 	let searchTerm = '',
 		filteredProperties: Property[] = []
@@ -136,7 +136,7 @@
 
 		SendNUI('updatePropertyData', {
 			type: 'DeleteProperty',
-			property_id: selectedProperty.property_id,
+			property_id: propertyToDelete.property_id,
 			data: {},
 		})
 
@@ -147,7 +147,7 @@
 		$PROPERTIES.splice(index, 1)
 
 		manageProperty = false
-		selectedProperty = null
+		selectedProperty = undefined;
 
 		filter()
 	}
@@ -212,7 +212,7 @@
 				<PropertyCard
 					id={'property-card-' + i}
 					{property}
-					bind:selectedProperty
+					selected={(property) => selectedProperty = property}
 				/>
 			{/each}
 		</section>

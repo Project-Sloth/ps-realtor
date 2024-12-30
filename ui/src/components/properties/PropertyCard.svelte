@@ -5,10 +5,10 @@
 
 	export let id = 'property-card-1';
 	export let property: Property;
-	export let selectedProperty: Property;
+	export let selected: (property: Property) => void;
 </script>
 
-<button {id} class="property-card group" on:click={() => selectedProperty = property}>
+<button {id} class="property-card group" on:click={() => selected(property)}>
 	<header class="property-card-header relative">
 		{#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
 			<img
