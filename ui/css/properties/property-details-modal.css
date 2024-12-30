@@ -109,7 +109,7 @@
     display: flex;
     flex-direction: row;
 
-    background: linear-gradient(0deg, #313131, #313131), linear-gradient(0deg, var(--light-border-color-2), var(--light-border-color-2));
+    background: var(--control-background-gradient);
     border: 0.1px solid var(--light-border-color-2);
 }
 
@@ -140,6 +140,6 @@
     display: flex;
     flex-direction: row;
 
-    background: linear-gradient(0deg, #313131, #313131), linear-gradient(0deg, var(--light-border-color-2), var(--light-border-color-2));
+    background: var(--control-background-gradient);
     border: 0.1px solid var(--light-border-color-2);
 }
