@@ -6,7 +6,8 @@
 
 </script>
 
-<script lang="ts">	
+<script lang="ts">
+	export let id: string | null = null;
 	export let items: LabelValue<string>[];
 	export let value: string;
 	export let prefix: string = '';
@@ -43,7 +44,7 @@
 </script>
 
 <div class="dropdown-container" class:open={open} on:pointerdown|stopPropagation>
-	<button class="dropdown-option" on:click={toggle}>
+	<button id={id} class="dropdown-option" on:click={toggle}>
 		<span>
 			<span class="dropdown-prefix">{prefix}</span>
 			{selected?.label}
