@@ -9,6 +9,7 @@
     export let offLabel = 'off';
 	export let value: boolean;
 	export let prefix: string = '';
+	export let flex = false;
 	export let changed: (value: boolean, label: string) => void = () => null;
 
 	const items: LabelValue<string>[] = [
@@ -23,9 +24,7 @@
 </script>
 
 <Dropdown
-	id={id}
-	items={items}
+	{id} {items} {prefix} {flex}
 	value={value ? onValue : offValue}
-	prefix={prefix}
 	changed={value => select(value)}
 />
