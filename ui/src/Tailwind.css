@@ -44,10 +44,6 @@
     outline: none;
 }
 
-button:hover {
-    filter: brightness(1.1);
-}
-
 :root {
     --color-primary: #131313;
     --color-secondary: #1f2528;
