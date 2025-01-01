@@ -31,7 +31,9 @@
     }
     
     .form-control-content > :global(input),
-    .form-control-content > :global(textarea) {
+    .form-control-content > :global(textarea),
+    :global(input.form-control),
+    :global(textarea.form-control) {
         min-width: 0;
         width: 12rem;
 
@@ -45,7 +47,10 @@
 
     .form-control-content > :global(input[type="number"]::-webkit-outer-spin-button),
     .form-control-content > :global(input[type="number"]::-webkit-inner-spin-button),
-    .form-control-content > :global(input[type="number"]) {
+    .form-control-content > :global(input[type="number"]),
+    :global(input[type="number"].form-control::-webkit-outer-spin-button),
+    :global(input[type="number"].form-control::-webkit-inner-spin-button),
+    :global(input[type="number"].form-control) {
         -webkit-appearance: none;
         margin: 0;
         -moz-appearance: textfield !important;
