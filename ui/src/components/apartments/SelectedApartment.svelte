@@ -191,8 +191,4 @@
         flex-direction: row;
         gap: 1rem;
     }
-
-    .empty {
-        justify-self: center;
-    }
 </style>
