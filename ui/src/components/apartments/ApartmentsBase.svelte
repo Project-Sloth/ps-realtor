@@ -7,25 +7,34 @@
     let selectedApartment: Apartment | null = null;
 </script>
 
-<h1>All Apartments</h1>
+<section class="apartments-container">
+    <h1>All Apartments</h1>
 
-<section class="apartment-listings">
-    {#key $APARTMENTS}
-        {#each $APARTMENTS as apartment, i}
-            <ApartmentCard 
-                id={"apt-card-" + i}
-                {apartment}
-                selected={apartment => selectedApartment = apartment} 
-            />
-        {/each}
-    {/key}
+    <div class="apartment-listings">
+        {#key $APARTMENTS}
+            {#each $APARTMENTS as apartment, i}
+                <ApartmentCard 
+                    id={"apt-card-" + i}
+                    {apartment}
+                    selected={apartment => selectedApartment = apartment} 
+                />
+            {/each}
+        {/key}
+    </div>
 </section>
+
 
 {#if selectedApartment}
     <SelectedApartment bind:selectedApartment />
 {/if}
 
 <style>
+    .apartments-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
     .apartment-listings {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
