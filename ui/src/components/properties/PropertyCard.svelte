@@ -88,8 +88,15 @@
 		filter: unset;
 	}
 
+	.property-card-header {
+		width: 100%;
+	}
+
 	.property-card-header > img {
 		border-radius: 3px 3px 0 0;
+        object-fit: cover;
+        width: 100%;
+        height:13rem;
 	}
 
 	.property-card-content {

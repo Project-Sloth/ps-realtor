@@ -104,7 +104,7 @@
 	})
 </script>
 
-<Modal>
+<Modal bind:open={manageProperty}>
 	<Card title="Manage Property">
 		<i class="fas fa-pen info-icon" slot="icon" style="color: var(--blue-color);" />
 

@@ -19,7 +19,7 @@
 </script>
 
 {#if selectedProperty}
-    <Modal>
+    <Modal open={!!selectedProperty} closed={() => selectedProperty = null}>
         <Card title="Property details">
             <i class="fas fa-circle-info" slot="icon" style="color: var(--blue-color);"></i>
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import PropertyCard from '@components/properties/PropertyCard.svelte'
 	import Dropdown from '@components/generic/Dropdown.svelte'
-	import type { Property } from '@typings/type'
+	import PropertyCard from '@components/properties/PropertyCard.svelte'
 	import { PROPERTIES } from '@store/stores'
-	import PropertyDetailsModal from './PropertyDetailsModal.svelte'
-	import ManagePropertyModal from './ManagePropertyModal.svelte'
+	import type { Property } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
+	import ManagePropertyModal from './ManagePropertyModal.svelte'
+	import PropertyDetailsModal from './PropertyDetailsModal.svelte'
 
 	const highLowDropdown = [
 		{ label: 'High to Low', value: 'h2l' }, 
@@ -212,7 +212,7 @@
 				<PropertyCard
 					id={'property-card-' + i}
 					{property}
-					selected={(property) => selectedProperty = property}
+					selected={property => selectedProperty = property}
 				/>
 			{/each}
 		</section>
