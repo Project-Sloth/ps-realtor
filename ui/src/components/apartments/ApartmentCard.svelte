@@ -1,13 +1,12 @@
 <script lang="ts">
-    import type { Apartment } from '@typings/type'
-    import { fly } from 'svelte/transition'
+    import Tile from '@components/generic/Tile.svelte'
     import { PROPERTIES } from '@store/stores'
-    import { SendNUI } from '@utils/SendNUI'
-    import { onMount } from 'svelte'
+    import type { Apartment } from '@typings/type'
 
-    export let selectedApartment: Apartment = null;
-    export let apartment: Apartment = null;
-    export let id="apt-card-0";
+    export let id = "apt-card-0";
+    export let apartment: Apartment;
+    export let selected: (apartment: Apartment) => void;
+    
 
     let apartmentData: any;
     let tenants: string[] = [];
@@ -27,23 +26,56 @@
     }
 </script>
 
-<div class="apartment-card-wrapper" id={id} 
-    on:click={() => (selectedApartment = apartment)}
-    in:fly={{ y: 10, duration: 250 }} >
+<button {id} class="apartment-card" on:click={() => selected(apartment)}>
+    <section class="apartment-banner">
+        <img class="apartment-banner" src={apartmentData.imgs?.[0]?.url} alt="Apartment Thumbnail" />
+        <Tile icon="fa-building-user">{apartmentData.currentTenants || 0} Tenants</Tile>
+    </section>
     
-    <img src={apartmentData.imgs?.[0]?.url} alt="Apartment Thumbnail" />
 
-    <div class="details">
-        <p class="heading">{apartmentData.label}</p>
-        <p class="info">Legion Square</p>
+    <section class="apartment-details">
+        <h2>{apartmentData.label}</h2>
+        <small style="color: var(--light-border-color-8);">Legion Square</small>
+    </section>
+</button>
 
-        <div class="location-tenants-info">
-            <img src="images/user-location-pin.png" alt="User Location Icon" />
-            <p>{apartmentData.currentTenants || 0} Global Tenants</p>
-        </div>
+<style>
+    .apartment-card {
+		display: flex;
+		flex-direction: column;
 
-        <button class="select-apt-button">
-            Select Apartment
-        </button>
-    </div>
-</div>
+		border-radius: 3px;
+		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+		background-color: var(--light-border-color-2);
+		transition: transform .15s ease-out;
+
+		text-align: unset;
+    }
+
+    .apartment-banner {
+        width: 100%;
+        border-radius: 3px;
+        position: relative;        
+    }
+
+    .apartment-banner > img {
+        object-fit: cover;
+        width: 100%;
+        height: 13rem;
+    }
+
+    .apartment-banner > :global(.tile) {
+        position: absolute;
+        bottom: .25rem;
+        right: .25rem;
+        --tile-color: rgba(36, 36, 36, 0.7);
+        --tile-icon-color: var(--green-color);
+    }
+
+    .apartment-details {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 1rem;
+    }
+</style>
