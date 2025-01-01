@@ -1,18 +1,20 @@
 <script lang="ts">
+	import Button from '@components/generic/Button.svelte'
+	import Card from '@components/generic/Card.svelte'
+	import Modal from '@components/generic/Modal.svelte'
 	import { PROPERTIES } from '@store/stores'
-    import type { Apartment } from '@typings/type'
+	import type { Apartment } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { onMount } from 'svelte'
-    import { fade } from 'svelte/transition';
 
     export let selectedApartment: Apartment | null = null;
 
     let tenants: string[] = [], tenantsResult: string[] = [];
     let searchTerm: string = "";
-    let tempSrc: string = null;
+    let tempSrc: string | null = null;
 
     onMount(()=>{
-        const  apartmentName: string = selectedApartment.apartmentData.label as string
+        const apartmentName: string = selectedApartment?.apartmentData.label ?? 'APARTMENT_NAME'
         
         // search PROPERTIES for all the properties that have the same apartment name and return the owner
         const arrCitizenids = $PROPERTIES.filter((property) => property.apartment === apartmentName).map((property) => property.owner)
@@ -28,11 +30,15 @@
 
     function addNewTenant() {
         SendNUI('addTenantToApartment', {
-            apartment: selectedApartment.apartmentData.label, 
+            apartment: selectedApartment?.apartmentData.label, 
             targetSrc: tempSrc
         });
         
         selectedApartment = null;
+    }
+
+    function getInitals(name: string) {
+        return name.trim().split(' ').map(i => i[0]).join('').toUpperCase();
     }
 
     $: {
@@ -44,70 +50,149 @@
     }
 </script>
 
+
 {#if selectedApartment !== null}
-    <div class="modal large-footer-modal" tabindex="-1" aria-hidden="true" transition:fade="{{duration: 100}}">
-        <div class="modal-dialog large-footer-modal-dialog selected-apartment-modal-dialog">
-            <div class="modal-content large-footer-modal-content">
-                <div class="modal-body large-footer-modal-body">
-                    
-                    <div class="header">
-                        <div class="heading-title-wrapper">
-                            <i class="fas fa-circle-info info-icon"></i>
-                            <p>Apartment Details</p>
-                        </div>
-                        <div on:click={() => selectedApartment = null}>
-                            <i class="fas fa-xmark close-icon"></i>
-                        </div>
-                    </div>
+    <Modal open={!!selectedApartment} closed={() => selectedApartment = null}>
+        <Card title="Apartment Details">
+            <i class="fas fa-circle-info" slot="icon" style="color: var(--blue-color);" />
 
-                    <div class="large-footer-modal-body-data selected-apartment-large-footer-modal-body-data">
-                        <div class="data-details-selected-apartment">
-                            <img src='images/apts-bg.png' alt="Selected Apartment Background" />
+            <button slot="header-action" on:click={() => selectedApartment = null}>
+                <i class="fas fa-xmark close-icon"></i>
+            </button>
 
-                            <div class="search-wrapper">
-                                <div class="apt-details">
-                                    <p class="heading">{selectedApartment.apartmentData.label}</p>
-                                    <p class="tenant-count">{tenantsResult.length.toLocaleString()} Tenants</p>
-                                </div>
+            <img class="apartment-banner" src="images/apts-bg.png" alt="Apartments Background" />
 
-                                <div class="search-actions">
-                                    <div class="search-bar">
-                                        <input placeholder="Search Tenant" bind:value={searchTerm} />
-                                        <i class="fas fa-magnifying-glass"></i>
-                                    </div>
-                                    <button>
-                                        <i class="fas fa-location-dot"></i>Set Waypoint
-                                    </button>
-                                </div>
-                            </div>
+            <h2>{selectedApartment.apartmentData.label}</h2>
 
-                            <hr />
+            <section class="apartment-search">
+                <div class="apartment-search-bar">
+                    <input
+                        type="text"
+                        placeholder="Search Tenant"
+                        bind:value={searchTerm}
+                    />
+                    <i class="fas fa-magnifying-glass" />
+                </div>                
+                <div class="spacer"></div>
+                <span>{tenantsResult.length.toLocaleString()} Tenants</span>
+                <Button status="primary" icon="fa-location-dot">Set Waypoint</Button>
+            </section>
 
-                            <div class="tenant-wrapper">
-                                {#each tenantsResult as tenant}
-                                    <div class="tenant-row">
-                                        <div class="img-wrapper">
-
-                                        </div>
-
-                                        <div class="tenant-details">
-                                            <p class="tenant-name">{tenant}</p>
-                                            <p class="tenant-status">Current Tenant</p>
-                                        </div>
-                                    </div>
-                                {/each}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="large-footer-modal-footer-selected-apartment">
-                        <input placeholder="New ID" bind:value={tempSrc} />
-                        <button class="add-button" on:click={addNewTenant}>
-                            Add
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+            
+            <section class="apartment-tenants">
+                {#each tenantsResult as tenant}
+                    <article class="tenant-card">
+                        <section class="tenant-card-avatar"><span>{getInitals(tenant)}</span></section>
+                        <section class="tenant-card-content">
+                            <p>{tenant}</p>
+                            <small>Current Tenant</small>
+                        </section>                        
+                    </article>
+                {:else}
+                    <div class="empty">No tenants found</div>
+                {/each}
+            </section>
+            
+            <section class="apartment-actions" slot="footer">
+                <input class="form-control" placeholder="New ID" bind:value={tempSrc} />
+                <Button status="primary" click={addNewTenant}>Add</Button>
+            </section>
+        </Card>
+    </Modal>
 {/if}
+
+<style>
+    .apartment-banner {
+        max-height: 10rem;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .apartment-search {
+        display: flex;
+        flex-direction: row;
+        place-items: center;
+        gap: 1rem;
+    }
+
+    .apartment-search-bar {
+		display: flex;
+		place-items: center;
+
+		padding-right: .5rem;
+        border: 1px solid var(--light-border-color-2);
+        border-radius: 3px;
+
+        background: var(--control-background-gradient);
+	}
+
+	.apartment-search-bar > input {
+        padding: .25rem .5rem;
+        background: none;
+    }
+
+	.apartment-search-bar > i {
+		color: var(--light-border-color-6);
+	}
+
+    .apartment-tenants {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        overflow-y: auto;
+        padding: 0.25rem .5rem;
+        flex: 1;
+    }
+
+    .apartment-tenants:has(.empty) {
+        place-content: center;
+        place-items: center;
+        font-weight: 500;
+    }
+
+    .tenant-card {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        place-items: center;
+
+        padding-top: 1rem;
+		border-top: 0.1px solid var(--light-border-color-2);
+    }
+
+    .tenant-card:first-child {
+        border-top: none;
+    }
+
+    .tenant-card-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background-color: var(--light-border-color-2);
+
+        display: grid;
+        place-items: center;
+        font-weight: 500;
+        pointer-events: none;
+    }
+
+    .tenant-card-content {
+        font-weight: 500;
+        line-height: 1rem;
+        flex: 1;
+    }
+
+    .tenant-card-content > small {
+        color: var(--light-border-color-8);
+    }
+
+    .apartment-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .empty {
+        justify-self: center;
+    }
+</style>
