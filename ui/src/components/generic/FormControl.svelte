@@ -1,14 +1,16 @@
 <script lang="ts">
-    export let label: string;
-    export let controlId: string;
+    export let label: string | null = null;
+    export let controlId: string | null = null;
 </script>
 
 <div class="form-control">
-    <label for={controlId}>{label}</label>
+    {#if label}
+        <label for={controlId}>{label}</label>
+    {/if}
 
     <div class="form-control-content">
         <slot></slot>
-    </div>    
+    </div>
 </div>
 
 <style>
