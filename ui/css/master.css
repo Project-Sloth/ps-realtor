@@ -4,11 +4,4 @@
 @import './global.css';
 @import './form-row-wrapper.css';
 
-@import './properties/property-details-modal.css';
-@import './properties/manage-property-modal.css';
-
-@import './apartments/apartments.css';
-@import './apartments/apartment-card.css';
-@import './apartments//selected-apartment.css';
-
 @import './list-properties/list-new-properties-base.css';
