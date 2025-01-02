@@ -206,17 +206,19 @@
 		/>
 	</section>
 
-	{#key $PROPERTIES}
-		<section class="property-listings">
+	<section class="property-listings">
+		{#key $PROPERTIES}			
 			{#each filteredProperties as property, i}
 				<PropertyCard
 					id={'property-card-' + i}
 					{property}
 					selected={property => selectedProperty = property}
 				/>
+			{:else}
+				<p class="empty">No properties found.</p>
 			{/each}
-		</section>
-	{/key}
+		{/key}
+	</section>
 
 	{#if selectedProperty && !manageProperty}
 		<PropertyDetailsModal bind:selectedProperty bind:manageProperty />
@@ -234,7 +236,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;	
-		max-height: 100%;
+		height: 100%;
 	}
 
 	.property-search {
@@ -310,7 +312,7 @@
 	.property-listings {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-		grid-auto-rows: 1fr;
+		grid-auto-rows: min-content;
 
 		gap: 1rem;
 		overflow-y: auto;
@@ -318,4 +320,12 @@
 		flex: 1;
 		padding: 0 1rem .5rem 1rem;
 	}
+
+	.property-listings:has(.empty) {
+		grid-template-columns: 1fr;
+		grid-auto-rows: 1fr;
+
+        place-items: center;
+        font-weight: 500;
+    }
 </style>

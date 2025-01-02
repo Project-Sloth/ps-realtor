@@ -89,7 +89,7 @@
                         </section>                        
                     </article>
                 {:else}
-                    <div class="empty">No tenants found</div>
+                    <p class="empty">No tenants found.</p>
                 {/each}
             </section>
             

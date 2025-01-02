@@ -18,6 +18,8 @@
                     {apartment}
                     selected={apartment => selectedApartment = apartment} 
                 />
+            {:else}
+				<p class="empty">No Apartments found.</p>
             {/each}
         {/key}
     </div>
@@ -33,18 +35,26 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        height: 100%;
     }
 
     .apartment-listings {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-		grid-auto-rows: 1fr;
+		grid-auto-rows: min-content;
 
 		gap: 1rem;
 		overflow-y: auto;
 
 		flex: 1;
 		padding: 0 1rem .5rem 1rem;
+    }
+
+    .apartment-listings:has(.empty) {
+		grid-template-columns: 1fr;
+        grid-auto-rows: 1fr;
+        place-items: center;
+        font-weight: 500;
     }
 </style>
 
