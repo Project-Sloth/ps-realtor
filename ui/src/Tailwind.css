@@ -31,13 +31,6 @@
         font-size: 1rem;
         width: 1rem;
     }
-
-}
-
-@media only screen and (max-width: 1024px) {
-    * {
-        font-size: 70%;
-    }
 }
 
 *:focus {
@@ -86,23 +79,4 @@ html, body {
 
 *::-webkit-scrollbar-thumb:active {
     background-color: var(--scrollbar-hover);
-}
-
-.scroll-style-horizontal::-webkit-scrollbar {
-    height: 0.5rem;
-    width: 100%;
-}
-
-.scroll-style-vertical::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 100%;
-}
-
-.scroll-style::-webkit-scrollbar-track {
-    background: white;
-}
-
-.scroll-style::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 1rem;
 }
