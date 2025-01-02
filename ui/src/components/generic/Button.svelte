@@ -5,11 +5,11 @@
     export let status: 'basic' | 'primary' | 'success' | 'danger' = 'basic';
     export let type: "button" | "submit" | "reset" = 'button';
     export let disabled: boolean = false;
-    export let block: boolean = false;
+    export let block: boolean = false;    
     export let click: (event: MouseEvent) => void = () => null;
 </script>
 
-<button {id} class="btn {status}" class:block {type} {disabled} on:click={click}>
+<button {id} class="btn {status}" class:block class:icon={icon && !$$slots.default && !text} {type} {disabled} on:click={click}>
     {#if icon}
     <i class="fas {icon}"/>
     {/if}
@@ -69,5 +69,9 @@
     .btn.block {
         width: 100%;
         justify-content: center;
+    }
+
+    .btn.icon {
+        padding: .5rem;
     }
 </style>
