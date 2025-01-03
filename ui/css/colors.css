@@ -24,4 +24,6 @@
     --circle-color: rgba(75, 75, 75, 1);
 
     --control-background-gradient: linear-gradient(0deg, #313131, #313131), linear-gradient(0deg, var(--light-border-color-2), var(--light-border-color-2));
+
+    --background-color: #131313;
 }
