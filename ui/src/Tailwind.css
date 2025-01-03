@@ -31,6 +31,11 @@
         font-size: 1rem;
         width: 1rem;
     }
+
+    i.small {
+        font-size: .75rem;
+        width: .75rem; 
+    }
 }
 
 *:focus {
