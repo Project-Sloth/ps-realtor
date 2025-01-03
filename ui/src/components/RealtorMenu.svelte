@@ -31,7 +31,7 @@
 
 		if (value >= $CONFIG.listNewProperty)
 			availableNavTabs.push({
-				name: 'List New Property',
+				name: 'List Property',
 				icon: 'fa-plus-circle',
 				component: ListPropertiesBase,
 			});
@@ -63,7 +63,7 @@
 
 	function openProject() {
 		if ('invokeNative' in window)
-			window.invokeNative("openUrl", 'https://github.com/Project-Sloth');
+			(window as any).invokeNative('openUrl', 'https://github.com/Project-Sloth');
 	}
 </script>
 
@@ -189,5 +189,16 @@
 		height: 100%;
 
 		padding: 1rem;
+	}
+
+	@media only screen and (max-width: 1366px) {
+		.realtor-menu {
+			width: 95%;
+			height: 90%;
+		}
+
+		.realtor-menu-sidebar {
+			flex-basis: 26%;
+		}
 	}
 </style>
