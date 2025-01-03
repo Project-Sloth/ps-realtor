@@ -266,6 +266,11 @@
 		gap: .5rem;
 	}
 
+	.first-property-container > img {
+		height: 4.5rem;
+		width: 5rem;
+	}
+
 	.new-property-container {
 		display: flex;
 		flex-direction: column;
