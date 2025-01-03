@@ -2,14 +2,26 @@
     export let id: string | null = null;
     export let text: string = '';
     export let icon: string = '';
-    export let status: 'basic' | 'primary' | 'success' | 'danger' = 'basic';
-    export let type: "button" | "submit" | "reset" = 'button';
+    export let type: 'button' | 'submit' | 'reset' = 'button';
+    export let status: 'basic' | 'primary' | 'success' | 'danger' | 'none' = 'basic';
+    export let justify: 'center' | 'start' | 'end' | 'between' | 'even' | 'none' = 'none';
+    export let style: 'basic' | 'outline' = 'basic';
     export let disabled: boolean = false;
-    export let block: boolean = false;    
+    export let block: boolean = false;
+    export let active: boolean = false;
+    
     export let click: (event: MouseEvent) => void = () => null;
+
+    if (block && justify == 'none')
+        justify = 'center';
 </script>
 
-<button {id} class="btn {status}" class:block class:icon={icon && !$$slots.default && !text} {type} {disabled} on:click={click}>
+<button {id} {type} {disabled}
+    class="btn status-{status} justify-{justify} style-{style}"
+    class:icon={icon && !$$slots.default && !text}
+    class:block
+    class:active
+    on:click={click}>
     {#if icon}
     <i class="fas {icon}"/>
     {/if}
@@ -33,32 +45,8 @@
         font-weight: 500;
     }
 
-    .btn.basic {
-        background: var(--light-border-color);
-        border: 1px solid var(--light-border-color-2);
-    }
-
-    .btn.basic:hover:not(:disabled) {
-        color: rgba(255, 255, 255, 0.95);
-		border: 1px solid var(--light-border-color-6);
-    }
-
-    .btn.primary {
-        background: var(--blue-color);
-        border: 1px solid var(--blue-color);
-    }
-
-    .btn.success {
-        background: var(--green-color);
-        border: 1px solid var(--green-color);
-    }
-
-    .btn.danger {
-        background-color: var(--red-color);
-        border: 1px solid var(--red-color);
-    }
-
-    .btn:hover:not(:disabled) {
+    .btn:hover:not(:disabled),
+    .btn.active {
         filter: brightness(1.1);
     }
 
@@ -66,12 +54,50 @@
         filter: brightness(0.8);
     }
 
+    .btn.status-basic {
+        background: var(--light-border-color);
+        border: 1px solid var(--light-border-color-2);
+    }
+
+    .btn.status-basic:hover:not(:disabled) {
+        color: rgba(255, 255, 255, 0.95);
+		border: 1px solid var(--light-border-color-6);
+    }
+
+    .btn.status-primary {
+        background: var(--blue-color);
+        border: 1px solid var(--blue-color);
+    }
+
+    .btn.status-success {
+        background: var(--green-color);
+        border: 1px solid var(--green-color);
+    }
+
+    .btn.status-danger {
+        background-color: var(--red-color);
+        border: 1px solid var(--red-color);
+    }
+
+    .btn.status-none {
+        background: unset;
+        border: 1px solid transparent;
+    }
+
+    .btn.justify-center { justify-content: center; }
+    .btn.justify-start { justify-content: start; }
+    .btn.justify-end { justify-content: end; }
+    .btn.justify-between { justify-content: space-between; }
+    .btn.justify-even { justify-content: space-evenly; }
+
+    .btn.style-outline:not(:hover) { background: unset; }
+
     .btn.block {
         width: 100%;
-        justify-content: center;
     }
 
     .btn.icon {
         padding: .5rem;
     }
+
 </style>
