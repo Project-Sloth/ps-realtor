@@ -15,7 +15,7 @@
 	let shellTypes: LabelValue<string>[] = Object.keys($SHELLS).map(id => ({ label: $SHELLS[id].label, value: id }));
 
 	let existingProperties = $PROPERTIES
-	let addingNewProperty = true;
+	let addingNewProperty = false;
     let elements: {door_data: boolean}[] = [{door_data: false}];
 	let description: string = ''
 	let for_sale: boolean = true
@@ -90,14 +90,14 @@
 </script>
 
 {#if existingProperties.length <= 0 && !addingNewProperty}
-	<div class="no-new-properties-base">
+	<div class="first-property-container">
 		<img src="images/house.webp" alt="House Icon" />
 
 		<p>You haven't listed a property yet!</p>
 
-		<button on:click={() => (addingNewProperty = !addingNewProperty)}>
+		<Button status="primary" click={() => addingNewProperty = !addingNewProperty}>
 			Add New Property
-		</button>
+		</Button>
 	</div>
 {:else}
 	<div class="new-property-container">
@@ -257,6 +257,15 @@
 {/if}
 
 <style>
+	.first-property-container {
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		place-content: center;
+		height: 100%;
+		gap: .5rem;
+	}
+
 	.new-property-container {
 		display: flex;
 		flex-direction: column;
