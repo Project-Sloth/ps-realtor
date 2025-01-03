@@ -84,7 +84,7 @@
 		flex-direction: column;
 		
 		border: var(--dropdown-border);
-		border-radius: 0.2vw;
+		border-radius: 3px;
 
 		width: min-content;
 		background: var(--dropdown-background);
@@ -134,7 +134,7 @@
 		flex-direction: column;
 		background: var(--dropdown-background);
 		
-		border-radius: 0.2vw;
+		border-radius: 3px;
 		z-index: 1;
 
 		border-top-left-radius: 0;
@@ -156,7 +156,7 @@
 	}
 
 	.dropdown-options.open.dropdown-overflow-x {
-		border-top-right-radius: 0.2vw;
+		border-top-right-radius: 3px;
 	}
 
 	.dropdown-options.open.dropdown-overflow-y {

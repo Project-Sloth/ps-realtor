@@ -245,7 +245,7 @@
 	}
 
 	.property-search > img {
-		border-radius: 0.6vw;
+		border-radius: 12px;
 		max-height: 10rem;
 		width: 100%;
 		object-fit: cover;
@@ -276,20 +276,21 @@
 	}
 
 	.property-search-bar {
+		width: 50%;
 		display: flex;
-		position: relative;
+
 		margin-top: 1rem;
 		align-items: center;
 
 		background-color: #fff;
 		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-		border-radius: 0.15vw;
+		border-radius: 3px;
 		padding: 0 1rem;
 		gap: 0.5rem;
 	}
 
 	.property-search-bar > input {
-		width: 25vw;
+		width: 100%;
 		height: 2.5rem;
 
 		font-weight: 500;
