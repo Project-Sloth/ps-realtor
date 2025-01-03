@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { CONFIG, REALTOR_GRADE, TEMP_HIDE } from '@store/stores'
 	import type { Tab } from '@typings/type'
-	import { REALTOR_GRADE, TEMP_HIDE, CONFIG } from '@store/stores'
-	import PropertyBase from './properties/PropertyBase.svelte'
-	import ApartmentsBase from './apartments/ApartmentsBase.svelte'
-	import ListPropertiesBase from './list-properties/ListPropertiesBase.svelte'
 	import { SendNUI } from '@utils/SendNUI'
+	import ApartmentsBase from './apartments/ApartmentsBase.svelte'
+	import Button from './generic/Button.svelte'
+	import ListPropertiesBase from './list-properties/ListPropertiesBase.svelte'
+	import PropertyBase from './properties/PropertyBase.svelte'
 
 	const getInitialTabs: () => Tab[] = () => ([
 		{
@@ -24,19 +25,19 @@
 		if (value >= $CONFIG.setApartments)
 			availableNavTabs.push({
 				name: 'Apartments',
-				icon: 'fas fa-building',
+				icon: 'fa-building',
 				component: ApartmentsBase,
 			});
 
 		if (value >= $CONFIG.listNewProperty)
 			availableNavTabs.push({
 				name: 'List New Property',
-				icon: 'fas fa-plus-circle',
+				icon: 'fa-plus-circle',
 				component: ListPropertiesBase,
 			});
 	});
 
-	let selectedTab: Tab = availableNavTabs[0]
+	let selectedTab: Tab = availableNavTabs[2]
 
 	function selectTab(tab: Tab) {
 		if (tab.component)
@@ -57,55 +58,136 @@
 			action: () => SendNUI("hideUI", {})
 		}
 	];
+
+	const year = new Date().getFullYear();
+
+	function openProject() {
+		if ('invokeNative' in window)
+			window.invokeNative("openUrl", 'https://github.com/Project-Sloth');
+	}
 </script>
 
-<div
-	class="bg-[color:var(--color-primary)] relative realtor-menu-base"
-	style="opacity: {$TEMP_HIDE ? "0" : "1"};"
->
-	<aside class="left-column">
-		<header>
-			<nav class="tab-wrapper">
-				{#each availableNavTabs as tab}
-					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectTab(tab)}>
-						<i class={tab.icon} />
-						<p>{tab.name}</p>
-					</button>
-				{/each}
-			</nav>
-		</header>
+<div class="realtor-menu" class:hide={$TEMP_HIDE}>
+	<aside class="realtor-menu-sidebar">
+		<header>Los Santos Realtors</header>
 
+		<nav>
+			{#each availableNavTabs as tab}
+				<Button
+					active={selectedTab.name === tab.name}
+					status={selectedTab.name === tab.name ? 'primary' : 'none'} 
+					icon={tab.icon} 
+					block 
+					justify="start"
+					click={() => selectTab(tab)}>
+					{tab.name}
+				</Button>
+			{/each}
 
-		<footer class="footer">
-			<nav class="tab-wrapper">
-				{#each footerNavs as tab}
-					<button class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectTab(tab)}>
-						<i class={tab.icon} />
-						<p>{tab.name}</p>
-					</button>
-				{/each}
+			<div class="spacer"></div>
 
-				<section class="discord-wrapper">
-					<div class="discord-emoji">
-						<img src="images/discord-emoji.png" alt="Discord Emoji" />
-					</div>
+			{#each footerNavs as tab}
+				<Button
+					active={selectedTab.name === tab.name}
+					status={selectedTab.name === tab.name ? 'primary' : 'basic'}
+					style="outline"
+					icon={tab.icon} 
+					block 
+					justify="start"
+					click={() => selectTab(tab)}>
+					{tab.name}
+				</Button>
+			{/each}
+		</nav>
 
-					<div class="discord-text">
-						<p class="bold-text">More PS Stuff?</p>
-						<p class="small-text">
-							Visit Project Sloth's official Discord community for all our other releases.
-						</p>
-					</div>
-
-					<button class="visit-discord-btn">
-						Visit Discord
-					</button>
-				</section>
-			</nav>
+		<footer>
+			&copy; {year} <a href="https://github.com/Project-Sloth" target="_blank" on:click={openProject}>Project Sloth <i class="fas fa-up-right-from-square small"></i></a>
 		</footer>
 	</aside>
 
-	<section class="right-column">
+	<section class="realtor-menu-content">
 		<svelte:component this={selectedTab.component} />
 	</section>
 </div>
+
+<style>
+	.realtor-menu {
+		position: relative;
+
+		display: flex;
+		flex-direction: row;		
+
+		width: 75%;
+		height: 90%;
+
+		overflow: hidden;
+
+		background-color: var(--background-color);
+	}
+
+	.realtor-menu.hide {
+		opacity: 0;
+	}
+
+	.realtor-menu-sidebar {
+		flex: 20% 0 0;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		padding: 1rem;
+		gap: 1rem;
+
+		border-right: 0.1px solid var(--light-border-color);
+		background-color: var(--light-border-color-half-opaque);
+	}
+
+	.realtor-menu-sidebar > header {
+		padding: 1rem;
+
+		background-image: url('images/app-banner.webp');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+		border-radius: 3px;
+		@apply text-2xl;
+		font-weight: 700;
+		text-shadow: 3px 2px 5px #000;
+		color: whitesmoke;
+		text-align: center;
+	}
+
+	.realtor-menu-sidebar > nav {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: .5rem;
+	}
+
+	.realtor-menu-sidebar > nav > :global(.btn) {
+		padding: 0.5rem 1rem;
+		gap: 1rem;
+	}
+
+	.realtor-menu-sidebar > footer {
+		text-align: center;
+	}
+
+	.realtor-menu-sidebar > footer > a {
+		display: inline-flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		place-items: center;
+	}
+
+	.realtor-menu-content { 
+		position: relative;
+
+		flex: 1;
+		height: 100%;
+
+		padding: 1rem;
+	}
+</style>
