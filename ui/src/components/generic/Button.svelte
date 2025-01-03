@@ -9,7 +9,7 @@
     export let disabled: boolean = false;
     export let block: boolean = false;
     export let active: boolean = false;
-    
+    export let ariaLabel: string | null = null;
     export let click: (event: MouseEvent) => void = () => null;
 
     if (block && justify == 'none')
@@ -21,6 +21,7 @@
     class:icon={icon && !$$slots.default && !text}
     class:block
     class:active
+    aria-label={ariaLabel}
     on:click={click}>
     {#if icon}
     <i class="fas {icon}"/>

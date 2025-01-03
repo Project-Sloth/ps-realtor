@@ -173,7 +173,7 @@
 						<div class="new-property-door-list-header">
 							<span style="font-weight: 500; font-size: 0.875rem; line-height: 1.25rem;">Doors</span>
 							<div class="spacer"></div>
-							<Button status="primary" click={addNewElement} icon="fa-plus"></Button>
+							<Button status="primary" click={addNewElement} icon="fa-plus" ariaLabel="Add door"></Button>
 						</div>
 	
 						<div class="new-property-door-list-body">
@@ -189,7 +189,7 @@
 										{element.door_data ? 'Change Door' : 'Set Door'}
 									</Button>
 	
-									<Button status="danger" icon="fa-trash" click={() => removeElement(index)}></Button>
+									<Button status="danger" icon="fa-trash" click={() => removeElement(index)} ariaLabel="Delete door"></Button>
 								</FormControl>
 							{/each}
 						</div>
