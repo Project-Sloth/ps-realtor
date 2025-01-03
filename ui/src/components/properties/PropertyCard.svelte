@@ -8,8 +8,8 @@
 	export let selected: (property: Property) => void;
 </script>
 
-<button {id} class="property-card group" on:click={() => selected(property)}>
-	<header class="property-card-header relative">
+<button {id} class="property-card" on:click={() => selected(property)}>
+	<header class="property-card-header">
 		{#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
 			<img
 				src={property.extra_imgs[0]
@@ -24,7 +24,7 @@
 				alt="Default Property Card Image"
 			/>
 		{/if}
-		<div class="invisible h-0 w-full absolute group-hover:visible group-hover:h-full grid place-items-center img-backdrop"		>
+		<div class="img-backdrop">
 			View Property
 		</div>
 	</header>
@@ -36,9 +36,9 @@
 				? property.street + ' — '
 				: property.apartment
 				? property.apartment + ' — '
-				: 'Zancudo Ave'}
+				: ''}
 		</h2>
-		<small style="color: var(--light-border-color-8);">{property.region ? property.region : 'Sandy Shores'}</small>
+		<small style="color: var(--light-border-color-8);">{property.region ? property.region : 'Los Santos'}</small>
 
 		<div class="property-card-details">
 			<Tile icon="fa-landmark">
@@ -89,6 +89,7 @@
 	}
 
 	.property-card-header {
+		position: relative;
 		width: 100%;
 	}
 
@@ -114,15 +115,28 @@
 		gap: 0.5rem;
 	}
 
-	.property-card-header > .img-backdrop {
-		top: 0%;
+	.property-card:hover > .property-card-header > .img-backdrop {
 		height: 100%;
+		visibility: visible;
+	}
+
+	.property-card-header > .img-backdrop {
+		position: absolute;
+
+		top: 0%;
+
+		width: 100%;
+		height: 0%;
+
+		display: grid;
+		place-items: center;
+
 		background-color: var(--black-opaque-color-3);
 		@apply text-xl;
 
 		color: var(--white-color);
 		backdrop-filter: blur(2px);
 
-		place-items: center;
+		visibility: hidden;
 	}
 </style>

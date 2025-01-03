@@ -22,6 +22,7 @@
         place-items: center;
 
         width: fit-content;
+        height: fit-content;
 
         padding: .25rem .5rem;
         gap: .5rem;

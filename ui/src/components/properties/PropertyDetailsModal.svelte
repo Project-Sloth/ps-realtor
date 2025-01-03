@@ -30,17 +30,13 @@
             <img class="property-banner" src="images/property-banner.webp" alt="Property Banner" />
 
             <section class="property-info">
-                <h2>
-                    {selectedProperty.street ? selectedProperty.street + " - " : selectedProperty.apartment ? selectedProperty.apartment + " - " : ''} {selectedProperty.property_id} Zancudo Ave
-                </h2>
-                <p>
-                    <!-- {selectedProperty.description} -->Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centurie
-                </p>
+                <h2>{selectedProperty.street ? selectedProperty.street + " - " : selectedProperty.apartment ? selectedProperty.apartment + " - " : ''} {selectedProperty.property_id}</h2>
+                <p>{selectedProperty.description}</p>
             </section>
 
             <h3>Features</h3>
 
-            <div style="display: flex; flex-direction: row; gap: 1rem; align-items: baseline;">
+            <div class="property-features-actions-container">
                 <section class="property-features">   
                     {#if $REALTOR_GRADE >= 0 && selectedProperty.for_sale}
                         <Tile icon="fa-sign-hanging" border>
@@ -108,6 +104,12 @@
         color: var(--light-border-color-8);
     }
 
+    .property-features-actions-container {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
     .property-features {
         display: flex;
         flex-direction: row;
@@ -116,11 +118,11 @@
 
         --tile-color: #313131;
         --tile-icon-color: var(--light-border-color-6);
-        flex: 1;
+        /* flex: 1; */
     }
 
     .property-actions {
-        flex: 30% 0 0;  
+        /* flex: 30% 0 0;   */
         display: flex;
         flex-direction: column;    
         gap: 0.5rem;  
