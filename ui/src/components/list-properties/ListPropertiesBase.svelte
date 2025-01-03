@@ -91,7 +91,7 @@
 
 {#if existingProperties.length <= 0 && !addingNewProperty}
 	<div class="no-new-properties-base">
-		<img src="images/House.png" alt="House Icon" />
+		<img src="images/house.webp" alt="House Icon" />
 
 		<p>You haven't listed a property yet!</p>
 

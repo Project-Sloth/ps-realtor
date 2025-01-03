@@ -20,7 +20,7 @@
 		{:else}
 			<!-- svelte-ignore a11y-img-redundant-alt -->
 			<img
-				src="images/property-card-img.png"
+				src="images/property-card.webp"
 				alt="Default Property Card Image"
 			/>
 		{/if}

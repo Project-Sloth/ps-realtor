@@ -27,7 +27,7 @@
                 <i class="fas fa-xmark close-icon"></i>
             </button>
 
-            <img class="property-banner" src="images/apts-bg.png" alt="Apartments Background" />
+            <img class="property-banner" src="images/property-banner.webp" alt="Property Banner" />
 
             <section class="property-info">
                 <h2>
@@ -89,6 +89,7 @@
         max-height: 10rem;
         object-fit: cover;
         border-radius: 12px;
+        object-position: 0 40%;
     }
 
     .property-info {

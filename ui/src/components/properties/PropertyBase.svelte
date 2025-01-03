@@ -161,7 +161,7 @@
 
 <div class="property-container">
 	<section class="property-search">
-		<img src="images/apts-bg.png" alt="Apartments Background" />
+		<img src="images/properties-banner.webp" alt="Properties Banner" />
 
 		<div class="property-search-content">
 			<h1>Find your next property purchase</h1>

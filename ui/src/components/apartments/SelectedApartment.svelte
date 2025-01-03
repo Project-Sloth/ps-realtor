@@ -60,7 +60,7 @@
                 <i class="fas fa-xmark close-icon"></i>
             </button>
 
-            <img class="apartment-banner" src="images/apts-bg.png" alt="Apartments Background" />
+            <img class="apartment-banner" src="images/apartment-banner.webp" alt="Apartments Background" />
 
             <h2>{selectedApartment.apartmentData.label}</h2>
 
@@ -106,6 +106,7 @@
         max-height: 10rem;
         object-fit: cover;
         border-radius: 12px;
+        object-position: 0 25%;
     }
 
     .apartment-search {
