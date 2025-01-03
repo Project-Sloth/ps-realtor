@@ -4,7 +4,7 @@
 	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
 	import FormControl from '@components/generic/FormControl.svelte'
 	import Modal from '@components/generic/Modal.svelte'
-	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
+	import SetIndicator from '@components/generic/SetIndicator.svelte'
 	import ToggleDropdown from '@components/generic/ToggleDropdown.svelte'
 	import {
 		CONFIG,
@@ -120,20 +120,18 @@
 		<section class="property-management-controls">
 			{#if $REALTOR_GRADE >= $CONFIG.changePropertyForSale}
 				<FormControl label="Sell Property" controlId="dropdown_for_sale">
-					<SetNotSetIndicator
-						leftValue={selectedProperty.for_sale
-							? 'Set'
-							: 'Not Set'}
-						rightValue={`${forSale}`}
-						good={selectedProperty.for_sale}
+					<SetIndicator
+						prefix="For sale"
+						value={forSale ? 'Set' : 'Not Set'}
+						valid={forSale}
 					/>
 
 					<ToggleDropdown
 						id="dropdown_for_sale"
 						onLabel="For Sale"
 						offLabel="Not For Sale"
-						prefix="Change: "
-						value={forSale}
+						prefix="Availability:"
+						bind:value={forSale}
 						flex
 						changed={value => updateForSaleDropdownValue(value)}
 					/>
@@ -142,13 +140,10 @@
 
 			{#if $REALTOR_GRADE >= $CONFIG.sellProperty && selectedProperty.for_sale == 1}
 				<FormControl label="Finalize Property Sale" controlId="input_finalize_sale">
-					<SetNotSetIndicator
-						leftValue={finalizedOwner?.trim() !==
-						''
-							? 'Set'
-							: 'Not Set'}
-						rightValue=""
-						good={finalizedOwner?.trim() !== ''}
+					<SetIndicator
+						prefix="Owner"
+						value={finalizedOwner?.trim() !== '' ? 'Set' : 'Not Set'}
+						valid={finalizedOwner?.trim() !== ''}
 					/>
 
 					<input
@@ -183,7 +178,7 @@
 						id="input_price"
 						type="number"
 						class="flex-auto"
-						placeholder="$1000000000"
+						placeholder="1000000000"
 						bind:value={propertyPrice}
 						on:change={() => updatePropertyValues('UpdatePrice', { price: propertyPrice }, 'price', propertyPrice)}
 					/>
@@ -230,12 +225,10 @@
 
 				{#if selectedProperty.shell !== 'mlo'}
 					<FormControl label="Manage Door" controlId="button_door">
-						<SetNotSetIndicator
-							leftValue="Door"
-							rightValue={doorValueSet
-								? 'Set'
-								: 'Not Set'}
-							good={doorValueSet}
+						<SetIndicator
+							prefix="Door"
+							value={doorValueSet ? 'Set': 'Not Set'}
+							valid={doorValueSet}
 						/>
 						<div class="spacer"></div>
 						<Button id="button_door" status="primary" click={() => handleZonePlacement('door')}>New Location</Button>
@@ -244,12 +237,10 @@
 				{/if}
 
 				<FormControl label="Manage Garage" controlId="button_garage">
-					<SetNotSetIndicator
-						leftValue="Garage"
-						rightValue={garageValueSet
-							? 'Set'
-							: 'Not Set'}
-						good={garageValueSet}
+					<SetIndicator
+						prefix="Garage"
+						value={garageValueSet ? 'Set' : 'Not Set'}
+						valid={garageValueSet}
 					/>
 					<div class="spacer"></div>
 					<Button id="button_garage" status="primary" click={() => handleZonePlacement('garage')}>New Location</Button>

@@ -3,7 +3,7 @@
 	import Card from '@components/generic/Card.svelte'
 	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
 	import FormControl from '@components/generic/FormControl.svelte'
-	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
+	import SetIndicator from '@components/generic/SetIndicator.svelte'
 	import { PROPERTIES, SHELLS, TEMP_HIDE } from '@store/stores'
 	import { SendNUI } from '@utils/SendNUI'
 
@@ -122,10 +122,10 @@
 
 				{#if currentType === 'mlo'}
 					<FormControl label="Zone" controlId="button_property_zone">
-						<SetNotSetIndicator
-							leftValue="Zone"
-							rightValue={zone_data ? 'Set' : 'Not Set'}
-							good={zone_data}
+						<SetIndicator
+							prefix="Zone"
+							value={zone_data ? 'Set' : 'Not Set'}
+							valid={!!zone_data}
 						/>
 						<div class="spacer"></div>
 						<Button 
@@ -179,10 +179,10 @@
 						<div class="new-property-door-list-body">
 							{#each elements as element, index}
 								<FormControl>
-									<SetNotSetIndicator
-										leftValue="Door"
-										rightValue={element.door_data ? 'Set' : 'Not Set'}
-										good={element.door_data}
+									<SetIndicator
+										prefix="Door"
+										value={element.door_data ? 'Set' : 'Not Set'}
+										valid={!!element.door_data}
 									/>
 									<div class="spacer"></div>
 									<Button status="primary" click={() => createZone('door', index)}>
@@ -196,10 +196,10 @@
 					</div>
 					{:else if currentType === 'shell'}
 					<FormControl label="Door" controlId="dropdown_property_shell">
-						<SetNotSetIndicator
-							leftValue="Door"
-							rightValue={elements[0].door_data ? 'Set' : 'Not Set'}
-							good={elements[0].door_data}
+						<SetIndicator
+							prefix="Door"
+							value={elements[0].door_data ? 'Set' : 'Not Set'}
+							valid={!!elements[0].door_data}
 						/>
 						<div class="spacer"></div>
 						<Button status="primary" click={() => createZone('door', 0)}>
@@ -216,10 +216,10 @@
 
 			<section class="new-property-controls">
 				<FormControl label="Garage" controlId="button_property_garage">
-					<SetNotSetIndicator
-						leftValue="Garage"
-						rightValue={garage_data ? 'Set' : 'Not Set'}
-						good={garage_data}
+					<SetIndicator
+						prefix="Garage"
+						value={garage_data ? 'Set' : 'Not Set'}
+						valid={!!garage_data}
 					/>
 					<div class="spacer"></div>
 					<Button 
@@ -232,10 +232,10 @@
 
 				{#if currentType !== 'mlo'}
 					<FormControl label="Garden" controlId="button_property_garden">
-							<SetNotSetIndicator
-								leftValue="Garden"
-								rightValue={garden_data ? 'Set' : 'Not Set'}
-								good={garden_data}
+							<SetIndicator
+								prefix="Garden"
+								value={garden_data ? 'Set' : 'Not Set'}
+								valid={!!garden_data}
 							/>
 							<div class="spacer"></div>
 							<Button
