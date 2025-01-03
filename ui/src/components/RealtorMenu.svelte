@@ -203,4 +203,10 @@
 			flex-basis: 26%;
 		}
 	}
+
+	@media only screen and (min-width: 1921px) {
+		.realtor-menu-sidebar {
+			flex-basis: 18rem;
+		}
+	}
 </style>
