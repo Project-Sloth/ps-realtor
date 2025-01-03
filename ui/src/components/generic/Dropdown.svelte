@@ -45,7 +45,7 @@
 </script>
 
 <div class="dropdown-container" class:open class:flex on:pointerdown|stopPropagation>
-	<button id={id} class="dropdown-option" on:click={toggle}>
+	<button id={id} class="dropdown-btn" on:click={toggle}>
 		<span>
 			<span class="dropdown-prefix">{prefix}</span>
 			{selected?.label}
@@ -58,16 +58,16 @@
 		class:open
 		class:dropdown-overflow-x={overflowX} 
 		class:dropdown-overflow-y={overflowY}>
-		{#if !items.length}
-			<div class="dropdown-option">No items found</div>
+
+		{#each items as item}
+			<button class="dropdown-option" on:click={() => select(item)}>
+				<span>{item.label}</span>
+				<i class="fas fa-check icon" class:visible={value === item.value} />
+			</button>
 		{:else}
-			{#each items as item}
-				<button class="dropdown-option" on:click={() => select(item)}>
-					<span>{item.label}</span>
-					<i class="fas fa-check icon" class:visible={value === item.value} />
-				</button>
-			{/each}
-		{/if}
+			<div class="dropdown-option">No items found</div>
+		{/each}
+
 	</article>
 </div>
 
@@ -96,6 +96,22 @@
 	}
 
 	.dropdown-container.flex {
+		flex: 1;
+	}
+
+	.dropdown-btn {
+		display: flex;
+		flex-direction: row;
+
+		padding: 0.25rem 0.5rem;
+		place-items: center;
+		text-align: left;
+
+		gap: 0.5rem;
+	}
+
+	.dropdown-btn > span {
+		white-space: nowrap;
 		flex: 1;
 	}
 
