@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '@components/generic/Button.svelte'
 	import Card from '@components/generic/Card.svelte'
-	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
+	import Dropdown from '@components/generic/Dropdown.svelte'
 	import FormControl from '@components/generic/FormControl.svelte'
 	import Modal from '@components/generic/Modal.svelte'
 	import SetIndicator from '@components/generic/SetIndicator.svelte'
@@ -10,8 +10,8 @@
 		CONFIG,
 		PROPERTIES,
 		REALTOR_GRADE,
-		SHELLS,
-		TEMP_HIDE,
+		SHELL_TYPES,
+		TEMP_HIDE
 	} from '@store/stores'
 	import type { Property } from '@typings/type'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
@@ -28,8 +28,6 @@
 	)
 
 	let forSale: boolean = !!selectedProperty.for_sale;
-
-	let shellTypes: LabelValue<string>[] = Object.keys($SHELLS).map(id => ({ label: $SHELLS[id].label, value: id }));
 
 	function updateForSaleDropdownValue(value: boolean) {
 		SendNUI('updatePropertyData', {
@@ -188,7 +186,7 @@
 					<FormControl label="Manage Shell" controlId="dropdown_shell">
 						<Dropdown
 							id="dropdown_shell"
-							items={shellTypes}
+							items={$SHELL_TYPES}
 							bind:value={newShell}
 							prefix="Type: "
 							flex

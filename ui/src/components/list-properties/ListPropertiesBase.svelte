@@ -4,15 +4,15 @@
 	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
 	import FormControl from '@components/generic/FormControl.svelte'
 	import SetIndicator from '@components/generic/SetIndicator.svelte'
-	import { PROPERTIES, SHELLS, TEMP_HIDE } from '@store/stores'
+	import { PROPERTIES, SHELL_TYPES, SHELLS, TEMP_HIDE } from '@store/stores'
 	import { SendNUI } from '@utils/SendNUI'
 
 	const propertyTypes = [
 		{ label: 'MLO', value: 'mlo' }, 
 		{ label: 'Shell', value: 'shell' }
 	];
+	
 	let currentType = propertyTypes[0].value;
-	let shellTypes: LabelValue<string>[] = Object.keys($SHELLS).map(id => ({ label: $SHELLS[id].label, value: id }));
 
 	let existingProperties = $PROPERTIES
 	let addingNewProperty = false;
@@ -20,7 +20,7 @@
 	let description: string = ''
 	let for_sale: boolean = true
 	let price: number = 0
-	let shell: string = shellTypes[0]?.value;
+	let shell: string = $SHELL_TYPES[0]?.value;
 	let garage_data: boolean = false
 	let garden_data: boolean = false
 	let zone_data: boolean = false
@@ -72,7 +72,7 @@
 		for_sale = true
 		price = 0
 		zone_data = false
-		shell = shellTypes[0].value
+		shell = $SHELL_TYPES[0].value
 		garage_data = false
         elements = [{door_data: false}];
 	}
@@ -139,7 +139,7 @@
 					<FormControl label="Shell" controlId="dropdown_property_shell">
 						<Dropdown
 							id="dropdown_property_shell"
-							items={shellTypes}
+							items={$SHELL_TYPES}
 							bind:value={shell}
 							prefix="Type: "
 							flex
