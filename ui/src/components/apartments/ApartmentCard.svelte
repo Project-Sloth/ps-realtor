@@ -53,6 +53,16 @@
 		text-align: unset;
     }
 
+    .apartment-card:hover {
+		display: flex;
+		transform: scale(0.97) translateZ(0);
+
+		transition: transform .2s ease-in;
+
+		-webkit-font-smoothing: antialiased;
+		filter: unset;
+	}
+
     .apartment-banner {
         width: 100%;
         border-radius: 3px;
