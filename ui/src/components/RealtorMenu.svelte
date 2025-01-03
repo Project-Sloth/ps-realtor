@@ -157,6 +157,8 @@
 		text-shadow: 3px 2px 5px #000;
 		color: whitesmoke;
 		text-align: center;
+
+		user-select: none;
 	}
 
 	.realtor-menu-sidebar > nav {
