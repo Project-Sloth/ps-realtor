@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '@components/generic/Dropdown.svelte'
+	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
 	import PropertyCard from '@components/properties/PropertyCard.svelte'
 	import { PROPERTIES } from '@store/stores'
 	import type { Property } from '@typings/type'
@@ -7,26 +7,31 @@
 	import ManagePropertyModal from './ManagePropertyModal.svelte'
 	import PropertyDetailsModal from './PropertyDetailsModal.svelte'
 
-	const highLowDropdown = [
-		{ label: 'High to Low', value: 'h2l' }, 
-		{ label: 'Low to High', value: 'l2h' }
+	type PropertyFilter = 'all' | 'house' | 'apartment';
+	type SaleFilter = 'all' | 'sale';
+	type PriceFilter = 'asc' | 'desc';
+
+	const priceOptions: LabelValue<PriceFilter>[] = [
+		{ label: 'High to Low', value: 'desc' }, 
+		{ label: 'Low to High', value: 'asc' }
 	];
 
-	let selectedHighLowValue = highLowDropdown[0].value;
+	let selectedPriceOption = 'desc';
 
-	const forSaleDropdown = [
-		{ label: 'For Sale', value: 'sale' }, 
+	const saleOptions: LabelValue<SaleFilter>[] = [
 		{ label: 'All Properties', value: 'all' },
+		{ label: 'For Sale', value: 'sale' }, 		
 	];
 
-	let selectedForSaleValue = forSaleDropdown[0].value;
+	let selectedSaleOption: SaleFilter = 'sale';
 
-	const typeDropdown = [
+	const propertyTypeOptions: LabelValue<PropertyFilter>[] = [
+		{ label: 'All', value: 'all' },
 		{ label: 'House', value: 'house' },
 		{ label: 'Apartments', value: 'apartment' },
 	];
 
-	let selectedTypeValue = typeDropdown[0].value;
+	let selectedPropertyType: PropertyFilter = 'all';
 
 	let selectedProperty: Property | undefined = undefined;
 	let manageProperty: boolean = false;
@@ -48,22 +53,22 @@
 			properties = filterForSale(properties)
 			properties = filterPriceSort(properties)
 			properties = filterSearch(properties)
-			filteredProperties = filterApartment(properties)
+			filteredProperties = filterProperties(properties)
 		}, 1)
 	}
 
-	function filterApartment(properties: Property[]) {
-		// filter properties that have for_sale = 1 or true
-		if (selectedTypeValue === typeDropdown[1].value) return properties // include apartments (all properties)
-
-		properties = properties.filter((property) => !property.apartment)
-
-		return properties
+	function filterProperties(properties: Property[]) {
+		if (selectedPropertyType === 'all')
+			return properties;
+		
+		return properties.filter(property => 
+			selectedPropertyType === 'house' ? !property.apartment : 
+			selectedPropertyType === 'apartment' ? !!property.apartment : false);
 	}
 
 	function filterForSale(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
-		if (selectedForSaleValue === forSaleDropdown[1].value) return properties
+		if (selectedSaleOption === 'all') return properties
 
 		properties = properties.filter((property) => property.for_sale)
 
@@ -119,7 +124,7 @@
 	}
 
 	function filterPriceSort(properties: Property[]) {
-		if (selectedHighLowValue === highLowDropdown[1].value) {
+		if (selectedPriceOption === priceOptions[1].value) {
 			// low to high
 			properties = properties.sort((a, b) => a.price - b.price)
 		} else {
@@ -186,21 +191,21 @@
 		<div class="spacer"></div>
 
 		<Dropdown
-			items={highLowDropdown}
-			bind:value={selectedHighLowValue}
+			items={priceOptions}
+			bind:value={selectedPriceOption}
 			changed={() => filter()}
 		/>
 
 		<Dropdown
-			items={forSaleDropdown}
-			bind:value={selectedForSaleValue}
+			items={saleOptions}
+			bind:value={selectedSaleOption}
 			changed={() => filter()}
 			overflowX
 		/>
 
 		<Dropdown
-			items={typeDropdown}
-			bind:value={selectedTypeValue}
+			items={propertyTypeOptions}
+			bind:value={selectedPropertyType}
 			prefix="Type: "
 			changed={() => filter()}
 		/>
@@ -308,6 +313,10 @@
 		display: flex;
 		place-items: center;
 		gap: 1rem;
+	}
+
+	.property-filter > :global(.dropdown-container) {
+		min-width: 8rem;
 	}
 
 	.property-listings {
