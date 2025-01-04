@@ -67,12 +67,9 @@
 	}
 
 	function filterForSale(properties: Property[]) {
-		// filter properties that have for_sale = 1 or true
-		if (selectedSaleOption === 'all') return properties
-
-		properties = properties.filter((property) => property.for_sale)
-
-		return properties
+		if (selectedSaleOption === 'all') 
+			return properties;
+		return properties.filter((property) => property.for_sale);
 	}
 
 	function filterSearch(properties: Property[]) {
