@@ -1,11 +1,12 @@
 import type { LabelValue } from "@components/generic/Dropdown.svelte";
+import type { Apartment, Property } from "@typings/type";
 import { derived, writable, type Readable } from "svelte/store";
 
 export const visibility = writable<boolean>(false);
 export const browserMode = writable<boolean>(false);
 export const resName = writable<string>("");
 
-export const PROPERTIES = writable<any[]>([]);
+export const PROPERTIES = writable<Property[]>([]);
 export const SHELLS = writable<{ [ shell: string ]: any }>({});
 export const SHELL_TYPES: Readable<LabelValue<string>[]> = derived(SHELLS, shells => Object
     .keys(shells)
@@ -13,7 +14,7 @@ export const SHELL_TYPES: Readable<LabelValue<string>[]> = derived(SHELLS, shell
     .map(id => ({ label: shells[id].label, value: id }))
 );
 
-export const APARTMENTS = writable<any[]>([]);
+export const APARTMENTS = writable<Apartment[]>([]);
 
 export const REALTOR_GRADE = writable<number>(3);
 
