@@ -92,7 +92,12 @@
             </section>
 
             <!-- {#if $REALTOR_GRADE >= $CONFIG.manageProperty}{/if} -->
-            <Button slot="footer" click={() => manageProperty = true}>Manage Property</Button>
+            <svelte:fragment slot="footer">
+                {#if !selectedProperty.apartment}
+                    <Button  click={() => manageProperty = true}>Manage Property</Button>
+                {/if}
+            </svelte:fragment>
+            
         </Card>
     </Modal>
 {/if}
