@@ -50,3 +50,5 @@ export interface Apartment {
     }
     apartments: string[];
 }
+
+export type Zone = 'door' | 'garage' | 'zone' | 'garden';

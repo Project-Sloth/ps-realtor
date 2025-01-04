@@ -13,7 +13,7 @@
 		SHELL_TYPES,
 		TEMP_HIDE
 	} from '@store/stores'
-	import type { Property } from '@typings/type'
+	import type { Property, Zone } from '@typings/type'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
@@ -61,7 +61,7 @@
 			: false
 		: false
 
-	function handleZonePlacement(type) {
+	function handleZonePlacement(type: Zone) {
 		SendNUI('startZonePlacement', {
 			type: type,
 			property_id: selectedProperty.property_id,
