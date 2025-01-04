@@ -75,7 +75,7 @@
                 </div>                
                 <div class="spacer"></div>
                 <span>{tenantsResult.length.toLocaleString()} Tenants</span>
-                <Button status="primary" icon="fa-location-dot">Set Waypoint</Button>
+                <Button status="primary" icon="fa-location-dot" click={() => SendNUI('setWaypoint', selectedApartment?.apartmentData.door)}>Set Waypoint</Button>
             </section>
 
             
