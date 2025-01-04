@@ -1,14 +1,15 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
-    import type { Property } from '@typings/type';
-    import { REALTOR_GRADE, SHELLS, CONFIG } from '@store/stores';
-    import { SendNUI } from '@utils/SendNUI';
-	import Card from '@components/generic/Card.svelte'
-	import Tile from '@components/generic/Tile.svelte'
-	import Modal from '@components/generic/Modal.svelte'
-	import Button from '@components/generic/Button.svelte'
+    import Button from '@components/generic/Button.svelte'
+    import Card from '@components/generic/Card.svelte'
+    import Modal from '@components/generic/Modal.svelte'
+    import Tile from '@components/generic/Tile.svelte'
+    import { APARTMENTS, REALTOR_GRADE, SHELLS } from '@store/stores'
+    import type { Property } from '@typings/type'
+    import { SendNUI } from '@utils/SendNUI'
 
-    export let selectedProperty: Property | null = null, manageProperty: boolean=false;
+    export let selectedProperty: Property;
+    export let manageProperty: boolean = false;
+    export let closed: () => void;
 
     function getImgArray() {
 		let shellImgs = selectedProperty.extra_imgs
@@ -16,14 +17,30 @@
 		shellImgs = [...shellImgs, ...$SHELLS[shell].imgs]
 		return shellImgs
 	}
+
+    function setWaypoint(property: Property) {
+        if (!property.apartment) {
+            SendNUI('setWaypoint', property.door_data);
+            return;
+        }
+            
+        const aptDoor = $APARTMENTS.find(i => i.apartmentData.label == property.apartment)?.apartmentData.door;
+
+        if (aptDoor) {
+            SendNUI('setWaypoint', aptDoor);
+            return;
+        }
+
+        console.error('Unable to set waypoint, unable to find door coordinates');
+    }
 </script>
 
 {#if selectedProperty}
-    <Modal open={!!selectedProperty} closed={() => selectedProperty = null}>
+    <Modal open={!!selectedProperty} closed={closed}>
         <Card title="Property details">
             <i class="fas fa-circle-info" slot="icon" style="color: var(--blue-color);"></i>
 
-            <button slot="header-action" on:click={() => selectedProperty = null}>
+            <button slot="header-action" on:click={closed}>
                 <i class="fas fa-xmark close-icon"></i>
             </button>
 
@@ -58,7 +75,7 @@
                         ${selectedProperty.price?.toLocaleString()}
                     </Tile>
 
-                    <Button status="primary" icon="fa-location-dot" block click={() => SendNUI('setWaypoint', selectedProperty.door_data)}>Set Waypoint</Button>
+                    <Button status="primary" icon="fa-location-dot" block click={() => setWaypoint(selectedProperty)}>Set Waypoint</Button>
                 </section>
             </div>
 

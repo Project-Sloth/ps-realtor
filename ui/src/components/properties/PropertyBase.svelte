@@ -33,7 +33,7 @@
 
 	let selectedPropertyType: PropertyFilter = 'all';
 
-	let selectedProperty: Property | undefined = undefined;
+	let selectedProperty: Property | null = null;
 	let manageProperty: boolean = false;
 
 	let searchTerm = '',
@@ -149,7 +149,7 @@
 		$PROPERTIES.splice(index, 1)
 
 		manageProperty = false
-		selectedProperty = undefined;
+		selectedProperty = null;
 
 		filter()
 	}
@@ -223,7 +223,7 @@
 	</section>
 
 	{#if selectedProperty && !manageProperty}
-		<PropertyDetailsModal bind:selectedProperty bind:manageProperty />
+		<PropertyDetailsModal bind:selectedProperty bind:manageProperty closed={() => selectedProperty = null} />
 	{:else if selectedProperty && manageProperty}
 		<ManagePropertyModal
 			{selectedProperty}
