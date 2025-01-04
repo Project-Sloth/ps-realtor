@@ -118,11 +118,11 @@
 
         --tile-color: #313131;
         --tile-icon-color: var(--light-border-color-6);
-        /* flex: 1; */
+        flex: 1;
     }
 
     .property-actions {
-        /* flex: 30% 0 0;   */
+        flex: 30% 0 0;  
         display: flex;
         flex-direction: column;    
         gap: 0.5rem;  
