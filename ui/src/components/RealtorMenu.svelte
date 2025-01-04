@@ -37,7 +37,7 @@
 			});
 	});
 
-	let selectedTab: Tab = availableNavTabs[2]
+	let selectedTab: Tab = availableNavTabs[0];
 
 	function selectTab(tab: Tab) {
 		if (tab.component)
