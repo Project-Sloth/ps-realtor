@@ -60,6 +60,9 @@
         justify-content: flex-end;
 
         background-color: var(--footer-color);
+    }
+
+    .card-footer:has(*) {
         padding: 0.5rem 1rem;
     }
 </style>
