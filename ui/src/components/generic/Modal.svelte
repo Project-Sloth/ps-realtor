@@ -1,6 +1,4 @@
 <script lang="ts">
-    export let width: string | number = "60%";
-    export let height: string | number = "90%";
     export let open: boolean = false;
     export let closed: () => void = () => null;
 
@@ -13,7 +11,7 @@
 <svelte:window on:keydown={(e) => e.key === 'Escape' && open && close()}></svelte:window>
 
 {#if open}
-    <article role="dialog" class="modal" style:width={width} style:height={height}>
+    <article role="dialog" class="modal">
         <slot/>
     </article>
 
@@ -24,11 +22,14 @@
     .modal {
         position: absolute;
 
-        z-index: 5;
+        width: 60%;
+        height: 90%;        
 
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+
+        z-index: 5;
     }
 
     .modal-overlay {
@@ -40,4 +41,10 @@
         background-color: rgba(0, 0, 0, 0.6);
         z-index: 4;
     }
+
+    @media only screen and (max-width: 1279px) {
+        .modal {
+            width: 80%;
+        }
+	}
 </style>

@@ -118,7 +118,7 @@
 		flex-direction: row;		
 
 		width: 75%;
-		height: 90%;
+		height: 80%;
 
 		overflow: hidden;
 
