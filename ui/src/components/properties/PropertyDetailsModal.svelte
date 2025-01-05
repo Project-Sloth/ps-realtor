@@ -1,12 +1,12 @@
 <script lang="ts">
     import Button from '@components/generic/Button.svelte'
     import Card from '@components/generic/Card.svelte'
-	import Image from '@components/generic/Image.svelte'
     import Modal from '@components/generic/Modal.svelte'
     import Tile from '@components/generic/Tile.svelte'
     import { APARTMENTS, REALTOR_GRADE, SHELLS } from '@store/stores'
     import type { Property } from '@typings/type'
     import { SendNUI } from '@utils/SendNUI'
+    import PropertyImageCard from './PropertyImageCard.svelte'
 
     export let selectedProperty: Property;
     export let manageProperty: boolean = false;
@@ -86,7 +86,7 @@
                 {#key selectedProperty.shell}
                     {#key selectedProperty.extra_imgs}
                         {#each getImgArray() as image}
-                            <Image src={image.url} alt={image.label} fallback="images/fallback-image.svg"></Image>
+                            <PropertyImageCard {...image}></PropertyImageCard>
                         {/each}
                     {/key}
                 {/key}
@@ -98,7 +98,6 @@
                     <Button  click={() => manageProperty = true}>Manage Property</Button>
                 {/if}
             </svelte:fragment>
-            
         </Card>
     </Modal>
 {/if}
@@ -161,14 +160,8 @@
     .property-gallery {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-        grid-auto-rows: 11rem;
+        grid-auto-rows: 12rem;
         gap: .5rem;
-    }
-
-    .property-gallery > :global(img) {
-        text-align: center;
-        border-radius: 12px;
-        height: 100%;
-        object-fit: cover;
+        --property-image-card-height: 11rem;
     }
 </style>

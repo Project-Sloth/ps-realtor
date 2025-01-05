@@ -3,7 +3,6 @@
 	import Card from '@components/generic/Card.svelte'
 	import Dropdown from '@components/generic/Dropdown.svelte'
 	import FormControl from '@components/generic/FormControl.svelte'
-	import Image from '@components/generic/Image.svelte'
 	import Modal from '@components/generic/Modal.svelte'
 	import SetIndicator from '@components/generic/SetIndicator.svelte'
 	import ToggleDropdown from '@components/generic/ToggleDropdown.svelte'
@@ -14,10 +13,11 @@
 		SHELL_TYPES,
 		TEMP_HIDE
 	} from '@store/stores'
-	import type { Property, Zone } from '@typings/type'
+	import type { Property, PropertyImage, Zone } from '@typings/type'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
+	import PropertyImageCard from './PropertyImageCard.svelte'
 
 	const dispatch = createEventDispatcher()
 
@@ -71,11 +71,11 @@
 		})
 	}
 
-	let propertyImages = selectedProperty.extra_imgs,
-		newImageName = '',
-		newImageUrl = ''
+	let propertyImages = selectedProperty.extra_imgs;
+	let newImageName = '';
+	let newImageUrl = '';
 
-	function addNewImage() {
+	function addImage() {
 		propertyImages = [
 			...propertyImages,
 			{
@@ -86,6 +86,20 @@
 		newImageName = ''
 		newImageUrl = ''
 
+		saveImages();
+	}
+
+	function removeImage(image: PropertyImage) {
+		propertyImages = propertyImages.filter(i => i !== image);
+		saveImages();
+	}
+
+	function swapImage(fromIdx: number, toIdx: number) {
+		[ propertyImages[fromIdx], propertyImages[toIdx] ] = [ propertyImages[toIdx], propertyImages[fromIdx] ];
+		saveImages();
+	}
+
+	function saveImages() {
 		updatePropertyValues(
 			'UpdateImgs',
 			{ imgs: propertyImages },
@@ -212,11 +226,17 @@
 							placeholder="URL"
 							bind:value={newImageUrl}
 						/>
-						<Button status="primary" click={addNewImage}>Add</Button>
+						<Button status="primary" click={addImage}>Add</Button>
 					</FormControl>
 					<div class="image-control-gallery">
-						{#each propertyImages as image}
-							<Image src={image.url} alt={image.label} fallback="images/fallback-image.svg"></Image>
+						{#each propertyImages as image, idx (image.url)}
+							<PropertyImageCard {...image}>
+								<svelte:fragment>
+									<Button status="primary" icon="fa-arrow-left" ariaLabel="Shift left" click={() => swapImage(idx, idx == 0 ? propertyImages.length : idx - 1)}></Button>
+									<Button status="danger" icon="fa-trash" ariaLabel="Delete image" click={() => removeImage(image)}></Button>
+									<Button status="primary" icon="fa-arrow-right" ariaLabel="Shift right" click={() => swapImage(idx, idx == propertyImages.length - 1 ? 0 : idx + 1)}></Button>
+								</svelte:fragment>
+							</PropertyImageCard>
 						{/each}
 					</div>
 				</div>
@@ -285,15 +305,9 @@
 
 	.image-control-gallery {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
-		grid-auto-rows: 4rem;
+		grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+		grid-auto-rows: min-content;
 		gap: .5rem;
-	}
-
-	.image-control-gallery > :global(img) {
-		border-radius: 6px;
-		height: 100%;
-		object-fit: cover;
-		text-align: center;
+		--property-image-card-height: 5rem;
 	}
 </style>

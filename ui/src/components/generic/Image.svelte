@@ -8,7 +8,7 @@
     }
 </script>
 
-<img {src} {alt} on:error|once={handleError}>
+<img {src} {alt} on:error={handleError}>
 
 <style>
     img {
