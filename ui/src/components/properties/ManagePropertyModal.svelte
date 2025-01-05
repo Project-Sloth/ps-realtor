@@ -3,6 +3,7 @@
 	import Card from '@components/generic/Card.svelte'
 	import Dropdown from '@components/generic/Dropdown.svelte'
 	import FormControl from '@components/generic/FormControl.svelte'
+	import Image from '@components/generic/Image.svelte'
 	import Modal from '@components/generic/Modal.svelte'
 	import SetIndicator from '@components/generic/SetIndicator.svelte'
 	import ToggleDropdown from '@components/generic/ToggleDropdown.svelte'
@@ -213,10 +214,9 @@
 						/>
 						<Button status="primary" click={addNewImage}>Add</Button>
 					</FormControl>
-
 					<div class="image-control-gallery">
 						{#each propertyImages as image}
-							<img src={image.url} alt="" />
+							<Image src={image.url} alt={image.label} fallback="images/fallback-image.svg"></Image>
 						{/each}
 					</div>
 				</div>
@@ -286,10 +286,14 @@
 	.image-control-gallery {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+		grid-auto-rows: 4rem;
 		gap: .5rem;
 	}
 
-	.image-control-gallery > img {
+	.image-control-gallery > :global(img) {
 		border-radius: 6px;
+		height: 100%;
+		object-fit: cover;
+		text-align: center;
 	}
 </style>

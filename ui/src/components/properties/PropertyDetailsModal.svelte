@@ -1,6 +1,7 @@
 <script lang="ts">
     import Button from '@components/generic/Button.svelte'
     import Card from '@components/generic/Card.svelte'
+	import Image from '@components/generic/Image.svelte'
     import Modal from '@components/generic/Modal.svelte'
     import Tile from '@components/generic/Tile.svelte'
     import { APARTMENTS, REALTOR_GRADE, SHELLS } from '@store/stores'
@@ -84,8 +85,8 @@
             <section class="property-gallery">
                 {#key selectedProperty.shell}
                     {#key selectedProperty.extra_imgs}
-                        {#each getImgArray() as img}
-                            <img src={img.url} alt="Detail of the selected property" />
+                        {#each getImgArray() as image}
+                            <Image src={image.url} alt={image.label} fallback="images/fallback-image.svg"></Image>
                         {/each}
                     {/key}
                 {/key}
@@ -159,12 +160,15 @@
 
     .property-gallery {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        grid-auto-rows: 11rem;
         gap: .5rem;
     }
 
-    .property-gallery > img {
+    .property-gallery > :global(img) {
         text-align: center;
         border-radius: 12px;
+        height: 100%;
+        object-fit: cover;
     }
 </style>

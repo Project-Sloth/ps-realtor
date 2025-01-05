@@ -1,22 +1,20 @@
 <script lang="ts">
-	import Tile from '@components/generic/Tile.svelte'
+	import Image from '@components/generic/Image.svelte'
+import Tile from '@components/generic/Tile.svelte'
 	import { REALTOR_GRADE, SHELLS } from '@store/stores'
 	import type { Property } from '@typings/type'
 
 	export let id = 'property-card-1';
 	export let property: Property;
 	export let selected: (property: Property) => void;
+
+	$: thumbnail = property.extra_imgs[0] ? property.extra_imgs[0] : $SHELLS[property.shell].imgs[0];
 </script>
 
 <button {id} class="property-card" on:click={() => selected(property)}>
 	<header class="property-card-header">
-		{#if property.extra_imgs[0] ? property.extra_imgs[0].url : $SHELLS[property.shell].imgs[0].url}
-			<img
-				src={property.extra_imgs[0]
-					? property.extra_imgs[0].url
-					: $SHELLS[property.shell].imgs[0].url}
-				alt=""
-			/>
+		{#if thumbnail}
+			<Image src={thumbnail.url} alt={thumbnail.label} fallback="images/fallback-image.svg"></Image>
 		{:else}
 			<!-- svelte-ignore a11y-img-redundant-alt -->
 			<img
@@ -93,7 +91,7 @@
 		width: 100%;
 	}
 
-	.property-card-header > img {
+	.property-card-header > :global(img) {
 		border-radius: 3px 3px 0 0;
         object-fit: cover;
         width: 100%;
