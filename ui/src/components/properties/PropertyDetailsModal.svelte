@@ -48,7 +48,9 @@
             <img class="property-banner" src="images/property-banner.webp" alt="Property Banner" />
 
             <section class="property-info">
-                <h2>{selectedProperty.street ? selectedProperty.street + " - " : selectedProperty.apartment ? selectedProperty.apartment + " - " : ''} {selectedProperty.property_id}</h2>
+                <h2>{selectedProperty.property_id}
+                    {selectedProperty.street ? selectedProperty.street : 
+                        selectedProperty.apartment ? selectedProperty.apartment	: ''}</h2>
                 <p>{selectedProperty.description}</p>
             </section>
 

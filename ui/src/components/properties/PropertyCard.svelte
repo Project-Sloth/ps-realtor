@@ -30,11 +30,8 @@ import Tile from '@components/generic/Tile.svelte'
 	<section class="property-card-content">
 		<h2 class="property-name">
 			{property.property_id}
-			{property.street
-				? property.street + ' — '
-				: property.apartment
-				? property.apartment + ' — '
-				: ''}
+			{property.street ? property.street : 
+				property.apartment ? property.apartment	: ''}
 		</h2>
 		<small style="color: var(--light-border-color-8);">{property.region ? property.region : 'Los Santos'}</small>
 
