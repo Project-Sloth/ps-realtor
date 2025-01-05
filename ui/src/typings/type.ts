@@ -21,7 +21,7 @@ interface door extends coords {
     locked?: boolean;
 }
 
-type img = {
+export type PropertyImage = {
     url: string;
     label: string;
 }
@@ -34,7 +34,7 @@ export interface Property {
     region?: string;
     description: string;
     shell: string;
-    extra_imgs: img[];
+    extra_imgs: PropertyImage[];
     for_sale: number | boolean;
     price: number;
     door_data: door;
@@ -46,7 +46,7 @@ export interface Apartment {
     apartmentData: {
         label: string;
         door: door;
-        imgs: img[];
+        imgs: PropertyImage[];
     }
     apartments: string[];
 }
