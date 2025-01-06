@@ -112,6 +112,18 @@
 		dispatch('delete-property', selectedProperty)
 	}
 
+	function updatePrice() {
+		// TODO(FUTURE): real input validation with visual feedback instead of forced overwriting?
+		if (propertyPrice == null) {
+			propertyPrice = 0;
+			return;
+		}
+
+		propertyPrice = Math.abs(propertyPrice);
+
+		updatePropertyValues('UpdatePrice', { price: propertyPrice }, 'price', propertyPrice);
+	}
+
 	ReceiveNUI('garageMade', () => {
 		garageValueSet = true
 	})
@@ -167,7 +179,7 @@
 						bind:value={finalizedOwner}
 					/>
 
-					<Button status="primary" click={() => updatePropertyValues('UpdateOwner', { targetSrc: finalizedOwner }, 'owner', finalizedOwner )}>
+					<Button status="primary" disabled={finalizedOwner?.trim() == ''} click={() => updatePropertyValues('UpdateOwner', { targetSrc: finalizedOwner }, 'owner', finalizedOwner )}>
 						Request
 					</Button>
 
@@ -187,13 +199,15 @@
 				</FormControl>
 
 				<FormControl label="Manage Price" controlId="input_price">
-					<input						
+					<input
 						id="input_price"
 						type="number"
 						class="flex-auto"
-						placeholder="1000000000"
+						placeholder="1200000"
+						min="0"
+						max="4294967295"
 						bind:value={propertyPrice}
-						on:change={() => updatePropertyValues('UpdatePrice', { price: propertyPrice }, 'price', propertyPrice)}
+						on:change={() => updatePrice()}
 					/>
 				</FormControl>
 
