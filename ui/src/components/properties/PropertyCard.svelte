@@ -36,24 +36,28 @@ import Tile from '@components/generic/Tile.svelte'
 		<small style="color: var(--light-border-color-8);">{property.region ? property.region : 'Los Santos'}</small>
 
 		<div class="property-card-details">
-			<Tile icon="fa-landmark">
-				${property.price?.toLocaleString()}
-			</Tile>
+			{#if !property.apartment}
+				<Tile icon="fa-landmark">${property.price?.toLocaleString()}</Tile>
+			{/if}
 			
 			{#if $REALTOR_GRADE >= 0 && property.for_sale}
-				<Tile icon="fa-sign-hanging">
-					For Sale
-				</Tile>
+				<Tile icon="fa-sign-hanging">For Sale</Tile>
 			{/if}
 
 			<Tile icon="fa-image">
 				Gallery: {$SHELLS[property.shell] ? $SHELLS[property.shell].imgs.length : 0}
 			</Tile>
 
-			<Tile icon="fa-house-chimney">{property.shell}</Tile>
+			<Tile icon="fa-kitchen-set">{property.shell === 'mlo' ? 'MLO Interior' : property.shell}</Tile>
+
+			<Tile icon={property.apartment ? 'fa-building' : 'fa-house-chimney'}>{property.apartment ? 'Apartment' : 'House'}</Tile>
 
 			{#if property.garage_data && Object.keys(property.garage_data).length > 0}
 				<Tile icon="fa-truck-front">Garage</Tile>
+			{/if}
+
+			{#if !property.apartment && property.shell !== 'mlo' && property.zone_data && Object.keys(property.zone_data).length > 0}
+				<Tile icon="fa-tree">Garden</Tile>
 			{/if}
 		</div>
 	</section>

@@ -39,6 +39,7 @@ export interface Property {
     price: number;
     door_data: door;
     garage_data: coords | null;
+    zone_data: ZoneArea | null;
     apartment: string;
 }
 
@@ -52,3 +53,6 @@ export interface Apartment {
 }
 
 export type Zone = 'door' | 'garage' | 'zone' | 'garden';
+
+export type ZonePoint = { x: number, y: number, z: number };
+export type ZoneArea = { thickness: number, points: ZonePoint[] };

@@ -45,7 +45,11 @@
                 <i class="fas fa-xmark close-icon"></i>
             </button>
 
-            <img class="property-banner" src="images/property-banner.webp" alt="Property Banner" />
+            {#if selectedProperty.apartment}
+                <img class="property-banner" src="images/apartment-banner.webp" alt="Property Apartment Banner" />
+            {:else}
+                <img class="property-banner" src="images/property-banner.webp" alt="Property House Banner" />
+            {/if}            
 
             <section class="property-info">
                 <h2>{selectedProperty.property_id}
@@ -66,17 +70,23 @@
     
                     <!-- <Tile icon="fa-image" border>Gallery: {$SHELLS[selectedProperty.shell] ? $SHELLS[selectedProperty.shell].imgs.length : 0}</Tile> -->
     
-                    <Tile icon="fa-house-chimney" border>{selectedProperty.shell}</Tile>
+                    <Tile icon="fa-kitchen-set" border>{selectedProperty.shell === 'mlo' ? 'MLO Interior' : selectedProperty.shell}</Tile>
+
+                    <Tile icon={selectedProperty.apartment ? 'fa-building' : 'fa-house-chimney'} border>{selectedProperty.apartment ? 'Apartment' : 'House'}</Tile>
     
                     {#if selectedProperty.garage_data && Object.keys(selectedProperty.garage_data).length > 0}
                         <Tile icon="fa-truck-front" border>Garage</Tile>
                     {/if}
+
+                    {#if !selectedProperty.apartment && selectedProperty.shell !== 'mlo' && selectedProperty.zone_data && Object.keys(selectedProperty.zone_data).length > 0}
+				        <Tile icon="fa-tree" border>Garden</Tile>
+			        {/if}
                 </section>
     
                 <section class="property-actions">
-                    <Tile icon="fa-landmark">
-                        ${selectedProperty.price?.toLocaleString()}
-                    </Tile>
+                    {#if !selectedProperty.apartment}
+                        <Tile icon="fa-landmark">${selectedProperty.price?.toLocaleString()}</Tile>
+                    {/if}
 
                     <Button status="primary" icon="fa-location-dot" block click={() => setWaypoint(selectedProperty)}>Set Waypoint</Button>
                 </section>

@@ -77,7 +77,6 @@
                 <span>{tenantsResult.length.toLocaleString()} Tenants</span>
                 <Button status="primary" icon="fa-location-dot" click={() => SendNUI('setWaypoint', selectedApartment?.apartmentData.door)}>Set Waypoint</Button>
             </section>
-
             
             <section class="apartment-tenants">
                 {#each tenantsResult as tenant}
