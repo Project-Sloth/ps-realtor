@@ -5,6 +5,7 @@
 	import FormControl from '@components/generic/FormControl.svelte'
 	import SetIndicator from '@components/generic/SetIndicator.svelte'
 	import { PROPERTIES, SHELL_TYPES, SHELLS, TEMP_HIDE } from '@store/stores'
+	import type { Zone } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 
 	const propertyTypes = [
@@ -27,7 +28,7 @@
 	let valid: boolean = false
 	
 
-	function createZone (type: 'door' | 'garage' | 'zone' | 'garden', index?: number) {
+	function createZone(type: Zone, index?: number) {
         const data = { type: type, propertyType: currentType }
 
         SendNUI('create:createZone', data).then((success: boolean) => {
@@ -74,6 +75,7 @@
 		zone_data = false
 		shell = $SHELL_TYPES[0].value
 		garage_data = false
+		garden_data = false
         elements = [{door_data: false}];
 	}
 
