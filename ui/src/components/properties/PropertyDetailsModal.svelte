@@ -20,19 +20,26 @@
 	}
 
     function setWaypoint(property: Property) {
-        if (!property.apartment) {
-            SendNUI('setWaypoint', property.door_data);
-            return;
-        }
-            
-        const aptDoor = $APARTMENTS.find(i => i.apartmentData.label == property.apartment)?.apartmentData.door;
+        const payload: {
+            id?: number,
+            shell?: string,
+            type: 'apartment' | 'house'
+            x?: number
+            y?: number
+        } = { type: property.apartment ? 'apartment' : 'house' };
 
-        if (aptDoor) {
-            SendNUI('setWaypoint', aptDoor);
-            return;
+        if (property.apartment) {
+            const aptDoor = $APARTMENTS.find(i => i.apartmentData.label == property.apartment)?.apartmentData.door;
+            payload.x = aptDoor?.x;
+            payload.y = aptDoor?.y;
+        } else {
+            payload.id = property.property_id, 
+            payload.shell = property.shell,
+            payload.x = property.door_data?.x
+            payload.y = property.door_data?.y
         }
 
-        console.error('Unable to set waypoint, unable to find door coordinates');
+        SendNUI('setWaypoint', payload);
     }
 </script>
 

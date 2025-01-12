@@ -41,6 +41,14 @@
         return name.trim().split(' ').map(i => i[0]).join('').toUpperCase();
     }
 
+    function setWaypoint(apartment: Apartment) {
+        SendNUI('setWaypoint', {
+            type: 'apartment',
+            x: apartment.apartmentData.door.x,
+            y: apartment.apartmentData.door.y
+        })
+    }
+
     $: {
         if (searchTerm.length > 0) {
             tenantsResult = tenants.filter((tenant) => tenant.toLowerCase().includes(searchTerm.toLowerCase())) || []
@@ -75,7 +83,7 @@
                 </div>                
                 <div class="spacer"></div>
                 <span>{tenantsResult.length.toLocaleString()} Tenants</span>
-                <Button status="primary" icon="fa-location-dot" click={() => SendNUI('setWaypoint', selectedApartment?.apartmentData.door)}>Set Waypoint</Button>
+                <Button status="primary" icon="fa-location-dot" click={() => selectedApartment && setWaypoint(selectedApartment)}>Set Waypoint</Button>
             </section>
             
             <section class="apartment-tenants">
