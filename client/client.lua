@@ -140,6 +140,18 @@ end)
 
 -- Callbacks
 RegisterNUICallback("setWaypoint", function (data, cb)
+	if data.type == 'house' and data.x == nil and data.y == nil then
+		local location = lib.callback.await("bl-realtor:server:getPropertyLocation", source, data.id, data.shell);
+
+		data.x = location.x;
+		data.y = location.y;
+	end
+
+	if data.x == nil and data.y == nil then
+		lib.notify({ description = 'Unable to set waypoint!' , type = 'error'})
+		return
+	end
+	
 	lib.notify({ description = 'Waypoint was set!' , type = 'success'})
 	SetNewWaypoint(data.x, data.y)
 	cb("ok")

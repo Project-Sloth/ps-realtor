@@ -1,31 +1,60 @@
 <script lang="ts">
 	import ApartmentCard from "@components/apartments/ApartmentCard.svelte"
     import { APARTMENTS } from '@store/stores'
-    import type { IApartment } from '@typings/type'
+    import type { Apartment } from '@typings/type'
 	import SelectedApartment from "./SelectedApartment.svelte"
 
-    let selectedApartment: IApartment  = null;
-
-    $: {
-        if(selectedApartment) {
-            console.log("apartment selected: ", selectedApartment)
-        }
-    }
+    let selectedApartment: Apartment | null = null;
 </script>
-<div class="apartments-base">
-    <div class="heading">
-        All Apartments
-    </div>
 
-    {#key $APARTMENTS}
-        <div class="apartment-listing-wrapper">
+<section class="apartments-container">
+    <h1>All Apartments</h1>
+
+    <div class="apartment-listings">
+        {#key $APARTMENTS}
             {#each $APARTMENTS as apartment, i}
-                <ApartmentCard bind:selectedApartment apartment={apartment} id={"apt-card-" + i} />
+                <ApartmentCard 
+                    id={"apt-card-" + i}
+                    {apartment}
+                    selected={apartment => selectedApartment = apartment} 
+                />
+            {:else}
+				<p class="empty">No Apartments found.</p>
             {/each}
-        </div>
-    {/key}
+        {/key}
+    </div>
+</section>
 
-    {#if selectedApartment}
-        <SelectedApartment bind:selectedApartment />
-    {/if}
-</div>
+
+{#if selectedApartment}
+    <SelectedApartment bind:selectedApartment />
+{/if}
+
+<style>
+    .apartments-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: 100%;
+    }
+
+    .apartment-listings {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+		grid-auto-rows: min-content;
+
+		gap: 1rem;
+		overflow-y: auto;
+
+		flex: 1;
+		padding: 0 1rem .5rem 1rem;
+    }
+
+    .apartment-listings:has(.empty) {
+		grid-template-columns: 1fr;
+        grid-auto-rows: 1fr;
+        place-items: center;
+        font-weight: 500;
+    }
+</style>
+

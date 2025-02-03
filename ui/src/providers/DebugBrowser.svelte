@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { debugData } from '../utils/debugData'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 
 	let show = false
 	//EXAMPLE
@@ -11,8 +11,8 @@
 	// 		data: true,
 	// 	},
 	// ])
-	let properties: IProperty[] = []
-	let debugProperty: IProperty = {
+	let properties: Property[] = []
+	let debugProperty: Property = {
 		property_id: 1,
 		label: 'Test Property',
 		description: 'This is a test property',
@@ -44,6 +44,7 @@
 			z: 0,
 		},
 	}
+
 	let options = [
 		{
 			component: 'Show',
@@ -69,7 +70,7 @@
 					customFunction: () => {
 						let newProperty = Object.assign({}, debugProperty)
 						newProperty.property_id = properties.length + 1
-						newProperty.price = Math.floor(Math.random() * 1000000)
+						newProperty.price = Math.floor(Math.random() * (Math.random() > 0.5 ? 1000000 : 10000000))
 						newProperty.for_sale = (Math.random() > 0.5 ? 1 : 0)
 						let coords = {
 							x: Math.floor(Math.random() * 1000000),
@@ -89,19 +90,12 @@
 			],
 		},
 		{
-			component: 'Is Realtor',
-			actions: [
-				{
-					name: 'true',
-					action: 'setRealtor',
-					data: true,
-				},
-				{
-					name: 'false',
-					action: 'setRealtor',
-					data: false,
-				},
-			],
+			component: 'Realtor Grade',
+			actions: Array.from({ length: 5 }, (_, idx) => ({
+				name: idx - 1,
+				action: 'setRealtorGrade',
+				data: idx - 1
+			}))
 		}
 		// {
 		// 	component: 'Example',

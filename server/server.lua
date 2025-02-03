@@ -58,6 +58,11 @@ lib.callback.register("bl-realtor:server:getNames", function (source, data)
     return names
 end)
 
+lib.callback.register("bl-realtor:server:getPropertyLocation", function(source, propertyId, shell)
+    local door = exports['ps-housing']:getMainDoor(propertyId, 1, shell ~= 'mlo')
+    return door ~= nil and vector2(door.coords.x, door.coords.y) or vector2(0);
+end)
+
 if Config.UseItem then
     QBCore.Functions.CreateUseableItem(Config.ItemName, function(source, item)
         local src = source

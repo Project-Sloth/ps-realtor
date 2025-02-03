@@ -2,78 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Satoshi', sans-serif;
-    color: #fff;
-    -webkit-user-drag: none;
+@layer reset {
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    * {
+        color: #fff;
+        -webkit-user-drag: none;
+        font-family: 'Satoshi', sans-serif;
+    }
+}
+
+@layer base {
+    h1 {
+        @apply text-2xl;
+    }
+    h2 {
+        @apply text-xl;
+    }
+    h3 {
+        @apply text-xl;
+    }
+
+    i {
+        font-size: 1rem;
+        width: 1rem;
+    }
+
+    i.small {
+        font-size: .75rem;
+        width: .75rem; 
+    }
 }
 
 *:focus {
     outline: none;
 }
 
-button:hover {
-    filter: brightness(1.1);
-}
-
 :root {
-    font-size: 62.5%;
     --color-primary: #131313;
     --color-secondary: #1f2528;
     --color-tertiary: #26343a;
     --color-accent: #00889E;
+
+    --scrollbar-track: #333131;
+    --scrollbar-thumb: #4b4b4b;
+    --scrollbar-hover: #5a5a5a;
 }
 
 html, body {
-height: 100vh;
-width: 100vw;
-font-size: 1.6rem;
-overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }
 
-::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
+*::-webkit-scrollbar {
+    width: 0.875rem;
 }
 
-.scroll-style-horizontal::-webkit-scrollbar {
-    height: 0.5rem;
-    width: 100%;
+*::-webkit-scrollbar-track {
+    border-radius: 0px;
+    background-color: var(--scrollbar-track);
 }
 
-.scroll-style-vertical::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 100%;
+*::-webkit-scrollbar-track-piece {
+    background-color: var(--scrollbar-track);
 }
 
-.scroll-style::-webkit-scrollbar-track {
-    background: whtie;
+*::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: var(--scrollbar-thumb);
+    border: 0.25rem solid var(--scrollbar-track);
 }
 
-.scroll-style::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 1rem;
+*::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-hover);
 }
 
-input#slider[type='range'] {
-    height: 1rem;
-    -webkit-appearance: none;
-    width: 100%;
-}
-
-input#slider[type='range']::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 2rem;
-    cursor: pointer;
-    background: var(--color-secondary);
-}
-
-input#slider[type='range']::-webkit-slider-thumb {
-    height: 2rem;
-    width: 2rem;
-    background: white;
-    cursor: pointer;
-    -webkit-appearance: none;
+*::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbar-hover);
 }
