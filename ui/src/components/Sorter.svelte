@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { REALTOR_GRADE, PROPERTIES } from '@store/stores'
-	import type { IProperty } from '@typings/type'
+	import type { Property } from '@typings/type'
 	import { fly } from 'svelte/transition'
 
-	export let Properties: IProperty[] = []
+	export let Properties: Property[] = []
 	let filterSale: boolean = true
 	let lowToHigh: boolean = true
 	let searchTerm: string = ''
@@ -33,7 +33,7 @@
 		Properties = []
 
 		setTimeout(() => {
-			let properties: IProperty[] = $PROPERTIES
+			let properties: Property[] = $PROPERTIES
 			properties = filterForSale(properties)
 			properties = filterGarage(properties)
 			properties = filterPriceSort(properties)
@@ -42,21 +42,21 @@
 		}, 1)
 	}
 
-	function filterApartment(properties: IProperty[]) {
+	function filterApartment(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
 		if (includeApartments) return properties
 		properties = properties.filter((property) => !property.apartment)
 		return properties
 	}
 
-	function filterForSale(properties: IProperty[]) {
+	function filterForSale(properties: Property[]) {
 		// filter properties that have for_sale = 1 or true
 		if (!filterSale) return properties
 		properties = properties.filter((property) => property.for_sale)
 		return properties
 	}
 
-	function filterSearch(properties: IProperty[]) {
+	function filterSearch(properties: Property[]) {
 		if (searchTerm.length < 1) return properties
 		properties = properties.filter((property) => {
 			const streetFilter = property.street
@@ -96,7 +96,7 @@
 		return properties
 	}
 
-	function filterPriceSort(properties: IProperty[]) {
+	function filterPriceSort(properties: Property[]) {
 		if (lowToHigh) {
 			properties = properties.sort((a, b) => a.price - b.price)
 		} else {
@@ -105,7 +105,7 @@
 		return properties
 	}
 
-	function filterGarage(properties: IProperty[]) {
+	function filterGarage(properties: Property[]) {
 		if (!onlyGarage) return properties
 		properties = properties.filter((property) => property.garage_data) // Only return properties with garage
 		return properties

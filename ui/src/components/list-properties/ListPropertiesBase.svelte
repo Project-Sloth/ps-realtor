@@ -1,25 +1,34 @@
 <script lang="ts">
-	import FormWrapperDropdown from '@components/generic/FormWrapperDropdown.svelte'
-	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
-	import { PROPERTIES } from '@store/stores'
+	import Button from '@components/generic/Button.svelte'
+	import Card from '@components/generic/Card.svelte'
+	import Dropdown, { type LabelValue } from '@components/generic/Dropdown.svelte'
+	import FormControl from '@components/generic/FormControl.svelte'
+	import SetIndicator from '@components/generic/SetIndicator.svelte'
+	import { PROPERTIES, SHELL_TYPES, SHELLS, TEMP_HIDE } from '@store/stores'
+	import type { Zone } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
-	import { SHELLS, TEMP_HIDE } from '@store/stores'
 
-	const propertyTypes = ['mlo', 'shell']
-	let currentType = 'mlo'
+	const propertyTypes = [
+		{ label: 'MLO', value: 'mlo' }, 
+		{ label: 'Shell', value: 'shell' }
+	];
+	
+	let currentType = propertyTypes[0].value;
+
 	let existingProperties = $PROPERTIES
-	let addingNewProperty = false
+	let addingNewProperty = false;
     let elements: {door_data: boolean}[] = [{door_data: false}];
 	let description: string = ''
 	let for_sale: boolean = true
 	let price: number = 0
-	let shell: string = Object.keys($SHELLS)[0]
+	let shell: string = $SHELL_TYPES[0]?.value;
 	let garage_data: boolean = false
 	let garden_data: boolean = false
 	let zone_data: boolean = false
 	let valid: boolean = false
+	
 
-	function createZone (type: 'door' | 'garage' | 'zone' | 'garden', index?: number) {
+	function createZone(type: Zone, index?: number) {
         const data = { type: type, propertyType: currentType }
 
         SendNUI('create:createZone', data).then((success: boolean) => {
@@ -64,8 +73,9 @@
 		for_sale = true
 		price = 0
 		zone_data = false
-		shell = Object.keys($SHELLS)[0]
+		shell = $SHELL_TYPES[0].value
 		garage_data = false
+		garden_data = false
         elements = [{door_data: false}];
 	}
 
@@ -82,196 +92,244 @@
 </script>
 
 {#if existingProperties.length <= 0 && !addingNewProperty}
-	<div class="no-new-properties-base">
-		<img src="images/House.png" alt="House Icon" />
+	<div class="first-property-container">
+		<img src="images/house.webp" alt="House Icon" />
 
 		<p>You haven't listed a property yet!</p>
 
-		<button on:click={() => (addingNewProperty = !addingNewProperty)}>
+		<Button status="primary" click={() => addingNewProperty = !addingNewProperty}>
 			Add New Property
-		</button>
+		</Button>
 	</div>
 {:else}
-	<div class="list-new-property-form">
-		<div class="header">
-			<div class="heading-title-wrapper">
-				<i class="fas fa-circle-plus add-icon"></i>
-				<p>List New Property</p>
-			</div>
-			<div>
-				<i class="fas fa-chevron-down chevron-icon"></i>
-			</div>
-		</div>
+	<div class="new-property-container">
+		<Card title="New Property Listing">
+			<i class="fas fa-circle-plus" style="color: var(--blue-color);" slot="icon"></i>
 
-		<div class="body-wrapper overflow-y-auto">
-			<div class="left-column">
-				<p class="title">Property Information</p>
+			<section class="new-property-subtitle">
+				<h2>Property Information</h2>
+				<small>Make sure to fill everything out!</small>
+			</section>
 
-				<p class="info">Make sure to fill everything out!</p>
-			</div>
-			<div class="right-column">
-				<div id="property-type" class="form-row-wrapper">
-					<p class="label">Property Type</p>
+			<section class="new-property-controls">
+				<FormControl label="Type" controlId="dropdown_property_type">
+					<Dropdown
+						id="dropdown_property_type"
+						items={propertyTypes}
+						bind:value={currentType}
+						prefix="Type:"
+						flex
+					/>
+				</FormControl>
 
-					<div class="action-row">
-						<FormWrapperDropdown
-							dropdownValues={propertyTypes}
-							label=""
-							id="new-listing-dd-shell-type"
-                            uppercase={true}
-							selectedValue={currentType}
-							insideLabel="Type: "
-							on:selected-dropdown={(event) =>
-								(currentType = event.detail)}
+				{#if currentType === 'mlo'}
+					<FormControl label="Zone" controlId="button_property_zone">
+						<SetIndicator
+							prefix="Zone"
+							value={zone_data ? 'Set' : 'Not Set'}
+							valid={!!zone_data}
 						/>
-					</div>
-				</div>
-
-                {#if currentType === 'mlo'}
-				<div id="zone-creation" class="form-row-wrapper">
-					<p class="label">Zone Type</p>
-					<div class="action-row">
-						<SetNotSetIndicator
-					    	leftValue="Zone"
-					    	rightValue={zone_data ? 'Set' : 'Not Set'}
-					    	good={zone_data}
-					    />
-						<button
-							class="regular-button"
-							on:click={() => createZone('zone')}
-							>{zone_data ? 'Unset' : 'Set'}</button
-						>
-					</div>
-				</div>
+						<div class="spacer"></div>
+						<Button 
+							id="button_property_zone" 
+							status="primary" 
+							click={() => createZone('zone')}>
+							{zone_data ? 'Change Zone' : 'Set Zone'}
+						</Button>
+					</FormControl>				
+				{:else if currentType === 'shell'}
+					<FormControl label="Shell" controlId="dropdown_property_shell">
+						<Dropdown
+							id="dropdown_property_shell"
+							items={$SHELL_TYPES}
+							bind:value={shell}
+							prefix="Type: "
+							flex
+						/>
+					</FormControl>
 				{/if}
 
+				<FormControl label="Price" controlId="input_property_price">
+					<input
+						id="input_property_price"
+						type="number"
+						class="flex-auto"
+						placeholder="1000000000"
+						bind:value={price}
+					/>
+				</FormControl>
 
-				<div id="door-creation" class="form-row-wrapper">
-					<p class="label">Door Creation <button class="regular-button" on:click={addNewElement}>+</button></p>
+				<FormControl label="Description" controlId="textarea_property_description">
+					<textarea
+						id="textarea_property_description"
+						class="flex-auto"
+						rows="5"
+						placeholder="Write a short and sweet description about the property..."
+						bind:value={description}
+					/>
+				</FormControl>
 
-					{#each elements as element, index}
-                        {#if currentType === 'mlo' || (currentType === 'shell' && index === 0)}
-                        <div class="action-row" style="margin-bottom: 10px;">
-							<SetNotSetIndicator
-								leftValue="Door"
-								rightValue={element.door_data ? 'Set' : 'Not Set'}
-								good={element.door_data}
-							/>
-							<button
-								class="regular-button"
-								on:click={() => createZone('door', index)}
-								>{element.door_data ? 'Unset' : 'Set'}</button
-							>
-							
-                            {#if currentType === 'mlo'}
-                                {#if elements.length > 1}
-							        <button on:click={() => removeElement(index)}>x</button>
-						        {/if}
-						    {/if}
+
+				{#if currentType === 'mlo'}
+					<div class="new-property-door-list">
+						<div class="new-property-door-list-header">
+							<span style="font-weight: 500; font-size: 0.875rem; line-height: 1.25rem;">Doors</span>
+							<div class="spacer"></div>
+							<Button status="primary" click={addNewElement} icon="fa-plus" ariaLabel="Add door"></Button>
 						</div>
-						{/if}
-                    {/each}
-				</div>
-
-				<div id="garage-creation" class="form-row-wrapper">
-					<p class="label">Garage Creation</p>
-
-					<div class="action-row">
-						<SetNotSetIndicator
-							leftValue="Garage"
-							rightValue={garage_data ? 'Set' : 'Not Set'}
-							good={garage_data}
-						/>
-						<button
-							class="regular-button"
-							on:click={() =>
-								garage_data
-									? removeGarage()
-									: createZone('garage')}
-							>{garage_data
-								? 'Remove Garage'
-								: 'Set Garage'}</button
-						>
-					</div>
-				</div>
-
-                {#if currentType !== 'mlo'}
-				<div id="garden-creation" class="form-row-wrapper">
-					<p class="label">Garden Creation</p>
-
-					<div class="action-row">
-						<SetNotSetIndicator
-							leftValue="Garden"
-							rightValue={garden_data ? 'Set' : 'Not Set'}
-							good={garden_data}
-						/>
-						<button
-							class="regular-button"
-							on:click={() =>
-								garden_data
-									? removeGarden()
-									: createZone('garden')}
-							>{garden_data
-								? 'Remove Garden'
-								: 'Set Garden'}</button
-						>
-					</div>
-				</div>
-				{/if}
-
-
-				<div id="description" class="form-row-wrapper">
-					<p class="label">Description</p>
-
-					<div class="action-row">
-						<textarea
-							rows="5"
-							placeholder="Write a short and sweet description about the property..."
-							bind:value={description}
-						/>
-					</div>
-				</div>
-
-				<div id="price" class="form-row-wrapper">
-					<p class="label">Price</p>
-
-					<div class="action-row">
-						<input
-							type="number"
-							placeholder="$1000000000"
-							bind:value={price}
-						/>
-					</div>
-				</div>
-
-                
-
-				{#if currentType === 'shell'}
-					<div id="shell-type" class="form-row-wrapper">
-						<p class="label">Shell Type</p>
-
-						<div class="action-row">
-							<FormWrapperDropdown
-								dropdownValues={Object.keys($SHELLS)}
-								label=""
-								id="new-listing-dd-shell-type"
-								selectedValue={shell}
-								insideLabel="Type: "
-								on:selected-dropdown={(event) =>
-									(shell = event.detail)}
-							/>
+	
+						<div class="new-property-door-list-body">
+							{#each elements as element, index}
+								<FormControl>
+									<SetIndicator
+										prefix="Door"
+										value={element.door_data ? 'Set' : 'Not Set'}
+										valid={!!element.door_data}
+									/>
+									<div class="spacer"></div>
+									<Button status="primary" click={() => createZone('door', index)}>
+										{element.door_data ? 'Change Door' : 'Set Door'}
+									</Button>
+	
+									<Button status="danger" icon="fa-trash" click={() => removeElement(index)} ariaLabel="Delete door"></Button>
+								</FormControl>
+							{/each}
 						</div>
 					</div>
+					{:else if currentType === 'shell'}
+					<FormControl label="Door" controlId="dropdown_property_shell">
+						<SetIndicator
+							prefix="Door"
+							value={elements[0].door_data ? 'Set' : 'Not Set'}
+							valid={!!elements[0].door_data}
+						/>
+						<div class="spacer"></div>
+						<Button status="primary" click={() => createZone('door', 0)}>
+							{elements[0].door_data ? 'Change Door' : 'Set Door'}
+						</Button>
+					</FormControl>
 				{/if}
+			</section>
 
-                <div class="w-full h-[2vh]"></div>
+			<div class="new-property-subtitle">
+				<h3>Property Additions</h3>
+				<small>The fields below are optional!</small>
 			</div>
-		</div>
 
-		<div class="list-new-property-form-footer">
-			{#if valid}
-				<button on:click={createPropertyMethod}>Create Property</button>
-			{/if}
-		</div>
+			<section class="new-property-controls">
+				<FormControl label="Garage" controlId="button_property_garage">
+					<SetIndicator
+						prefix="Garage"
+						value={garage_data ? 'Set' : 'Not Set'}
+						valid={!!garage_data}
+					/>
+					<div class="spacer"></div>
+					<Button 
+						id="button_property_garage" 
+						status="primary"
+						click={() => garage_data ? removeGarage() : createZone('garage')}>
+						{garage_data ? 'Remove Garage' : 'Set Garage'}
+					</Button>
+				</FormControl>
+
+				{#if currentType !== 'mlo'}
+					<FormControl label="Garden" controlId="button_property_garden">
+							<SetIndicator
+								prefix="Garden"
+								value={garden_data ? 'Set' : 'Not Set'}
+								valid={!!garden_data}
+							/>
+							<div class="spacer"></div>
+							<Button
+								id="button_property_garden"
+								status="primary"
+								click={() => garden_data ? removeGarden() : createZone('garden')}>
+								{garden_data ? 'Remove Garden' : 'Set Garden'}
+							</Button>
+					</FormControl>
+				{/if}
+			</section>
+
+			<section class="new-property-actions" slot="footer">
+				<div class="spacer"></div>
+				<Button click={createPropertyMethod} disabled={!valid}>Create Property</Button>
+			</section>
+		</Card>
 	</div>
 {/if}
+
+<style>
+	.first-property-container {
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		place-content: center;
+		height: 100%;
+		gap: .5rem;
+	}
+
+	.first-property-container > img {
+		height: 4.5rem;
+		width: 5rem;
+	}
+
+	.new-property-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		
+		height: 100%;
+	}
+
+	.new-property-subtitle {
+		padding-bottom: 0.25rem;
+		border-bottom: 0.1px solid var(--light-border-color);
+	}
+
+	.new-property-subtitle > small {
+		color: var(--light-border-color-6);
+	}
+
+	.new-property-controls {
+		flex: 1;
+
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		margin-left: auto;
+		margin-right: auto;
+
+		width: 100%;
+		max-width: 30rem;
+	}
+	
+	.new-property-door-list {
+		display: flex; 
+		flex-direction: column;
+	}
+
+	.new-property-door-list-header {
+		display: flex; 
+		place-items: center; 
+		padding: 1rem; 
+		border: 1px solid var(--light-border-color-2); 
+		border-bottom: none; 
+		border-radius: 3px 3px 0 0;
+	}
+
+	.new-property-door-list-body {
+		display: flex; 
+		flex-direction: column; 
+		gap: 1rem; 
+		padding: 1rem; 
+		border: 1px solid var(--light-border-color-2); 
+		border-radius: 0 0 3px 3px;
+	}
+
+	.new-property-actions {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+	}
+</style>

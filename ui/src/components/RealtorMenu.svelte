@@ -1,111 +1,212 @@
 <script lang="ts">
-	import type { ITab } from '@typings/type'
-	import { REALTOR_GRADE, TEMP_HIDE, CONFIG } from '@store/stores'
-	import PropertyBase from './properties/PropertyBase.svelte'
-	import ApartmentsBase from './apartments/ApartmentsBase.svelte'
-	import ListPropertiesBase from './list-properties/ListPropertiesBase.svelte'
+	import { CONFIG, REALTOR_GRADE, TEMP_HIDE } from '@store/stores'
+	import type { Tab } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
+	import ApartmentsBase from './apartments/ApartmentsBase.svelte'
+	import Button from './generic/Button.svelte'
+	import ListPropertiesBase from './list-properties/ListPropertiesBase.svelte'
+	import PropertyBase from './properties/PropertyBase.svelte'
 
-	// basic available tabs
-	let availableNavTabs: ITab[] = [
+	const getInitialTabs: () => Tab[] = () => ([
 		{
 			name: 'Properties',
 			icon: 'fas fa-home',
 			component: PropertyBase,
 		},
-	];
+	]);
+
+	// basic available tabs
+	let availableNavTabs: Tab[] = [];
 
 	// available tabs based on properties/config values of user
 	REALTOR_GRADE.subscribe((value) => {
-		if (value >= $CONFIG.setApartments) {
+		availableNavTabs = getInitialTabs();
+
+		if (value >= $CONFIG.setApartments)
 			availableNavTabs.push({
 				name: 'Apartments',
-				icon: 'fas fa-building',
+				icon: 'fa-building',
 				component: ApartmentsBase,
 			});
-		}
 
-		if (value >= $CONFIG.listNewProperty) {
+		if (value >= $CONFIG.listNewProperty)
 			availableNavTabs.push({
-				name: 'List New Property',
-				icon: 'fas fa-plus-circle',
+				name: 'List Property',
+				icon: 'fa-plus-circle',
 				component: ListPropertiesBase,
 			});
-		}
 	});
 
-	let selectedTab: ITab = availableNavTabs[0]
+	let selectedTab: Tab = availableNavTabs[0];
 
-	function selectLeftTab(tab) {
-		selectedTab = tab;
-		if(tab.name.toLocaleLowerCase() === 'logout') {
-			SendNUI("hideUI", {})
-		}
+	function selectTab(tab: Tab) {
+		if (tab.component)
+			selectedTab = tab;
+		else if (tab.action)
+			tab.action();		
 	}
 
-	let footerNavs: ITab[] = [
-		{
-			name: 'Help Center',
-			icon: 'fas fa-life-ring',
-			component: '',
-		},
+	let footerNavs: Tab[] = [		
+		// {
+		// 	name: 'Help Center',
+		// 	icon: 'fas fa-life-ring',
+		// 	component: '',
+		// },
 		{
 			name: 'Logout',
 			icon: 'fas fa-arrow-right-from-bracket',
-			component: '',
+			action: () => SendNUI("hideUI", {})
 		}
 	];
+
+	const year = new Date().getFullYear();
+
+	function openProject() {
+		if ('invokeNative' in window)
+			(window as any).invokeNative('openUrl', 'https://github.com/Project-Sloth');
+	}
 </script>
 
-<div
-	class="w-[60%] h-[90%] bg-[color:var(--color-primary)] absolute -translate-x-1/2 left-1/2 top-1/2 -translate-y-1/2 realtor-menu-base"
-	style="opacity: {$TEMP_HIDE ? "0" : "1"};"
->
-	<div class="left-column">
-		<div class="tab-wrapper">
+<div class="realtor-menu" class:hide={$TEMP_HIDE}>
+	<aside class="realtor-menu-sidebar">
+		<header>Los Santos Realtors</header>
+
+		<nav>
 			{#each availableNavTabs as tab}
-				<div class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
-					<i class={tab.icon} />
-					<p>{tab.name}</p>
-				</div>
+				<Button
+					active={selectedTab.name === tab.name}
+					status={selectedTab.name === tab.name ? 'primary' : 'none'} 
+					icon={tab.icon} 
+					block 
+					justify="start"
+					click={() => selectTab(tab)}>
+					{tab.name}
+				</Button>
 			{/each}
-		</div>
 
-		<div class="footer">
-			<div class="tab-wrapper">
-				{#each footerNavs as tab}
-					<div class="each-tab {selectedTab.name === tab.name ? 'each-tab-selected' : ''}" on:click={() => selectLeftTab(tab)}>
-						<i class={tab.icon} />
-						<p>{tab.name}</p>
-					</div>
-				{/each}
+			<div class="spacer"></div>
 
-				<div class="discord-wrapper">
-					<div class="discord-emoji">
-						<img src="images/discord-emoji.png" alt="Discord Emoji" />
-					</div>
+			{#each footerNavs as tab}
+				<Button
+					active={selectedTab.name === tab.name}
+					status={selectedTab.name === tab.name ? 'primary' : 'basic'}
+					style="outline"
+					icon={tab.icon} 
+					block 
+					justify="start"
+					click={() => selectTab(tab)}>
+					{tab.name}
+				</Button>
+			{/each}
+		</nav>
 
-					<div class="discord-text">
-						<p class="bold-text">More PS Stuff?</p>
-						<p class="small-text">
-							Visit Project Sloth’s official Discord community for all our other releases.
-						</p>
-					</div>
+		<footer>
+			&copy; {year} <a href="https://github.com/Project-Sloth" target="_blank" on:click={openProject}>Project Sloth <i class="fas fa-up-right-from-square small"></i></a>
+		</footer>
+	</aside>
 
-					<button class="visit-discord-btn">
-						Visit Discord
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="right-column">
+	<section class="realtor-menu-content">
 		<svelte:component this={selectedTab.component} />
-	</div>
-
-		<!-- <div class="w-full h-full overflow-hidden">
-		<svelte:component this={selectedTab.component} />
-	</div>
-	<Tabs bind:selectedTab {availableNavTabs} /> -->
+	</section>
 </div>
+
+<style>
+	.realtor-menu {
+		position: relative;
+
+		display: flex;
+		flex-direction: row;		
+
+		width: 75%;
+		height: 80%;
+
+		overflow: hidden;
+
+		background-color: var(--background-color);
+	}
+
+	.realtor-menu.hide {
+		opacity: 0;
+	}
+
+	.realtor-menu-sidebar {
+		flex: 20% 0 0;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		padding: 1rem;
+		gap: 1rem;
+
+		border-right: 0.1px solid var(--light-border-color);
+		background-color: var(--light-border-color-half-opaque);
+	}
+
+	.realtor-menu-sidebar > header {
+		padding: 1rem;
+
+		background-image: url('images/app-banner.webp');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+		border-radius: 3px;
+		@apply text-2xl;
+		font-weight: 700;
+		text-shadow: 3px 2px 5px #000;
+		color: whitesmoke;
+		text-align: center;
+
+		user-select: none;
+	}
+
+	.realtor-menu-sidebar > nav {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: .5rem;
+	}
+
+	.realtor-menu-sidebar > nav > :global(.btn) {
+		padding: 0.5rem 1rem;
+		gap: 1rem;
+	}
+
+	.realtor-menu-sidebar > footer {
+		text-align: center;
+	}
+
+	.realtor-menu-sidebar > footer > a {
+		display: inline-flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		place-items: center;
+	}
+
+	.realtor-menu-content { 
+		position: relative;
+
+		flex: 1;
+		height: 100%;
+
+		padding: 1rem;
+	}
+
+	@media only screen and (max-width: 1366px) {
+		.realtor-menu {
+			width: 95%;
+			height: 90%;
+		}
+
+		.realtor-menu-sidebar {
+			flex-basis: 26%;
+		}
+	}
+
+	@media only screen and (min-width: 1921px) {
+		.realtor-menu-sidebar {
+			flex-basis: 18rem;
+		}
+	}
+</style>

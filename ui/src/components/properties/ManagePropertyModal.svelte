@@ -1,43 +1,44 @@
 <script lang="ts">
-	import FormWrapperDropdown from '@components/generic/FormWrapperDropdown.svelte'
-	import SetNotSetIndicator from '@components/generic/SetNotSetIndicator.svelte'
+	import Button from '@components/generic/Button.svelte'
+	import Card from '@components/generic/Card.svelte'
+	import Dropdown from '@components/generic/Dropdown.svelte'
+	import FormControl from '@components/generic/FormControl.svelte'
+	import Modal from '@components/generic/Modal.svelte'
+	import SetIndicator from '@components/generic/SetIndicator.svelte'
+	import ToggleDropdown from '@components/generic/ToggleDropdown.svelte'
 	import {
-		TEMP_HIDE,
-		PROPERTIES,
-		SHELLS,
-		REALTOR_GRADE,
 		CONFIG,
+		PROPERTIES,
+		REALTOR_GRADE,
+		SHELL_TYPES,
+		TEMP_HIDE
 	} from '@store/stores'
+	import type { Property, PropertyImage, Zone } from '@typings/type'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
-	import type { IProperty } from '@typings/type'
 	import { SendNUI } from '@utils/SendNUI'
 	import { createEventDispatcher } from 'svelte'
-	import { fade } from 'svelte/transition'
+	import PropertyImageCard from './PropertyImageCard.svelte'
 
 	const dispatch = createEventDispatcher()
 
-	export let manageProperty: boolean = false,
-		selectedProperty: IProperty | null = null
+	export let manageProperty: boolean = false;
+	export let selectedProperty: Property;
 
 	const index = $PROPERTIES.findIndex(
 		(property) => property.property_id === selectedProperty.property_id
 	)
 
-	let forSaleDropDownValues = ['For Sale', 'Not For Sale'],
-		selectedForSaleDropdownValue = selectedProperty.for_sale
-			? forSaleDropDownValues[0]
-			: forSaleDropDownValues[1]
+	let forSale: boolean = !!selectedProperty.for_sale;
 
-	function updateForSaleDropdownValue(value) {
-		const isForSale = value === forSaleDropDownValues[0] ? true : false
+	function updateForSaleDropdownValue(value: boolean) {
 		SendNUI('updatePropertyData', {
 			type: 'UpdateForSale',
 			property_id: selectedProperty.property_id,
-			data: { forsale: isForSale },
+			data: { forsale: value },
 		})
-		$PROPERTIES[index].for_sale = isForSale ? 1 : 0
-		selectedProperty.for_sale = isForSale ? 1 : 0
-		// selectedForSaleDropdownValue = value;
+
+		$PROPERTIES[index].for_sale = value ? 1 : 0;
+		selectedProperty.for_sale = value ? 1 : 0;
 	}
 
 	let finalizedOwner = selectedProperty.owner ? selectedProperty.owner : ''
@@ -48,12 +49,8 @@
 
 	let newShell = selectedProperty.shell
 
-	function updatePropertyValues(typeUpdate, dataObject, key, value) {
-		SendNUI('updatePropertyData', {
-			type: typeUpdate,
-			property_id: selectedProperty.property_id,
-			data: dataObject,
-		})
+	function updatePropertyValues<K extends keyof Property>(type: string, data: object, key: K, value: Property[K]) {
+		SendNUI('updatePropertyData', { type, data, property_id: selectedProperty.property_id })
 		$PROPERTIES[index][key] = value
 		selectedProperty[key] = value
 	}
@@ -65,7 +62,7 @@
 			: false
 		: false
 
-	function handleZonePlacement(type) {
+	function handleZonePlacement(type: Zone) {
 		SendNUI('startZonePlacement', {
 			type: type,
 			property_id: selectedProperty.property_id,
@@ -74,11 +71,11 @@
 		})
 	}
 
-	let propertyImages = selectedProperty.extra_imgs,
-		newImageName = '',
-		newImageUrl = ''
+	let propertyImages = selectedProperty.extra_imgs;
+	let newImageName = '';
+	let newImageUrl = '';
 
-	function addNewImage() {
+	function addImage() {
 		propertyImages = [
 			...propertyImages,
 			{
@@ -89,6 +86,20 @@
 		newImageName = ''
 		newImageUrl = ''
 
+		saveImages();
+	}
+
+	function removeImage(image: PropertyImage) {
+		propertyImages = propertyImages.filter(i => i !== image);
+		saveImages();
+	}
+
+	function swapImage(fromIdx: number, toIdx: number) {
+		[ propertyImages[fromIdx], propertyImages[toIdx] ] = [ propertyImages[toIdx], propertyImages[fromIdx] ];
+		saveImages();
+	}
+
+	function saveImages() {
 		updatePropertyValues(
 			'UpdateImgs',
 			{ imgs: propertyImages },
@@ -101,292 +112,216 @@
 		dispatch('delete-property', selectedProperty)
 	}
 
+	function updatePrice() {
+		// TODO(FUTURE): real input validation with visual feedback instead of forced overwriting?
+		if (propertyPrice == null) {
+			propertyPrice = 0;
+			return;
+		}
+
+		propertyPrice = Math.abs(propertyPrice);
+
+		updatePropertyValues('UpdatePrice', { price: propertyPrice }, 'price', propertyPrice);
+	}
+
 	ReceiveNUI('garageMade', () => {
 		garageValueSet = true
 	})
 </script>
 
-<div
-	class="modal large-footer-modal"
-	tabindex="-1"
-	aria-hidden="true"
-	transition:fade={{ duration: 100 }}
->
-	<div
-		class="modal-dialog large-footer-modal-dialog manage-property-modal-dialog"
-	>
-		<div class="modal-content large-footer-modal-content">
-			<div class="modal-body large-footer-modal-body">
-				<div class="header">
-					<div class="heading-title-wrapper">
-						<i class="fas fa-pen info-icon" />
-						<p>Manage Property</p>
-					</div>
-					<div on:click={() => (manageProperty = false)}>
-						<i class="fas fa-xmark close-icon" />
-					</div>
-				</div>
+<Modal bind:open={manageProperty}>
+	<Card title="Manage Property">
+		<i class="fas fa-pen info-icon" slot="icon" style="color: var(--blue-color);" />
 
-				<div
-					class="large-footer-modal-body-data manage-property-large-footer-modal-body-data"
-				>
-					<div class="data-details-manage-property">
-						<div class="left-column">
-							<p class="heading">Live Description</p>
-							<p class="info">
-								Change the settings after the creation!
-							</p>
-						</div>
+		<button slot="header-action" on:click={() => manageProperty = false}>
+			<i class="fas fa-xmark close-icon"></i>
+		</button>
 
-						<div class="right-column">
-							{#if $REALTOR_GRADE >= $CONFIG.changePropertyForSale}
-								<div
-									id="sell-property"
-									class="form-row-wrapper"
-								>
-									<p class="label">Sell Property</p>
+		<section class="property-management-subtitle">
+			<h2>Change Property Settings</h2>
+			<small>Changes are applied in real-time!</small>
+		</section>
 
-									<div class="action-row">
-										<SetNotSetIndicator
-											leftValue={selectedProperty.for_sale
-												? 'Set'
-												: 'Not Set'}
-											rightValue={selectedForSaleDropdownValue}
-											good={selectedProperty.for_sale}
-										/>
+		<section class="property-management-controls">
+			{#if $REALTOR_GRADE >= $CONFIG.changePropertyForSale}
+				<FormControl label="Sell Property" controlId="dropdown_for_sale">
+					<SetIndicator
+						prefix="For sale"
+						value={forSale ? 'Set' : 'Not Set'}
+						valid={forSale}
+					/>
 
-										<div style="margin-left: 0.5vw;">
-											<FormWrapperDropdown
-												dropdownValues={forSaleDropDownValues}
-												label=""
-												insideLabel="Change: "
-												selectedValue={selectedForSaleDropdownValue}
-												on:selected-dropdown={(event) =>
-													updateForSaleDropdownValue(
-														event.detail
-													)}
-											/>
-										</div>
-									</div>
-								</div>
-							{/if}
+					<ToggleDropdown
+						id="dropdown_for_sale"
+						onLabel="For Sale"
+						offLabel="Not For Sale"
+						prefix="Availability:"
+						bind:value={forSale}
+						flex
+						changed={value => updateForSaleDropdownValue(value)}
+					/>
+				</FormControl>
+			{/if}
 
-							{#if $REALTOR_GRADE >= $CONFIG.sellProperty && selectedProperty.for_sale == 1}
-								<div
-									id="finalize-sell-property"
-									class="form-row-wrapper"
-								>
-									<p class="label">Finalize Sell Property</p>
+			{#if $REALTOR_GRADE >= $CONFIG.sellProperty && selectedProperty.for_sale == 1}
+				<FormControl label="Finalize Property Sale" controlId="input_finalize_sale">
+					<SetIndicator
+						prefix="Owner"
+						value={finalizedOwner?.trim() !== '' ? 'Set' : 'Not Set'}
+						valid={finalizedOwner?.trim() !== ''}
+					/>
 
-									<div class="action-row">
-										<SetNotSetIndicator
-											leftValue={finalizedOwner?.trim() !==
-											''
-												? 'Set'
-												: 'Not Set'}
-											rightValue=""
-											good={finalizedOwner?.trim() !== ''}
-										/>
-										<input
-											type="text"
-											placeholder="ID: 34343434343"
-											style="width: 10vw;"
-											bind:value={finalizedOwner}
-										/>
-										<button
-											class="regular-button"
-											on:click={() =>
-												updatePropertyValues(
-													'UpdateOwner',
-													{
-														targetSrc:
-															finalizedOwner,
-													},
-													'owner',
-													finalizedOwner
-												)}>Request</button
-										>
-									</div>
-								</div>
-							{/if}
+					<input
+						id="input_finalize_sale"
+						type="text"
+						class="flex-auto"
+						placeholder="ID: 34343434343"
+						bind:value={finalizedOwner}
+					/>
 
-		                    {#if $REALTOR_GRADE >= $CONFIG.manageProperty}
-							    <div
-							    	id="manage-description"
-							    	class="form-row-wrapper"
-							    >
-							    	<p class="label">Manage Description</p>
-    
-							    	<div class="action-row">
-							    		<textarea
-							    			rows="3"
-							    			placeholder="Write a short and sweet description about the property..."
-							    			style="width: 18vw;"
-							    			bind:value={description}
-							    			on:keyup={() =>
-							    				updatePropertyValues(
-							    					'UpdateDescription',
-							    					{ description: description },
-							    					'description',
-							    					description
-							    				)}
-							    		/>
-							    	</div>
-							    </div>
+					<Button status="primary" disabled={finalizedOwner?.trim() == ''} click={() => updatePropertyValues('UpdateOwner', { targetSrc: finalizedOwner }, 'owner', finalizedOwner )}>
+						Request
+					</Button>
 
-							    <div id="manage-price" class="form-row-wrapper">
-							    	<p class="label">Manage Price</p>
-    
-							    	<div class="action-row">
-							    		<input
-							    			type="number"
-							    			placeholder="$1000000000"
-							    			style="width: 10vw;"
-							    			bind:value={propertyPrice}
-							    			on:keyup={() =>
-							    				updatePropertyValues(
-							    					'UpdatePrice',
-							    					{ price: propertyPrice },
-							    					'price',
-							    					propertyPrice
-							    				)}
-							    		/>
-							    	</div>
-							    </div>
+				</FormControl>
+			{/if}
 
-		                        {#if selectedProperty.shell !== 'mlo'}
-							    <div
-							    	id="manage-shell-type"
-							    	class="form-row-wrapper"
-							    >
-							    	<p class="label">Manage Shell</p>
-    
-							    	<div class="action-row">
-							    		<FormWrapperDropdown
-							    			dropdownValues={Object.keys($SHELLS)}
-							    			label=""
-							    			id="manage-dd-shell"
-							    			selectedValue={newShell}
-							    			insideLabel="Type: "
-							    			on:selected-dropdown={(event) => {
-							    				newShell = event.detail
-							    				updatePropertyValues(
-							    					'UpdateShell',
-							    					{ shell: newShell },
-							    					'shell',
-							    					newShell
-							    				)
-							    			}}
-							    		/>
-							    	</div>
-							    </div>
-							    {/if}
-    
-							    <div
-							    	id="add-images"
-							    	class="form-row-wrapper"
-							    	style="margin-top: 2vw"
-							    >
-							    	<p class="label">Add Images</p>
-    
-							    	<div class="action-row">
-							    		<input
-							    			id="img-name"
-							    			type="text"
-							    			placeholder="Name"
-							    			style="width: 7vw;"
-							    			bind:value={newImageName}
-							    		/>
-							    		<input
-							    			id="img-url"
-							    			type="text"
-							    			placeholder="URL"
-							    			style="width: 7vw;"
-							    			bind:value={newImageUrl}
-							    		/>
-							    		<button
-							    			class="regular-button"
-							    			on:click={addNewImage}>Add</button
-							    		>
-							    	</div>
-    
-							    	<div class="image-tiles-wrapper">
-							    		{#each propertyImages as image, index}
-							    			<div>
-							    				<img src={image.url} alt="" />
-							    			</div>
-							    		{/each}
-							    	</div>
-							    </div>
-    
-    
-		                        {#if selectedProperty.shell !== 'mlo'}
-							        <div id="manage-door" class="form-row-wrapper">
-							        	<p class="label">Manage Door</p>
-    
-							        	<div class="action-row">
-							        		<SetNotSetIndicator
-							        			leftValue="Door"
-							        			rightValue={doorValueSet
-							        				? 'Set'
-							        				: 'Not Set'}
-							        			good={doorValueSet}
-							        		/>
-							        		<button
-							        			class="regular-button"
-							        			on:click={() =>
-							        				handleZonePlacement('door')}
-							        			>New Location</button
-							        		>
-							        		<button class="disable-button"
-							        			>Remove</button
-							        		>
-							        	</div>
-							        </div>
-							    {/if}
-    
-							    <div id="manage-garage" class="form-row-wrapper">
-							    	<p class="label">Manage Garage</p>
+			{#if $REALTOR_GRADE >= $CONFIG.manageProperty}
+				<FormControl label="Manage Description" controlId="textarea_description">
+					<textarea
+						id="textarea_description"
+						class="flex-auto"
+						rows="5"
+						placeholder="Write a short and sweet description about the property..."
+						bind:value={description}
+						on:change={() => updatePropertyValues('UpdateDescription', { description: description }, 'description', description)}
+					/>
+				</FormControl>
 
-							    	<div class="action-row">
-							    		<SetNotSetIndicator
-							    			leftValue="Garage"
-							    			rightValue={garageValueSet
-							    				? 'Set'
-							    				: 'Not Set'}
-							    			good={garageValueSet}
-							    		/>
-							    		<button
-							    			class="regular-button"
-							    			on:click={() =>
-							    				handleZonePlacement('garage')}
-							    			>New Location</button
-							    		>
-							    		<button
-							    			class="disable-button"
-							    			on:click={() =>
-							    				updatePropertyValues(
-							    					'UpdateGarage',
-							    					{},
-							    					'garage_data',
-							    					null
-							    				)}>Remove</button
-							    		>
-							    	</div>
-							    </div>
-							{/if}
-						</div>
+				<FormControl label="Manage Price" controlId="input_price">
+					<input
+						id="input_price"
+						type="number"
+						class="flex-auto"
+						placeholder="1200000"
+						min="0"
+						max="4294967295"
+						bind:value={propertyPrice}
+						on:change={() => updatePrice()}
+					/>
+				</FormControl>
+
+				{#if selectedProperty.shell !== 'mlo'}
+					<FormControl label="Manage Shell" controlId="dropdown_shell">
+						<Dropdown
+							id="dropdown_shell"
+							items={$SHELL_TYPES}
+							bind:value={newShell}
+							prefix="Type: "
+							flex
+							changed={shell => updatePropertyValues('UpdateShell', { shell }, 'shell', shell)}
+						/>
+					</FormControl>
+				{/if}
+				
+				<div class="image-control-container">				
+					<FormControl label="Add Images" controlId="img-name">
+						<input
+							id="img-name"
+							type="text"
+							class="flex-auto"
+							placeholder="Name"
+							bind:value={newImageName}
+						/>
+						<input
+							id="img-url"
+							type="text"
+							class="flex-auto"
+							placeholder="URL"
+							bind:value={newImageUrl}
+						/>
+						<Button status="primary" click={addImage}>Add</Button>
+					</FormControl>
+					<div class="image-control-gallery">
+						{#each propertyImages as image, idx (image.url)}
+							<PropertyImageCard {...image}>
+								<svelte:fragment>
+									<Button status="primary" icon="fa-arrow-left" ariaLabel="Shift left" click={() => swapImage(idx, idx == 0 ? propertyImages.length : idx - 1)}></Button>
+									<Button status="danger" icon="fa-trash" ariaLabel="Delete image" click={() => removeImage(image)}></Button>
+									<Button status="primary" icon="fa-arrow-right" ariaLabel="Shift right" click={() => swapImage(idx, idx == propertyImages.length - 1 ? 0 : idx + 1)}></Button>
+								</svelte:fragment>
+							</PropertyImageCard>
+						{/each}
 					</div>
 				</div>
 
-				<div class="large-footer-modal-footer-manage-property">
-					{#if $REALTOR_GRADE >= $CONFIG.deleteProperty}
-						<button class="delete-button" on:click={deleteProperty}>
-							Delete Property
-						</button>
-					{/if}
-				</div>
-			</div>
+				{#if selectedProperty.shell !== 'mlo'}
+					<FormControl label="Manage Door" controlId="button_door">
+						<SetIndicator
+							prefix="Door"
+							value={doorValueSet ? 'Set': 'Not Set'}
+							valid={doorValueSet}
+						/>
+						<div class="spacer"></div>
+						<Button id="button_door" status="primary" click={() => handleZonePlacement('door')}>New Location</Button>
+						<Button>Remove</Button>
+					</FormControl>
+				{/if}
+
+				<FormControl label="Manage Garage" controlId="button_garage">
+					<SetIndicator
+						prefix="Garage"
+						value={garageValueSet ? 'Set' : 'Not Set'}
+						valid={garageValueSet}
+					/>
+					<div class="spacer"></div>
+					<Button id="button_garage" status="primary" click={() => handleZonePlacement('garage')}>New Location</Button>
+					<Button click={() => updatePropertyValues('UpdateGarage', {}, 'garage_data', null)}>Remove</Button>
+				</FormControl>
+			{/if}
+		</section>
+
+		<div slot="footer">
+			{#if $REALTOR_GRADE >= $CONFIG.deleteProperty}
+				<Button status="danger" click={deleteProperty}>Delete Property</Button>
+			{/if}
 		</div>
-	</div>
-</div>
+
+	</Card>
+</Modal>
+
+<style>
+	.property-management-subtitle {
+		padding-bottom: 0.25rem;
+		border-bottom: 0.1px solid var(--light-border-color);
+	}
+
+	.property-management-subtitle > small {
+		color: var(--light-border-color-6);
+	}
+
+	.property-management-controls {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+		max-width: 30rem;
+	}
+
+	.image-control-container {
+		display: flex;
+		flex-direction: column; 
+		gap: 1rem;
+	}
+
+	.image-control-gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+		grid-auto-rows: min-content;
+		gap: .5rem;
+		--property-image-card-height: 5rem;
+	}
+</style>
