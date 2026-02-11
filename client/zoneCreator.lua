@@ -235,9 +235,8 @@ function zoneCreator.freecamMode(bool)
     end
 end
 
-RegisterCommand('+usePoint', function()
+local function usePoint()
     if not zoneCreator.active then return end
-
     if not zoneCreator.cursor then return end
 
     if zoneCreator.deleteIndex then
@@ -245,19 +244,20 @@ RegisterCommand('+usePoint', function()
     else
         zoneCreator.addPoint(zoneCreator.cursor)
     end
-end, false)
+end
+RegisterCommand('+usePoint', usePoint, false)
+RegisterCommand('-usePoint', usePoint, false)
+RegisterKeyMapping('+usePoint', 'Add/Remove Point', 'keyboard', 'c')
 
-RegisterCommand('+editPoint', function()
+local function editPoint()
     if not zoneCreator.active then return end
     if not zoneCreator.cursor then return end
 
-
     zoneCreator.editPoint()
-
-end, false)
-
+end
+RegisterCommand('+editPoint', editPoint, false)
+RegisterCommand('-editPoint', editPoint, false)
 RegisterKeyMapping('+editPoint', 'edit Point', 'keyboard', 'k')
-RegisterKeyMapping('+usePoint', 'Add/Remove Point', 'keyboard', 'c')
 
 local function polyCreator()
     zoneCreator.freecamMode(false)
